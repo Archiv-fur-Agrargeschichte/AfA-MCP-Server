@@ -135,7 +135,7 @@ def _server_card_payload() -> dict[str, Any]:
         ),
         "version": __version__,
         "beta": True,
-        "website_url": "https://www.agrargeschichte.ch",
+        "website_url": "https://histoirerurale.ch",
         "documentation_url": base_url,
         "transports": {
             "streamable_http": {

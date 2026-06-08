@@ -127,7 +127,7 @@ müssen.
 
 ## Quellen
 
-- Website: <https://www.agrargeschichte.ch>
+- Website: <https://histoirerurale.ch>
 - Recherche-Frontend: <https://www.recherche.histoirerurale.ch>
 - Schwesterprojekt: <https://github.com/entscheidsuche/entscheidsuche-mcp>
 
