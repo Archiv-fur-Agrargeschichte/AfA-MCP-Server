@@ -7,7 +7,7 @@ set -euo pipefail
 REPO_URL="${REPO_URL:-https://github.com/agrargeschichte/afa-mcp.git}"
 INSTALL_DIR="${INSTALL_DIR:-/opt/afa-mcp}"
 SERVICE_USER="${SERVICE_USER:-afa}"
-DOMAIN="${DOMAIN:-mcp.recherche.histoirerurale.ch}"
+DOMAIN="${DOMAIN:-mcp.histoirerurale.ch}"
 
 if [[ $EUID -ne 0 ]]; then
     echo "Bitte als root ausführen (sudo bash install.sh)" >&2

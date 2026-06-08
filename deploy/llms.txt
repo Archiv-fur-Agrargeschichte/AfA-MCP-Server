@@ -9,7 +9,7 @@
 
 ## MCP-Endpoint
 
-- URL: https://mcp.recherche.histoirerurale.ch/mcp
+- URL: https://mcp.histoirerurale.ch/mcp
 - Transport: Streamable HTTP (MCP-Spec 2025-06-18)
 - Authentifizierung: keine (öffentlich)
 

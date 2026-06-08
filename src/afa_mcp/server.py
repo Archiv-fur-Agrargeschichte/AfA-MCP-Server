@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_ES_URL = "https://agrargeschichte.pansoft.de:9210/*/_search"
-DEFAULT_PUBLIC_BASE_URL = "https://mcp.recherche.histoirerurale.ch"
+DEFAULT_PUBLIC_BASE_URL = "https://mcp.histoirerurale.ch"
 
 
 def _env(name: str, default: str) -> str:

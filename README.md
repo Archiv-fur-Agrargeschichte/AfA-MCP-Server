@@ -5,7 +5,7 @@ Archives of Rural History). Stellt Volltext-Suche und Hierarchie-Recherche über
 Model Context Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie
 Claude, ChatGPT, Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
 
-Live-Endpunkt: <https://mcp.recherche.histoirerurale.ch/mcp>
+Live-Endpunkt: <https://mcp.histoirerurale.ch/mcp>
 
 ## Werkzeuge
 
@@ -66,7 +66,7 @@ Siehe `.env.example`. Die wichtigsten:
 | Variable | Default | Bedeutung |
 |---|---|---|
 | `AFA_ES_URL` | `https://agrargeschichte.pansoft.de:9210/*/_search` | Elasticsearch-Endpoint |
-| `PUBLIC_BASE_URL` | `https://mcp.recherche.histoirerurale.ch` | Basis-URL für Discovery |
+| `PUBLIC_BASE_URL` | `https://mcp.histoirerurale.ch` | Basis-URL für Discovery |
 | `MCP_STATELESS_HTTP` | `true` | Keine Server-seitige Session-Pflicht |
 | `MCP_JSON_RESPONSE` | `true` | Akzeptiert Clients mit nur `application/json` |
 | `MCP_DNS_REBINDING_PROTECTION` | `true` | Host/Origin-Filter |
@@ -76,9 +76,9 @@ Siehe `.env.example`. Die wichtigsten:
 
 ```bash
 sudo bash deploy/install.sh
-sudo certbot --nginx -d mcp.recherche.histoirerurale.ch
+sudo certbot --nginx -d mcp.histoirerurale.ch
 sudo install -m 644 /opt/afa-mcp/deploy/nginx.conf \
-    /etc/nginx/sites-available/mcp.recherche.histoirerurale.ch
+    /etc/nginx/sites-available/mcp.histoirerurale.ch
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -97,7 +97,7 @@ sudo tee /usr/local/sbin/deploy-afa-mcp > /dev/null <<'EOF'
 set -euo pipefail
 sudo -u afa git -C /opt/afa-mcp pull --ff-only
 install -m 644 /opt/afa-mcp/deploy/nginx.conf \
-    /etc/nginx/sites-available/mcp.recherche.histoirerurale.ch
+    /etc/nginx/sites-available/mcp.histoirerurale.ch
 nginx -t && systemctl reload nginx
 systemctl restart afa-mcp
 systemctl status --no-pager afa-mcp | head -5
