@@ -1,6 +1,6 @@
 """Hierarchie-IDs des AfA-Index.
 
-Diese Konstanten bilden die im Frontend (recherche.histoirerurale.ch) sicht-
+Diese Konstanten bilden die im Frontend (recherche2.histoirerurale.ch) sicht-
 baren Sammlungen 1:1 auf die `hierarchy`-Werte im Elasticsearch-Index ab.
 Sie werden von den spezialisierten Such-Tools verwendet, damit Aufrufer
 nicht die internen IDs kennen müssen.

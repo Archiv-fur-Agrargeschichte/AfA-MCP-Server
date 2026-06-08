@@ -1,14 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ch.histoirerurale/mcp",
-  "title": "recherche.histoirerurale.ch (MCP)",
+  "title": "recherche2.histoirerurale.ch (MCP)",
   "description": "MCP-Schnittstelle zum Recherche-Portal des Archivs für Agrargeschichte: Personen, Institutionen, Foto/Film, Archivbestände, digitale Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen und Medienberichte.",
   "version": "0.1.0",
   "repository": {
     "url": "https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server",
     "source": "github"
   },
-  "websiteUrl": "https://www.recherche.histoirerurale.ch",
+  "websiteUrl": "https://www.recherche2.histoirerurale.ch",
   "remotes": [
     {
       "type": "streamable-http",

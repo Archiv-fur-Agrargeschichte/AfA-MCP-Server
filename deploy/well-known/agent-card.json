@@ -1,7 +1,7 @@
 {
   "name": "afa-recherche",
-  "title": "recherche.histoirerurale.ch (MCP)",
-  "description": "MCP server for recherche.histoirerurale.ch — the research portal of the Archives of Rural History (Archiv für Agrargeschichte, AfA). Full-text search across persons, institutions, farms, audiovisual sources, archive holdings, digital editions, publications and media reports.",
+  "title": "recherche2.histoirerurale.ch (MCP)",
+  "description": "MCP server for recherche2.histoirerurale.ch — the research portal of the Archives of Rural History (Archiv für Agrargeschichte, AfA). Full-text search across persons, institutions, farms, audiovisual sources, archive holdings, digital editions, publications and media reports.",
   "url": "https://mcp.histoirerurale.ch/mcp",
   "documentationUrl": "https://mcp.histoirerurale.ch",
   "provider": {

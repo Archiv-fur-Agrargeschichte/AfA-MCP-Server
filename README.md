@@ -128,7 +128,7 @@ müssen.
 ## Quellen
 
 - Website: <https://histoirerurale.ch>
-- Recherche-Frontend: <https://www.recherche.histoirerurale.ch>
+- Recherche-Frontend: <https://www.recherche2.histoirerurale.ch>
 - Schwesterprojekt: <https://github.com/entscheidsuche/entscheidsuche-mcp>
 
 ## Lizenz

@@ -1,4 +1,4 @@
-# recherche.histoirerurale.ch (MCP)
+# recherche2.histoirerurale.ch (MCP)
 
 > MCP-Schnittstelle zum Recherche-Portal des Archivs für Agrargeschichte
 > (AfA / Archives d'histoire rurale / Archives of Rural History).
@@ -33,6 +33,6 @@
 
 ## Quellen
 
-- Recherche-Portal:    https://www.recherche.histoirerurale.ch
+- Recherche-Portal:    https://www.recherche2.histoirerurale.ch
 - Trägerinstitution:   https://histoirerurale.ch
 - Repository:          https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server
