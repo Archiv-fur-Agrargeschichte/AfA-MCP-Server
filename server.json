@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ch.agrargeschichte/mcp",
+  "title": "Archiv für Agrargeschichte (AfA)",
+  "description": "Suche im Archiv für Agrargeschichte: Personen, Institutionen, Foto/Film, Archivbestände, digitale Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen, Medienberichte.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/agrargeschichte/afa-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://www.agrargeschichte.ch",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.recherche.histoirerurale.ch/mcp"
+    }
+  ]
+}

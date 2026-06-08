@@ -1,0 +1,41 @@
+[Unit]
+Description=afa-mcp — MCP-Server für das Archiv für Agrargeschichte
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=afa
+Group=afa
+WorkingDirectory=/opt/afa-mcp
+EnvironmentFile=-/etc/afa-mcp.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/afa-mcp/.venv/bin/python -m afa_mcp \
+    --transport streamable-http \
+    --host 127.0.0.1 \
+    --port 8766 \
+    --path /mcp
+Restart=on-failure
+RestartSec=5
+
+# Härtung
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/log/afa-mcp
+
+LimitNOFILE=4096
+MemoryHigh=512M
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target

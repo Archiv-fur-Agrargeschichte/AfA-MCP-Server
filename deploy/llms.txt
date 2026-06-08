@@ -1,0 +1,38 @@
+# afa-mcp
+
+> MCP-Server für das Archiv für Agrargeschichte (AfA / Archives d'histoire
+> rurale / Archives of Rural History). Volltext-Suche über Personen,
+> Institutionen, Betriebe, audiovisuelle Quellen (Foto/Film), Archivbestände,
+> digitale Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth
+> Bobbett), Publikationen und Medienberichte in Deutsch, Französisch,
+> Italienisch und Englisch.
+
+## MCP-Endpoint
+
+- URL: https://mcp.recherche.histoirerurale.ch/mcp
+- Transport: Streamable HTTP (MCP-Spec 2025-06-18)
+- Authentifizierung: keine (öffentlich)
+
+## Werkzeuge
+
+- search                          — Volltextsuche, optional mit Hierarchie-Filter
+- search_entities                 — Personen / Institutionen / Betriebe
+- search_audiovisual              — Foto-/Film-Bestände
+- search_edition_hofstetter       — Edition Mina Hofstetter
+- search_edition_gillabert_randin — Edition Augusta Gillabert-Randin
+- search_edition_bobbett          — Edition Elizabeth Bobbett
+- fetch_document                  — Volltext eines einzelnen Dokuments
+- list_hierarchy                  — Hierarchie-Buckets mit Trefferzahlen
+- server_info                     — Versions- und Endpunkt-Information
+
+## Discovery
+
+- /.well-known/mcp.json
+- /.well-known/agent-card.json
+- /.well-known/oauth-protected-resource
+
+## Quellen
+
+- Website:    https://www.agrargeschichte.ch
+- Recherche:  https://www.recherche.histoirerurale.ch
+- Repository: https://github.com/agrargeschichte/afa-mcp

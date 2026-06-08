@@ -1,0 +1,7 @@
+{
+  "resource": "https://mcp.recherche.histoirerurale.ch/mcp",
+  "authorization_servers": [],
+  "bearer_methods_supported": [],
+  "resource_documentation": "https://mcp.recherche.histoirerurale.ch",
+  "authentication_required": false
+}

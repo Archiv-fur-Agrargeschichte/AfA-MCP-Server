@@ -1,0 +1,46 @@
+{
+  "name": "afa",
+  "title": "afa-mcp",
+  "description": "MCP server for the Archives of Rural History (Archiv für Agrargeschichte, AfA). Full-text search across persons, institutions, farms, audiovisual sources, archive holdings, digital editions (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett), publications and media reports in German, French, Italian and English.",
+  "version": "0.1.0",
+  "website_url": "https://www.agrargeschichte.ch",
+  "documentation_url": "https://mcp.recherche.histoirerurale.ch",
+  "repository": {
+    "url": "https://github.com/agrargeschichte/afa-mcp",
+    "source": "github"
+  },
+  "transports": {
+    "streamable-http": {
+      "url": "https://mcp.recherche.histoirerurale.ch/mcp",
+      "stateless": true
+    }
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.recherche.histoirerurale.ch/mcp"
+    }
+  ],
+  "capabilities": {"tools": true, "resources": true, "prompts": false},
+  "authentication": "none",
+  "tools": [
+    {"name": "search", "title": "Search AfA",
+     "description": "Full-text search across the AfA holdings."},
+    {"name": "search_entities", "title": "Search entities",
+     "description": "Search persons, institutions or farms."},
+    {"name": "search_audiovisual", "title": "Search audiovisual sources",
+     "description": "Search photographs and films."},
+    {"name": "search_edition_hofstetter", "title": "Edition Mina Hofstetter",
+     "description": "Search the Mina Hofstetter digital edition."},
+    {"name": "search_edition_gillabert_randin", "title": "Edition Augusta Gillabert-Randin",
+     "description": "Search the Augusta Gillabert-Randin digital edition."},
+    {"name": "search_edition_bobbett", "title": "Edition Elizabeth Bobbett",
+     "description": "Search the Elizabeth Bobbett digital edition."},
+    {"name": "fetch_document", "title": "Fetch document",
+     "description": "Retrieve a single document together with its full text."},
+    {"name": "list_hierarchy", "title": "List hierarchy",
+     "description": "List hierarchy buckets with document counts."},
+    {"name": "server_info", "title": "Server information",
+     "description": "Version and endpoint information."}
+  ]
+}

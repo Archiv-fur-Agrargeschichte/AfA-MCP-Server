@@ -1,0 +1,46 @@
+{
+  "name": "afa",
+  "title": "afa-mcp",
+  "description": "MCP server for the Archives of Rural History (Archiv für Agrargeschichte, AfA). Full-text search across persons, institutions, farms, audiovisual sources, archive holdings, digital editions, publications and media reports.",
+  "url": "https://mcp.recherche.histoirerurale.ch/mcp",
+  "documentationUrl": "https://mcp.recherche.histoirerurale.ch",
+  "provider": {
+    "organization": "Archiv für Agrargeschichte (AfA)",
+    "url": "https://www.agrargeschichte.ch"
+  },
+  "version": "0.1.0",
+  "protocolVersion": "0.3.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "skills": [
+    {"id": "search", "name": "Search AfA",
+     "description": "Full-text search across the Archives of Rural History.",
+     "tags": ["search", "history", "rural", "switzerland", "archives"]},
+    {"id": "search_entities", "name": "Search entities",
+     "description": "Search persons, institutions or farms.",
+     "tags": ["entities", "persons", "institutions", "prosopography"]},
+    {"id": "search_audiovisual", "name": "Search audiovisual sources",
+     "description": "Search photographs and films.",
+     "tags": ["photo", "film", "audiovisual", "media"]},
+    {"id": "search_edition_hofstetter", "name": "Edition Mina Hofstetter",
+     "description": "Digital edition of writings by Mina Hofstetter.",
+     "tags": ["edition", "Hofstetter", "biodynamic", "agriculture"]},
+    {"id": "search_edition_gillabert_randin", "name": "Edition Augusta Gillabert-Randin",
+     "description": "Digital edition of writings by Augusta Gillabert-Randin.",
+     "tags": ["edition", "Gillabert-Randin", "women", "rural"]},
+    {"id": "search_edition_bobbett", "name": "Edition Elizabeth Bobbett",
+     "description": "Digital edition of writings by Elizabeth Bobbett.",
+     "tags": ["edition", "Bobbett", "Ireland", "women"]},
+    {"id": "fetch_document", "name": "Fetch document",
+     "description": "Retrieve a single document with full text.",
+     "tags": ["fetch", "document", "fulltext"]},
+    {"id": "list_hierarchy", "name": "List hierarchy",
+     "description": "List hierarchy buckets with document counts.",
+     "tags": ["hierarchy", "facets", "filter"]}
+  ]
+}

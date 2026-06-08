@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>afa-mcp — Archiv für Agrargeschichte</title>
+    <meta name="description" content="MCP-Server für das Archiv für Agrargeschichte (AfA). Volltext-Suche über Personen, Institutionen, audiovisuelle Quellen, Archivbestände, digitale Editionen und Publikationen." />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f3efe6;
+        --panel: #fdfaf3;
+        --ink: #1d1b16;
+        --muted: #5d564a;
+        --accent: #4a6b3a;
+        --accent-2: #8a9a5b;
+        --line: #ddd2bb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background:
+          radial-gradient(circle at top left, rgba(138, 154, 91, 0.16), transparent 28rem),
+          linear-gradient(180deg, #f6f1e7 0%, var(--bg) 100%);
+        color: var(--ink);
+      }
+      main { max-width: 56rem; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+      .eyebrow {
+        letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--accent); font-size: 0.82rem; font-weight: 700;
+      }
+      h1 { font-size: clamp(2.5rem, 6vw, 4.6rem); line-height: 0.98; margin: 0.5rem 0 1rem; }
+      p { font-size: 1.06rem; line-height: 1.65; color: var(--muted); max-width: 42rem; }
+      .panel {
+        margin-top: 2rem; padding: 1.8rem 2rem; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 12px;
+        box-shadow: 0 2px 14px rgba(60, 50, 30, 0.05);
+      }
+      h2 { font-size: 1.45rem; margin: 0 0 1rem; color: var(--ink); }
+      .endpoint {
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.96rem; background: #2b261d; color: #f8f1de;
+        padding: 0.9rem 1.1rem; border-radius: 8px; display: block;
+        margin: 0.7rem 0 1.4rem; overflow-x: auto;
+      }
+      table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+      th, td {
+        text-align: left; padding: 0.55rem 0.6rem;
+        border-bottom: 1px dotted var(--line); font-size: 0.96rem;
+      }
+      th { color: var(--accent); font-weight: 600; }
+      td.tool { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+      td.count { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+      ul.discovery { padding-left: 1.2rem; }
+      ul.discovery li { margin: 0.3rem 0; }
+      ul.discovery code { font-size: 0.93rem; }
+      a { color: var(--accent); }
+      a:hover { color: var(--accent-2); }
+      footer { margin-top: 3rem; font-size: 0.92rem; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">MCP-Server · Beta</div>
+      <h1>Archiv für Agrargeschichte</h1>
+      <p>
+        Modelfähige Volltextsuche in den Beständen des
+        <a href="https://www.agrargeschichte.ch">Archivs für Agrargeschichte</a>
+        — Personen, Institutionen, Betriebe, audio-visuelle Quellen,
+        Archivbestände, digitale Editionen und Publikationen.
+        Über das Model Context Protocol (Streamable HTTP) direkt aus
+        Claude, ChatGPT, Cursor, Perplexity und allen anderen
+        MCP-fähigen Clients ansprechbar.
+      </p>
+
+      <div class="panel">
+        <h2>MCP-Endpoint</h2>
+        <code class="endpoint">https://mcp.recherche.histoirerurale.ch/mcp</code>
+        <p style="margin: 0;">
+          Transport: <em>Streamable HTTP</em>. Authentifizierung: keine.
+          In MCP-fähigen Clients als Remote-Server mit dieser URL eintragen.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Werkzeuge</h2>
+        <table>
+          <thead><tr><th>Name</th><th>Funktion</th></tr></thead>
+          <tbody>
+            <tr><td class="tool">search</td>
+                <td>Volltext-Suche über alle Bestände, optional mit Hierarchie-Filter.</td></tr>
+            <tr><td class="tool">search_entities</td>
+                <td>Personen, Institutionen oder Betriebe (Parameter <code>entity_type</code>).</td></tr>
+            <tr><td class="tool">search_audiovisual</td>
+                <td>Foto- und Film-Bestände (optional auf <code>photos</code> / <code>films</code> einschränkbar).</td></tr>
+            <tr><td class="tool">search_edition_hofstetter</td>
+                <td>Edition Mina Hofstetter.</td></tr>
+            <tr><td class="tool">search_edition_gillabert_randin</td>
+                <td>Edition Augusta Gillabert-Randin.</td></tr>
+            <tr><td class="tool">search_edition_bobbett</td>
+                <td>Edition Elizabeth Bobbett.</td></tr>
+            <tr><td class="tool">fetch_document</td>
+                <td>Einzelnes Dokument inkl. Volltext anhand seiner ID.</td></tr>
+            <tr><td class="tool">list_hierarchy</td>
+                <td>Hierarchie-Buckets mit Trefferzahlen.</td></tr>
+            <tr><td class="tool">server_info</td>
+                <td>Versions- und Endpunkt-Information.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Datenbestand</h2>
+        <table>
+          <thead><tr><th>Sammlung</th><th>Hierarchie-ID</th><th class="count">Dokumente</th></tr></thead>
+          <tbody>
+            <tr><td>Personen</td><td class="tool">AfA_Personen</td><td class="count">15 824</td></tr>
+            <tr><td>Institutionen</td><td class="tool">AfA_Organisationen</td><td class="count">1 206</td></tr>
+            <tr><td>Betriebe</td><td class="tool">AfA_Betriebe</td><td class="count">1</td></tr>
+            <tr><td>Archivbestände</td><td class="tool">AfA_Archiv</td><td class="count">212</td></tr>
+            <tr><td>Audio-/visuelle Quellen</td><td class="tool">AfA_FotoFilm</td><td class="count">3 197</td></tr>
+            <tr><td>Edition Mina Hofstetter</td><td class="tool">AfA_Edition_001</td><td class="count">67</td></tr>
+            <tr><td>Edition Augusta Gillabert-Randin</td><td class="tool">AfA_Edition_002</td><td class="count">132</td></tr>
+            <tr><td>Edition Elizabeth Bobbett</td><td class="tool">AfA_Edition_003</td><td class="count">271</td></tr>
+            <tr><td>Publikationen</td><td class="tool">AfA_Publikationen</td><td class="count">178</td></tr>
+            <tr><td>Medienberichte</td><td class="tool">AfA_Berichte</td><td class="count">72</td></tr>
+            <tr><td>Weitere Quellen</td><td class="tool">AfA_Weitere</td><td class="count">36</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Discovery-Endpunkte</h2>
+        <ul class="discovery">
+          <li><code><a href="/.well-known/mcp.json">/.well-known/mcp.json</a></code> — MCP-Server-Manifest</li>
+          <li><code><a href="/.well-known/agent-card.json">/.well-known/agent-card.json</a></code> — A2A Agent Card</li>
+          <li><code><a href="/.well-known/oauth-protected-resource">/.well-known/oauth-protected-resource</a></code> — RFC 9728 (keine Auth)</li>
+          <li><code><a href="/llms.txt">/llms.txt</a></code> — LLM-/Crawler-freundliche Beschreibung</li>
+        </ul>
+      </div>
+
+      <footer>
+        Datenquelle: <a href="https://www.agrargeschichte.ch">Archiv für Agrargeschichte</a>
+        · Recherche-Frontend: <a href="https://www.recherche.histoirerurale.ch">recherche.histoirerurale.ch</a>
+        · Quellcode: <a href="https://github.com/agrargeschichte/afa-mcp">GitHub</a>
+      </footer>
+    </main>
+  </body>
+</html>
