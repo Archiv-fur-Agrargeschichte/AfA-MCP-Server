@@ -10,6 +10,7 @@ import sys
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 
+from .access_log import configure_file_handler
 from .server import build_server, create_app
 
 
@@ -50,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
         level=getattr(logging, args.log_level.upper(), logging.INFO),
         format="%(asctime)s %(levelname)s %(name)s — %(message)s",
     )
+    # Optionaler dedizierter Access-Log-File-Handler (AFA_ACCESS_LOG_FILE).
+    configure_file_handler()
 
     server = build_server()
 

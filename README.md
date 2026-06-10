@@ -71,6 +71,30 @@ Siehe `.env.example`. Die wichtigsten:
 | `MCP_JSON_RESPONSE` | `true` | Akzeptiert Clients mit nur `application/json` |
 | `MCP_DNS_REBINDING_PROTECTION` | `true` | Host/Origin-Filter |
 | `CORS_ALLOW_ORIGINS` | `*` | Browser-Origin-Liste |
+| `AFA_ACCESS_LOG` | `true` | JSON-RPC Access-Log (Methoden-/Tool-Statistik) aktiv |
+| `AFA_ACCESS_LOG_ARGS_MAX` | `200` | Max. Zeichen pro `args`-Repr in der Logzeile |
+| `AFA_ACCESS_LOG_FILE` | *(stdout)* | Optionaler Pfad für eine dedizierte Logdatei |
+
+### Access-Log-Format
+
+Jede MCP-Methode erzeugt eine Zeile im Logger `afa_mcp.access`:
+
+```
+2026-06-10 14:30:01,234 INFO afa_mcp.access — method=tools/call tool=search id=42 status=200 size=8543 ms=145 client=160.79.106.37 args={"query":"Bäuerin Emmental","size":3}
+```
+
+Auswertung typisch via `awk` / `grep`, etwa:
+
+```bash
+# Top-10 Tools nach Häufigkeit
+grep 'afa_mcp.access' ~/afa-mcp/server.log \
+  | grep -oE 'tool=[a-z_]+' | sort | uniq -c | sort -rn | head
+
+# Latenz-Quantile pro Tool
+grep 'method=tools/call' ~/afa-mcp/server.log \
+  | awk -F'tool=' '{print $2}' | awk '{print $1, $NF}' \
+  | sort | awk '{a[$1]++; s[$1]+=$2} END {for (t in a) printf "%-30s n=%4d avg=%dms\n", t, a[t], s[t]/a[t]}'
+```
 
 ## Produktion (Debian)
 
@@ -106,6 +130,34 @@ sudo chmod +x /usr/local/sbin/deploy-afa-mcp
 ```
 
 Aufruf: `sudo deploy-afa-mcp`.
+
+## Produktion (Plesk, ohne root)
+
+Falls — wie bei der aktuellen Installation auf `mcp.histoirerurale.ch` —
+kein root und kein systemd zur Verfügung steht, läuft der Server im
+Userspace, gestartet von einer Plesk Scheduled Task (Cron, alle Minute):
+
+```bash
+# einmalig:
+mkdir -p ~/afa-mcp && cd ~/afa-mcp
+git clone https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server.git .
+virtualenv .venv
+.venv/bin/pip install -e .
+install -m 755 deploy/plesk/start.sh ~/afa-mcp/start.sh
+```
+
+Plesk → Domain → Scheduled Tasks → neuer Task `~/afa-mcp/start.sh`,
+jede Minute. Skript-Verhalten:
+
+- Existiert ein laufender PID → exit 0 (No-op).
+- Sonst: env setzen, `python -m afa_mcp` im venv via `nohup` starten,
+  PID in `~/afa-mcp/afa-mcp.pid` ablegen.
+
+Apache mod_proxy davorhängen via `mcp.histoirerurale.ch/httpdocs/.htaccess`
+(siehe Apache-Doku des Repos), Plesk liefert TLS und das vHost-Routing.
+
+Updates: `git -C ~/afa-mcp pull --ff-only`, anschließend einmal die alte
+Instanz killen — der Cron startet die neue beim nächsten Tick neu.
 
 ## Discovery-Endpunkte (für MCP-Verzeichnisse)
 
