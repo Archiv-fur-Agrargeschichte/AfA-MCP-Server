@@ -47,10 +47,16 @@ def _parse_bool_env(name: str, default: bool) -> bool:
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
 
+    # force=True überschreibt evtl. schon installierte Handler (Default-Verhalten
+    # von logging.basicConfig: no-op wenn Root bereits Handler hat).
     logging.basicConfig(
         level=getattr(logging, args.log_level.upper(), logging.INFO),
         format="%(asctime)s %(levelname)s %(name)s — %(message)s",
+        force=True,
     )
+    # Sicherstellen, dass afa_mcp-Logger auf INFO sind — uvicorn könnte sonst
+    # ihre Level beim dictConfig-Start verstellen.
+    logging.getLogger("afa_mcp").setLevel(logging.INFO)
     # Optionaler dedizierter Access-Log-File-Handler (AFA_ACCESS_LOG_FILE).
     configure_file_handler()
 
@@ -80,7 +86,11 @@ def main(argv: list[str] | None = None) -> int:
             expose_headers=["Mcp-Session-Id"],
         )
 
-    uvicorn.run(app, host=args.host, port=args.port, log_level=args.log_level.lower())
+    # log_config=None: uvicorn benutzt unser via basicConfig konfiguriertes
+    # Logging unveraendert, statt seine Default-dictConfig ueber unsere Logger
+    # zu legen (was den afa_mcp.access-Output ins Nichts wandern liesse).
+    uvicorn.run(app, host=args.host, port=args.port,
+                log_level=args.log_level.lower(), log_config=None)
     return 0
 
 

@@ -215,8 +215,33 @@ def configure_file_handler(level: int = logging.INFO) -> None:
     log.setLevel(level)
 
 
+_DEFAULT_ACCESS_LOG_PATH = os.path.join(os.path.expanduser("~"),
+                                        "afa-mcp", "afa-mcp.access.log")
+
+
+def _ensure_logger_has_handler() -> None:
+    """Eigene Datei mit eigenem Formatter — unabhaengig von basicConfig /
+    uvicorn-Logging-Setup. Schreibt nach ``AFA_ACCESS_LOG_FILE`` oder
+    ``~/afa-mcp/afa-mcp.access.log``. ``propagate=False`` verhindert, dass
+    Zeilen zusaetzlich im uvicorn-Default-Format an stderr landen."""
+    if log.handlers:
+        return
+    path = os.environ.get("AFA_ACCESS_LOG_FILE") or _DEFAULT_ACCESS_LOG_PATH
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        handler: logging.Handler = logging.FileHandler(path, encoding="utf-8")
+    except OSError:
+        handler = logging.StreamHandler()  # Fallback
+    handler.setFormatter(logging.Formatter(
+        "%(asctime)s %(levelname)s %(name)s — %(message)s"))
+    log.addHandler(handler)
+    log.setLevel(logging.INFO)
+    log.propagate = False
+
+
 def wrap_if_enabled(app, mcp_path: str = "/mcp"):
     """Wickelt ``app`` in die Middleware, sofern via Env aktiv (Default an)."""
     if not _enabled():
         return app
+    _ensure_logger_has_handler()
     return JsonRpcAccessLogMiddleware(app, mcp_path=mcp_path)

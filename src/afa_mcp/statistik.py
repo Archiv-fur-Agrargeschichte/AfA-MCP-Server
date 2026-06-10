@@ -52,7 +52,7 @@ LOG_LINE = re.compile(
 SETUP_METHODS = {"initialize", "notifications/initialized",
                  "tools/list", "resources/list", "prompts/list"}
 
-DEFAULT_LOG = Path(os.path.expanduser("~/afa-mcp/afa-mcp.log"))
+DEFAULT_LOG = Path(os.path.expanduser("~/afa-mcp/afa-mcp.access.log"))
 DEFAULT_CACHE = Path(os.path.expanduser("~/afa-mcp/stats-cache.json"))
 
 
