@@ -12,8 +12,17 @@ import pytest
 from afa_mcp.access_log import (
     JsonRpcAccessLogMiddleware,
     _describe_rpc,
+    _safe_field,
     _summarize_args,
 )
+
+
+def test_safe_field_strips_unsafe_chars():
+    assert _safe_field("Claude Desktop 1.0") == "ClaudeDesktop1.0"
+    assert _safe_field(None) == "-"
+    assert _safe_field("") == "-"
+    # Truncation
+    assert len(_safe_field("x" * 100, max_len=10)) == 10
 
 
 def test_describe_single_initialize():
@@ -146,6 +155,31 @@ def test_middleware_replays_body_intact(caplog):
     assert "status=200" in line
     assert "client=160.79.106.37" in line
     assert "Wicklow" in line
+
+
+def test_middleware_logs_initialize_with_app_info(caplog):
+    caplog.set_level(logging.INFO, logger="afa_mcp.access")
+    payload = {
+        "jsonrpc": "2.0", "id": 0, "method": "initialize",
+        "params": {
+            "protocolVersion": "2025-06-18",
+            "clientInfo": {"name": "Claude", "version": "1.2.3"},
+        },
+    }
+    asyncio.run(_drive_middleware(payload))
+    line = next(r.getMessage() for r in caplog.records if r.name == "afa_mcp.access")
+    assert "method=initialize" in line
+    assert "app=Claude" in line
+    assert "appver=1.2.3" in line
+
+
+def test_middleware_logs_app_dash_for_non_initialize(caplog):
+    caplog.set_level(logging.INFO, logger="afa_mcp.access")
+    payload = {"jsonrpc": "2.0", "id": 1, "method": "tools/list"}
+    asyncio.run(_drive_middleware(payload))
+    line = next(r.getMessage() for r in caplog.records if r.name == "afa_mcp.access")
+    assert "app=-" in line
+    assert "appver=-" in line
 
 
 def test_middleware_logs_batch_separate_lines(caplog):

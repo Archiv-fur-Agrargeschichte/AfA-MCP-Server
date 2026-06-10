@@ -20,10 +20,21 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import time
 from typing import Any, Iterable, Optional
 
 log = logging.getLogger("afa_mcp.access")
+
+# Erlaubte Zeichen im app/appver-Feld (Logzeile bleibt sonst nicht parsebar).
+_SAFE_FIELD_RE = re.compile(r"[^A-Za-z0-9._\-+/]")
+
+
+def _safe_field(value: Any, max_len: int = 40) -> str:
+    if value is None:
+        return "-"
+    s = _SAFE_FIELD_RE.sub("", str(value))[:max_len]
+    return s or "-"
 
 
 def _args_max() -> int:
@@ -152,14 +163,23 @@ class JsonRpcAccessLogMiddleware:
             client = (scope.get("client") or (None, None))[0] or "-"
             if not rpcs:
                 log.info(
-                    "method=- tool=- id=- status=%s size=%d ms=%d client=%s",
+                    "method=- tool=- id=- status=%s size=%d ms=%d client=%s "
+                    "app=- appver=- args=",
                     status_code, resp_size, dur_ms, client,
                 )
                 return
             for r in rpcs:
+                # Client-App/Version aus initialize-clientInfo extrahieren —
+                # technische Telemetrie, daher unabhaengig von ARGS_MAX immer
+                # geloggt; bei anderen Methoden bleibt das Feld leer.
+                app = "-"
+                appver = "-"
+                if r["method"] == "initialize" and isinstance(r["args"], dict):
+                    app = _safe_field(r["args"].get("client"))
+                    appver = _safe_field(r["args"].get("version"))
                 log.info(
                     "method=%s tool=%s id=%s status=%s size=%d ms=%d "
-                    "client=%s args=%s",
+                    "client=%s app=%s appver=%s args=%s",
                     r["method"] or "-",
                     r["tool"] or "-",
                     "-" if r["id"] is None else r["id"],
@@ -167,6 +187,8 @@ class JsonRpcAccessLogMiddleware:
                     resp_size,
                     dur_ms,
                     client,
+                    app,
+                    appver,
                     _summarize_args(r["args"]),
                 )
 

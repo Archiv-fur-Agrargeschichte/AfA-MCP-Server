@@ -1,0 +1,16 @@
+# Basic Auth fuer /statistik
+# Pfad zur .htpasswd-Datei muss absolut sein. Den Hash-Eintrag dort erzeugst
+# Du einmalig mit:
+#
+#   htpasswd -c ~/mcp.histoirerurale.ch/private/.htpasswd admin
+#
+# (Plesk hat htpasswd unter /usr/bin/htpasswd; siehe auch Plesk-File-Manager
+# "Passwortgeschuetzte Verzeichnisse", das macht im Hintergrund dasselbe.)
+
+AuthType Basic
+AuthName "AfA-MCP Statistik"
+AuthUserFile /var/www/vhosts/<ACCOUNT>/mcp.histoirerurale.ch/private/.htpasswd
+Require valid-user
+
+# Suchmaschinen sollen das hier nicht sehen.
+Header set X-Robots-Tag "noindex, nofollow"
