@@ -35,7 +35,13 @@ export HOST=127.0.0.1 PORT=8766 \
        MCP_ALLOWED_HOSTS=mcp.histoirerurale.ch \
        MCP_ALLOWED_ORIGINS=https://mcp.histoirerurale.ch \
        AFA_ACCESS_LOG=true \
-       AFA_ACCESS_LOG_ARGS_MAX=0
+       AFA_ACCESS_LOG_ARGS_MAX=0 \
+       AFA_STATS_CACHE=$HOME/afa-mcp/stats-cache.json
+
+# /statistik durch Basic Auth schuetzen: User+Passwort hier setzen.
+# Sind beide leer, ist /statistik offen.
+export AFA_STATS_USER=admin
+export AFA_STATS_PASS=CHANGEME
 
 nohup .venv/bin/python -m afa_mcp --port 8766 --host 127.0.0.1 --path /mcp \
     >> "$LOGFILE" 2>&1 &

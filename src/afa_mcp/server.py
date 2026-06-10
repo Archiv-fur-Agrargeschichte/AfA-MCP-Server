@@ -35,6 +35,7 @@ from starlette.routing import Mount, Route
 
 from . import __version__, hierarchy as H
 from .access_log import wrap_if_enabled
+from .statistik import statistik_endpoint
 from .models import (
     EntityType,
     HierarchyResponse,
@@ -620,6 +621,8 @@ def create_app(mcp: Optional[FastMCP] = None):
         routes=[
             Route("/.well-known/mcp", endpoint=well_known_manifest),
             Route("/.well-known/mcp/server-card.json", endpoint=well_known_server_card),
+            Route("/statistik", endpoint=statistik_endpoint),
+            Route("/statistik/", endpoint=statistik_endpoint),
             Mount("/", app=mcp_app),
         ],
         lifespan=lifespan,

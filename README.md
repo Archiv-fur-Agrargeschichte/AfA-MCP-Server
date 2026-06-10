@@ -159,38 +159,48 @@ Apache mod_proxy davorhängen via `mcp.histoirerurale.ch/httpdocs/.htaccess`
 Updates: `git -C ~/afa-mcp pull --ff-only`, anschließend einmal die alte
 Instanz killen — der Cron startet die neue beim nächsten Tick neu.
 
-### Statistik-Seite (`/statistik`, Basic-Auth-geschützt)
+### Statistik-Seite (`/statistik`, Live-Generierung)
 
-`deploy/plesk/statistik/generate_stats.py` parst das Access-Log
-(`~/afa-mcp/afa-mcp.log`) und schreibt eine selbst-enthaltene HTML-Seite
-mit Tageszahlen, Top-Tools und Methoden-Verteilung. Einrichtung:
+Der MCP-Server liefert unter `/statistik` selbst eine Nutzungsstatistik aus —
+**live bei jedem Aufruf** generiert. Vortage werden in einem JSON-Cache
+(`~/afa-mcp/stats-cache.json`) fixiert, damit nur der aktuelle Tag aus dem
+Log neu aggregiert werden muss. Kein Cron-Job notwendig.
+
+Basic Auth via Env-Variablen (in `start.sh`):
 
 ```bash
-# 1) Verzeichnis im Webroot + erstes Rendern
-mkdir -p ~/mcp.histoirerurale.ch/httpdocs/statistik
-python3 ~/afa-mcp/deploy/plesk/statistik/generate_stats.py
-
-# 2) Basic-Auth-Datei (außerhalb von httpdocs!)
-mkdir -p ~/mcp.histoirerurale.ch/private
-htpasswd -c ~/mcp.histoirerurale.ch/private/.htpasswd admin
-
-# 3) .htaccess kopieren und den Account-Pfad anpassen
-cp ~/afa-mcp/deploy/plesk/statistik/htaccess \
-   ~/mcp.histoirerurale.ch/httpdocs/statistik/.htaccess
-# in der Datei <ACCOUNT> durch den realen Plesk-User ersetzen
-# (steht im Pfad, den der Plesk-File-Manager bei `httpdocs` zeigt)
+export AFA_STATS_USER=admin
+export AFA_STATS_PASS=DEIN_PASSWORT
 ```
 
-Plesk Scheduled Task → neuer Task, alle 15 Minuten:
+Sind beide leer, ist `/statistik` ungeschützt zugänglich (Dev-Modus).
 
-```
-python3 /var/www/vhosts/<ACCOUNT>/afa-mcp/deploy/plesk/statistik/generate_stats.py
+Apache-Setup: `mcp.histoirerurale.ch/httpdocs/.htaccess` braucht eine
+mod_proxy-Regel für `/statistik` (Vorlage in
+`deploy/plesk/mcp-htaccess.example`):
+
+```apache
+RewriteRule ^statistik$       http://127.0.0.1:8766/statistik       [P,L]
+RewriteRule ^statistik/(.*)$  http://127.0.0.1:8766/statistik/$1    [P,L]
 ```
 
-Test: `https://mcp.histoirerurale.ch/statistik/` → Basic-Auth-Prompt →
-Statistik-Seite. Die Seite enthält ausschließlich Aggregate (Tageszahlen,
-Methoden, Tool-Namen) — keine Nutzerinhalte, sofern
-`AFA_ACCESS_LOG_ARGS_MAX=0` gesetzt ist.
+Der Authorization-Header wird per mod_proxy unverändert durchgereicht; die
+Auth-Prüfung passiert im Python-Server (`hmac.compare_digest` gegen die
+Env-Variablen). Die Seite zeigt:
+
+* heute · Tool-Aufrufe / Sessions (live aus dem Log)
+* letzte 7 Tage und gesamt (Vortage aus Cache)
+* Tagesübersicht mit Stunden-Sparkline pro Tag
+* Top-Tools, KI-Clients (aus `clientInfo.name`)
+* 24-Stunden-Aktivitätsgrafik
+* Methoden-Verteilung (technischer Overhead)
+
+Inhalte sind reine Aggregate — solange `AFA_ACCESS_LOG_ARGS_MAX=0` gesetzt
+ist, gelangen keine Nutzer-Suchanfragen ins Log oder die Statistik.
+
+Fallback / Offline-Rendering: `deploy/plesk/statistik/generate_stats.py`
+schreibt dieselbe Seite einmalig als statische Datei — nützlich für ältere
+Caches initialisieren oder Tests ohne laufenden Server.
 
 ## Discovery-Endpunkte (für MCP-Verzeichnisse)
 

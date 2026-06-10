@@ -1,0 +1,51 @@
+# .htaccess fuer die Domain mcp.histoirerurale.ch (httpdocs).
+#
+# Plesk-User-Space-Deployment: Apache vor dem Python-MCP-Server auf
+# 127.0.0.1:8766. mod_proxy / mod_proxy_http muessen in der Plesk-Konfig
+# aktiv sein (Default).
+#
+# Auf den Server hochladen unter:
+#   /var/www/vhosts/<ACCOUNT>/mcp.histoirerurale.ch/httpdocs/.htaccess
+#
+# Auth fuer /statistik wird im Python-Server geprueft (AFA_STATS_USER /
+# AFA_STATS_PASS, gesetzt in start.sh). Apache schickt den Authorization-
+# Header per mod_proxy unveraendert durch.
+
+RewriteEngine On
+
+# ---------------------------------------------------------------------------
+# MCP-Hauptendpunkt
+# ---------------------------------------------------------------------------
+RewriteRule ^mcp$       http://127.0.0.1:8766/mcp       [P,L]
+RewriteRule ^mcp/(.*)$  http://127.0.0.1:8766/mcp/$1    [P,L]
+
+# Variant-Pfade alter Clients
+Redirect 308 /sse        /mcp
+Redirect 308 /mcp/sse    /mcp
+
+# ---------------------------------------------------------------------------
+# Discovery-Manifeste (durchgereicht an den FastMCP-Server)
+# ---------------------------------------------------------------------------
+RewriteRule ^\.well-known/mcp$               http://127.0.0.1:8766/.well-known/mcp                [P,L]
+RewriteRule ^\.well-known/mcp/(.*)$          http://127.0.0.1:8766/.well-known/mcp/$1             [P,L]
+
+# Statische Discovery-Dateien (liegen physisch unter httpdocs/.well-known/)
+# nichts zu tun: Apache liefert sie direkt aus.
+
+# ---------------------------------------------------------------------------
+# Nutzungsstatistik (Live-Generierung im Python-Server)
+# Basic Auth: setze AFA_STATS_USER / AFA_STATS_PASS in start.sh.
+# ---------------------------------------------------------------------------
+RewriteRule ^statistik$       http://127.0.0.1:8766/statistik       [P,L]
+RewriteRule ^statistik/(.*)$  http://127.0.0.1:8766/statistik/$1    [P,L]
+
+# ---------------------------------------------------------------------------
+# CORS — der Python-Server setzt das auch, aber Plesk koennte die Header
+# bei direktem File-Serving filtern.
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, Mcp-Session-Id, Mcp-Protocol-Version"
+    Header set Access-Control-Expose-Headers "Mcp-Session-Id"
+</IfModule>
