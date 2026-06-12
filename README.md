@@ -1,11 +1,11 @@
 # afa-mcp
 
-MCP-Server für das AGHIST-Suchportal des **Archiv für Agrargeschichte** (AfA / Archives d'histoire rurale AHR /
+MCP-Server für das AGHIST-Suchportal des **Archivs für Agrargeschichte (AfA)** (Archives d'histoire rurale AHR /
 Archives of Rural History ARH).
 
 AGHIST ist das Suchportal zur Agrar-, Ernährungs- und Umweltgeschichte und ermöglicht einen Zugriff auf die online-Ressourcen (Filme, Fotos und schriftliche Quellen sowie Verzeichnungsdaten, wissenschaftliche Texte, Video Essays, etc.), die vom AfA und seinen Partnerinstitutionen im In- und Ausland öffentlich zugänglich gemacht werden.
 
-Stellt Volltext-Suche und Hierarchie-Recherche über das
+Der AGHIST MCP-Server stellt Volltext-Suche und Hierarchie-Recherche über das
 Model Context Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie
 Claude, ChatGPT, Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
 
