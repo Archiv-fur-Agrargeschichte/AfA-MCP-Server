@@ -1,7 +1,7 @@
 # afa-mcp
 
 MCP-Server für das AGHIST-Suchportal des **Archivs für Agrargeschichte (AfA)** (Archives d'histoire rurale AHR /
-Archives of Rural History ARH).
+Archives of Rural History ARH) in Bern (CH).
 
 AGHIST ist das Suchportal zur Agrar-, Ernährungs- und Umweltgeschichte und ermöglicht einen Zugriff auf die online-Ressourcen (Filme, Fotos und schriftliche Quellen sowie Verzeichnungsdaten, wissenschaftliche Texte, Video Essays, etc.), die vom AfA und seinen Partnerinstitutionen im In- und Ausland öffentlich zugänglich gemacht werden.
 
