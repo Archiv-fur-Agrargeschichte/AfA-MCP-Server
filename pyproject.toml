@@ -1,6 +1,6 @@
 [project]
 name = "afa-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP-Server für agrargeschichte.ch — Archiv für Agrargeschichte (AfA)"
 readme = "README.md"
 requires-python = ">=3.11"
