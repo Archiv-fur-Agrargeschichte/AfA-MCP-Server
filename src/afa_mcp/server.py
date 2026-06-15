@@ -23,7 +23,7 @@ from __future__ import annotations
 import logging
 import os
 from contextlib import asynccontextmanager
-from typing import Annotated, Any, AsyncIterator, List, Optional
+from typing import Annotated, Any, AsyncIterator, List, Literal, Optional
 from urllib.parse import urlparse
 
 from mcp.server.fastmcp import Context, FastMCP
@@ -37,7 +37,6 @@ from . import __version__, hierarchy as H
 from .access_log import wrap_if_enabled
 from .statistik import statistik_endpoint
 from .models import (
-    EntityType,
     HierarchyResponse,
     Language,
     SearchHit,
@@ -254,7 +253,7 @@ _LangArg = Annotated[
     )),
 ]
 _SortArg = Annotated[
-    SortOrder,
+    Literal["relevance", "date", "id"],
     Field(description="Sortierung: 'relevance' | 'date' | 'id'. Default 'relevance'."),
 ]
 _SizeArg = Annotated[int, Field(ge=1, le=100, description="Treffer pro Seite (1–100).")]
@@ -273,7 +272,7 @@ _IncludeAggsArg = Annotated[
     bool, Field(description="Hierarchie-Aggregation mitliefern."),
 ]
 _EntityTypeArg = Annotated[
-    EntityType,
+    Literal["person", "institution", "company", "any"],
     Field(description="Typ: 'person' | 'institution' | 'company' | 'any'."),
 ]
 _MediaTypeArg = Annotated[
@@ -379,7 +378,7 @@ def build_server() -> FastMCP:
     async def search_entities(
         ctx: Context,
         query: _QueryArg = "*",
-        entity_type: _EntityTypeArg = EntityType.any,
+        entity_type: _EntityTypeArg = "any",
         language: _LangArg = None,
         sort: _SortArg = SortOrder.relevance,
         size: _SizeArg = 20,
@@ -388,7 +387,7 @@ def build_server() -> FastMCP:
         params = SearchParams(
             query=query, language=language, sort=sort, size=size,
             search_after=search_after,
-            hierarchy=H.ENTITY_HIERARCHIES[entity_type.value],
+            hierarchy=H.ENTITY_HIERARCHIES[entity_type],
         )
         return await _client(ctx).search(params)
 
