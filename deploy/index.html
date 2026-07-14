@@ -98,6 +98,10 @@
       details[open] summary::before { transform: rotate(90deg); }
       details[open] summary { background: rgba(138, 154, 91, 0.15); }
       details > div { padding: 0.8rem 0.4rem 0.4rem; }
+      details > div table { margin: 0; }
+      details > div table th { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+      details > div table td { font-size: 0.94rem; padding: 0.4rem 0.6rem; }
+      details > div table td:first-child { white-space: nowrap; }
     </style>
   </head>
   <body>
@@ -225,23 +229,44 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
 
       <div class="panel">
         <h2 data-i18n="tools_h"></h2>
-        <table>
-          <thead><tr>
-            <th data-i18n="th_name"></th>
-            <th data-i18n="th_function"></th>
-          </tr></thead>
-          <tbody>
-            <tr><td class="tool">search</td>           <td data-i18n="tool_search"></td></tr>
-            <tr><td class="tool">search_entities</td>  <td data-i18n-html="tool_search_entities"></td></tr>
-            <tr><td class="tool">search_audiovisual</td><td data-i18n-html="tool_search_av"></td></tr>
-            <tr><td class="tool">search_edition_hofstetter</td>      <td data-i18n="tool_ed_hofstetter"></td></tr>
-            <tr><td class="tool">search_edition_gillabert_randin</td><td data-i18n="tool_ed_gr"></td></tr>
-            <tr><td class="tool">search_edition_bobbett</td>         <td data-i18n="tool_ed_bobbett"></td></tr>
-            <tr><td class="tool">fetch_document</td>   <td data-i18n="tool_fetch"></td></tr>
-            <tr><td class="tool">list_hierarchy</td>   <td data-i18n="tool_list_h"></td></tr>
-            <tr><td class="tool">server_info</td>      <td data-i18n="tool_server_info"></td></tr>
-          </tbody>
-        </table>
+
+        <details>
+          <summary><code>search</code> — <span data-i18n="tool_search"></span></summary>
+          <div data-i18n-html="tool_search_params"></div>
+        </details>
+        <details>
+          <summary><code>search_entities</code> — <span data-i18n-html="tool_search_entities"></span></summary>
+          <div data-i18n-html="tool_search_entities_params"></div>
+        </details>
+        <details>
+          <summary><code>search_audiovisual</code> — <span data-i18n-html="tool_search_av"></span></summary>
+          <div data-i18n-html="tool_search_av_params"></div>
+        </details>
+        <details>
+          <summary><code>search_edition_hofstetter</code> — <span data-i18n="tool_ed_hofstetter"></span></summary>
+          <div data-i18n-html="tool_edition_params"></div>
+        </details>
+        <details>
+          <summary><code>search_edition_gillabert_randin</code> — <span data-i18n="tool_ed_gr"></span></summary>
+          <div data-i18n-html="tool_edition_params"></div>
+        </details>
+        <details>
+          <summary><code>search_edition_bobbett</code> — <span data-i18n="tool_ed_bobbett"></span></summary>
+          <div data-i18n-html="tool_edition_params"></div>
+        </details>
+        <details>
+          <summary><code>fetch_document</code> — <span data-i18n="tool_fetch"></span></summary>
+          <div data-i18n-html="tool_fetch_params"></div>
+        </details>
+        <details>
+          <summary><code>list_hierarchy</code> — <span data-i18n="tool_list_h"></span></summary>
+          <div data-i18n-html="tool_list_h_params"></div>
+        </details>
+        <details>
+          <summary><code>server_info</code> — <span data-i18n="tool_server_info"></span></summary>
+          <div data-i18n-html="tool_server_info_params"></div>
+        </details>
+
         <p style="margin: 1rem 0 0;" data-i18n-html="tools_note"></p>
       </div>
 
@@ -296,6 +321,48 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_fetch: "Einzelnes Dokument inkl. Volltext anhand seiner ID.",
           tool_list_h: "Hierarchie-Buckets mit Trefferzahlen.",
           tool_server_info: "Versions- und Endpunkt-Information.",
+          tool_search_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String (Phrasen mit "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, Wildcards <code>*</code> und <code>?</code>).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Bevorzugte Sprache für Titel/Highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Kein Filter — fällt auf andere Sprachen zurück.</td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Treffer pro Seite (1–100).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor aus <code>next_cursor</code> der vorigen Antwort.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchie-IDs zur Einschränkung (per OR verknüpft, aus <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Hierarchie-Aggregation mitliefern.</td></tr>'
+            + '</tbody></table>',
+          tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
+            + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> bleibt als Deprecated-Alias für <code>farm</code> erhalten.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = nur Fotos, <code>films</code> = nur Filme; ohne Angabe beide.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>id</code></td><td>str</td><td>erforderlich</td><td>Dokument-ID, z.B. <code>AfA_Personen_001_DB9920</code>. Aus dem <code>id</code>-Feld einer <code>search</code>-Antwort.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Bevorzugte Sprache für Titel/Text.</td></tr>'
+            + '</tbody></table>',
+          tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optionale Volltext-Anfrage.</td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Maximale Anzahl Hierarchie-Einträge (1–10 000).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label-Sprache.</td></tr>'
+            + '</tbody></table>',
+          tool_server_info_params: '<p>Keine Parameter. Liefert Server-Name, Version, Elasticsearch-URL, verfügbare Sprachen, Sortier-Optionen und alle Hierarchie-Konstanten.</p>',
           tools_note: 'Volltext-Suche und Hierarchie-Filter lassen sich beliebig kombinieren — z.B. <code>search(query="Bauernhof", hierarchy=["AfA_FotoFilm"])</code> für alle Bauernhof-Bilder. Mehrere Hierarchie-IDs werden mit OR verknüpft, mit der Volltext-Suche per AND.',
           discovery_h: "Discovery-Endpunkte",
           disc_mcp: "MCP-Server-Manifest",
@@ -334,6 +401,48 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search: "Recherche en plein texte sur tous les fonds, filtre hiérarchique optionnel.",
           tool_search_entities: 'Personnes, institutions ou exploitations (paramètre <code>entity_type</code>).',
           tool_search_av: 'Fonds photographiques et filmiques (limitable à <code>photos</code> / <code>films</code>).',
+          tool_search_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene (expressions entre "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, jokers <code>*</code> et <code>?</code>).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue préférée pour titre/extrait: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Pas un filtre — rétrograde sur les autres langues.</td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Résultats par page (1–100).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur issu de <code>next_cursor</code> de la réponse précédente.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>IDs de hiérarchie pour restreindre (via OR, issus de <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Inclure l\'agrégation hiérarchique.</td></tr>'
+            + '</tbody></table>',
+          tool_search_entities_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
+            + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> reste comme alias obsolète pour <code>farm</code>.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '</tbody></table>',
+          tool_search_av_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = uniquement photos, <code>films</code> = uniquement films; sans précision les deux.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '</tbody></table>',
+          tool_edition_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '</tbody></table>',
+          tool_fetch_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>id</code></td><td>str</td><td>obligatoire</td><td>ID du document, ex. <code>AfA_Personen_001_DB9920</code>. Depuis le champ <code>id</code> d\'une réponse <code>search</code>.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue préférée pour titre/texte.</td></tr>'
+            + '</tbody></table>',
+          tool_list_h_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête plein texte optionnelle.</td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Nombre max. d\'entrées hiérarchiques (1–10 000).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue des libellés.</td></tr>'
+            + '</tbody></table>',
+          tool_server_info_params: '<p>Aucun paramètre. Renvoie le nom du serveur, la version, l\'URL Elasticsearch, les langues disponibles, les options de tri et toutes les constantes de hiérarchie.</p>',
           tool_ed_hofstetter: "Édition Mina Hofstetter.",
           tool_ed_gr: "Édition Augusta Gillabert-Randin.",
           tool_ed_bobbett: "Édition Elizabeth Bobbett.",
@@ -378,6 +487,48 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search: "Ricerca a testo pieno su tutti i fondi, filtro gerarchico opzionale.",
           tool_search_entities: 'Persone, istituzioni o aziende (parametro <code>entity_type</code>).',
           tool_search_av: 'Fondi fotografici e cinematografici (limitabili a <code>photos</code> / <code>films</code>).',
+          tool_search_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene (frasi tra "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, jolly <code>*</code> e <code>?</code>).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua preferita per titolo/estratto: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Non è un filtro — ripiega sulle altre lingue.</td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Risultati per pagina (1–100).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore da <code>next_cursor</code> della risposta precedente.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>ID gerarchici per restringere (via OR, da <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Includere aggregazione gerarchica.</td></tr>'
+            + '</tbody></table>',
+          tool_search_entities_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
+            + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> resta come alias deprecato di <code>farm</code>.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '</tbody></table>',
+          tool_search_av_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = solo foto, <code>films</code> = solo film; senza specifica entrambi.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '</tbody></table>',
+          tool_edition_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '</tbody></table>',
+          tool_fetch_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>id</code></td><td>str</td><td>obbligatorio</td><td>ID documento, es. <code>AfA_Personen_001_DB9920</code>. Dal campo <code>id</code> di una risposta <code>search</code>.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua preferita per titolo/testo.</td></tr>'
+            + '</tbody></table>',
+          tool_list_h_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query full-text opzionale.</td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Numero max. di voci gerarchiche (1–10 000).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua delle etichette.</td></tr>'
+            + '</tbody></table>',
+          tool_server_info_params: '<p>Nessun parametro. Restituisce nome server, versione, URL Elasticsearch, lingue disponibili, opzioni di ordinamento e tutte le costanti di gerarchia.</p>',
           tool_ed_hofstetter: "Edizione Mina Hofstetter.",
           tool_ed_gr: "Edizione Augusta Gillabert-Randin.",
           tool_ed_bobbett: "Edizione Elizabeth Bobbett.",
@@ -422,6 +573,48 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search: "Full-text search across all holdings, optionally with a hierarchy filter.",
           tool_search_entities: 'Persons, institutions or farms (parameter <code>entity_type</code>).',
           tool_search_av: 'Photographic and film holdings (optionally narrowed to <code>photos</code> / <code>films</code>).',
+          tool_search_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string (phrases in "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, wildcards <code>*</code> and <code>?</code>).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Preferred language for title/highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Not a filter — falls back to other languages.</td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Hits per page (1–100).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor from <code>next_cursor</code> of the previous response.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchy IDs to restrict (OR-combined, from <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Include hierarchy aggregation in the response.</td></tr>'
+            + '</tbody></table>',
+          tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
+            + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> remains as a deprecated alias for <code>farm</code>.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = photos only, <code>films</code> = films only; unset = both.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '</tbody></table>',
+          tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>id</code></td><td>str</td><td>required</td><td>Document ID, e.g. <code>AfA_Personen_001_DB9920</code>. From the <code>id</code> field of a <code>search</code> response.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Preferred language for title/text.</td></tr>'
+            + '</tbody></table>',
+          tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optional full-text query.</td></tr>'
+            + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Max. number of hierarchy entries (1–10 000).</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label language.</td></tr>'
+            + '</tbody></table>',
+          tool_server_info_params: '<p>No parameters. Returns server name, version, Elasticsearch URL, available languages, sort options and all hierarchy constants.</p>',
           tool_ed_hofstetter: "Mina Hofstetter Edition.",
           tool_ed_gr: "Augusta Gillabert-Randin Edition.",
           tool_ed_bobbett: "Elizabeth Bobbett Edition.",
