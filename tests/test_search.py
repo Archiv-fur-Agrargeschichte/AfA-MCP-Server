@@ -304,8 +304,15 @@ class TestEntityHierarchies:
     def test_institution(self):
         assert H.ENTITY_HIERARCHIES[EntityType.institution.value] == [H.ORGANIZATIONS]
 
-    def test_company(self):
-        assert H.ENTITY_HIERARCHIES[EntityType.company.value] == [H.COMPANIES]
+    def test_farm(self):
+        # Kanonischer Wert seit v0.2
+        assert H.ENTITY_HIERARCHIES[EntityType.farm.value] == [H.COMPANIES]
+
+    def test_company_alias(self):
+        # Backward-Compat: "company" wird auf farm gemappt und dieser Alias
+        # ist auch als expliziter Key in ENTITY_HIERARCHIES vorhanden.
+        assert EntityType("company") is EntityType.farm
+        assert H.ENTITY_HIERARCHIES["company"] == [H.COMPANIES]
 
     def test_any(self):
         any_h = H.ENTITY_HIERARCHIES[EntityType.any.value]

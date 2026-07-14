@@ -31,11 +31,17 @@ EDITION_BOBBETT = "AfA_Edition_003"
 AUDIOVISUAL_PHOTOS = "AfA_FotoFilm_001"
 AUDIOVISUAL_FILMS = "AfA_FotoFilm_002"
 
+# Alias fuer die Betriebs-Sammlung — "farm" ist der neue kanonische Name.
+FARMS = COMPANIES  # rueckwaerts-kompatibel
+
 # Gruppen für die Entity-Suche.
+# Kanonische Keys: person, institution, farm, any.
+# "company" bleibt als Alias erhalten (siehe EntityType._missing_).
 ENTITY_HIERARCHIES = {
     "person": [PERSONS],
     "institution": [ORGANIZATIONS],
-    "company": [COMPANIES],
+    "farm": [COMPANIES],
+    "company": [COMPANIES],   # deprecated alias
     "any": [PERSONS, ORGANIZATIONS, COMPANIES],
 }
 

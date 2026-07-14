@@ -31,12 +31,26 @@ class SortOrder(str, Enum):
 
 
 class EntityType(str, Enum):
-    """Typ einer Entität im AfA."""
+    """Typ einer Entität im AfA.
+
+    Kanonische Werte: ``person``, ``institution``, ``farm``, ``any``.
+
+    Der frühere Wert ``company`` wird transparent auf ``farm`` gemappt
+    (siehe ``_missing_``), damit Clients, die den alten Namen kennen,
+    weiter funktionieren. Neue Clients sollen ``farm`` verwenden.
+    """
 
     person = "person"
     institution = "institution"
-    company = "company"
+    farm = "farm"
     any = "any"
+
+    @classmethod
+    def _missing_(cls, value):
+        # Backward-Compat-Alias: "company" -> farm.
+        if isinstance(value, str) and value.lower() == "company":
+            return cls.farm
+        return super()._missing_(value)
 
 
 class SearchParams(BaseModel):

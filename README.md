@@ -13,35 +13,74 @@ Live-Endpunkt: <https://mcp.histoirerurale.ch/mcp>
 
 ## Werkzeuge
 
-| Tool | Beschreibung |
-|---|---|
-| `search` | Volltext-Suche, optional mit `hierarchy`-Filter |
-| `search_entities` | Personen / Institutionen / Betriebe (Parameter `entity_type`) |
-| `search_audiovisual` | Foto- und Film-Bestände (optional `photos` / `films`) |
-| `search_edition_hofstetter` | Edition Mina Hofstetter (67 Dokumente) |
-| `search_edition_gillabert_randin` | Edition Augusta Gillabert-Randin (132 Dokumente) |
-| `search_edition_bobbett` | Edition Elizabeth Bobbett (271 Dokumente) |
-| `fetch_document` | Einzelnes Dokument inkl. Volltext anhand der ID |
-| `list_hierarchy` | Hierarchie-Buckets mit Trefferzahlen |
-| `server_info` | Versions- und Endpunkt-Information |
+Aktuelle Trefferzahlen pro Sammlung liefert das Tool `list_hierarchy` — sie sind bewusst nicht statisch in dieser Doku hinterlegt.
 
-## Hierarchie-IDs
+### `search` — generische Volltext-Suche
 
-| ID | Sammlung | Doks |
-|---|---|---|
-| `AfA_Personen` | Personen | 15 824 |
-| `AfA_Organisationen` | Institutionen | 1 206 |
-| `AfA_Betriebe` | Betriebe | 1 |
-| `AfA_Archiv` | Archivbestände | 212 |
-| `AfA_FotoFilm` | Audio-/visuelle Quellen | 3 197 |
-| `AfA_FotoFilm_001` | — Fotos | 1 960 |
-| `AfA_FotoFilm_002` | — Filme | 1 237 |
-| `AfA_Edition_001` | Edition Mina Hofstetter | 67 |
-| `AfA_Edition_002` | Edition Augusta Gillabert-Randin | 132 |
-| `AfA_Edition_003` | Edition Elizabeth Bobbett | 271 |
-| `AfA_Publikationen` | Publikationen | 178 |
-| `AfA_Berichte` | Medienberichte | 72 |
-| `AfA_Weitere` | Weitere Quellen | 36 |
+Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto-/Film-Bestände, Archive, digitale Editionen, Publikationen, Medienberichte). Optional auf beliebige Hierarchie-IDs einschränkbar.
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `query` | str | `*` | Lucene-Query-String. Phrasen mit `"..."`, `AND`/`OR`/`NOT`, Wildcards `*` und `?`. Default-Operator: AND. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache für Titel/Highlight (kein Filter, fällt zurück). |
+| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
+| `size` | int (1–100) | 20 | Treffer pro Seite. |
+| `search_after` | list | — | Cursor aus `next_cursor` der vorigen Antwort. |
+| `hierarchy` | list[str] | — | Hierarchie-IDs zur Einschränkung (OR verknüpft). Aus `list_hierarchy`. |
+| `include_aggregations` | bool | false | Hierarchie-Aggregation mitliefern. |
+
+### `search_entities` — Personen / Institutionen / Betriebe
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `query` | str | `*` | Lucene-Query-String. |
+| `entity_type` | `person`\|`institution`\|`farm`\|`any` | `any` | Typ-Filter. `company` bleibt als Deprecated-Alias für `farm` erhalten. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
+| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
+| `size` | int (1–100) | 20 | Treffer pro Seite. |
+| `search_after` | list | — | Paginierungs-Cursor. |
+
+### `search_audiovisual` — Foto- und Film-Bestände
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `query` | str | `*` | Lucene-Query-String. |
+| `media_type` | `photos`\|`films` | — | `photos` = nur Fotos, `films` = nur Filme, sonst beides. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
+| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
+| `size` | int (1–100) | 20 | Treffer pro Seite. |
+| `search_after` | list | — | Paginierungs-Cursor. |
+
+### `search_edition_hofstetter` · `search_edition_gillabert_randin` · `search_edition_bobbett`
+
+Volltext-Suche jeweils in einer der drei digitalen Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett).
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `query` | str | `*` | Lucene-Query-String. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
+| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
+| `size` | int (1–100) | 20 | Treffer pro Seite. |
+| `search_after` | list | — | Paginierungs-Cursor. |
+
+### `fetch_document` — Einzelnes Dokument inkl. Volltext
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `id` | str | erforderlich | Dokument-ID, z.B. `AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
+
+### `list_hierarchy` — Hierarchie-Buckets mit Trefferzahlen
+
+| Parameter | Typ | Default | Beschreibung |
+|---|---|---|---|
+| `query` | str | `*` | Optionale Volltext-Anfrage. |
+| `size` | int (1–10000) | 200 | Maximale Anzahl Hierarchie-Einträge. |
+| `language` | `de`\|`fr`\|`it`\|`en` | — | Label-Sprache. |
+
+### `server_info` — Versions- und Endpunkt-Information
+
+Keine Parameter. Liefert Server-Name, Version, ES-Upstream-URL, verfügbare Sprachen, Sortier-Optionen und die Konstanten für alle Hierarchie-IDs.
 
 ## Lokal entwickeln
 

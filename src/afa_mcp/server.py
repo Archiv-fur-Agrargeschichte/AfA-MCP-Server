@@ -3,7 +3,7 @@
 Tools (alle über `streamable-http` erreichbar):
 
   * search                           — Volltextsuche (mit optionalem Hierarchie-Filter)
-  * search_entities                  — Personen / Institutionen / Betriebe
+  * search_entities                  — Personen / Institutionen / Betriebe (farm)
   * search_audiovisual               — Foto-/Film-Sammlungen
   * search_edition_hofstetter        — Edition Mina Hofstetter
   * search_edition_gillabert_randin  — Edition Augusta Gillabert-Randin
@@ -272,8 +272,10 @@ _IncludeAggsArg = Annotated[
     bool, Field(description="Hierarchie-Aggregation mitliefern."),
 ]
 _EntityTypeArg = Annotated[
-    Literal["person", "institution", "company", "any"],
-    Field(description="Typ: 'person' | 'institution' | 'company' | 'any'."),
+    # ``company`` bleibt akzeptiert als Alias fuer ``farm`` (siehe
+    # EntityType._missing_), taucht aber nicht mehr in der Description auf.
+    Literal["person", "institution", "farm", "any", "company"],
+    Field(description="Typ: 'person' | 'institution' | 'farm' | 'any'."),
 ]
 _MediaTypeArg = Annotated[
     Optional[str],
@@ -339,9 +341,21 @@ def build_server() -> FastMCP:
             "Volltext-Suche im Archiv für Agrargeschichte (AfA). Durchsucht "
             "Personen, Institutionen, Betriebe, Foto-/Film-Bestände, Archive, "
             "digitale Editionen, Publikationen und Medienberichte. "
-            "Optional auf Hierarchie-IDs einschränkbar (siehe `list_hierarchy`). "
-            "Suchsyntax: Lucene-Query-String (Phrasen mit \"...\", AND/OR/NOT, "
-            "Wildcards * und ?). Default-Operator: AND."
+            "\n\nParameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String. Phrasen mit "
+            "\"...\", Boolesche Operatoren AND/OR/NOT, Wildcards `*` und `?`. "
+            "Default-Operator: AND.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional) — bevorzugte Sprache "
+            "für Titel/Highlight. Kein Filter — fällt auf andere Sprachen "
+            "zurück, wenn nicht vorhanden.\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20) — Treffer pro Seite.\n"
+            "• `search_after` (list, optional) — Cursor aus `next_cursor` der "
+            "vorigen Antwort für Paginierung.\n"
+            "• `hierarchy` (list[str], optional) — Hierarchie-IDs zur "
+            "Eingrenzung (aus `list_hierarchy`); mehrere per OR verknüpft.\n"
+            "• `include_aggregations` (bool, Default false) — "
+            "Hierarchie-Aggregation mitliefern."
         ),
     )
     async def search(
@@ -367,12 +381,19 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Entitäten suchen (Personen, Institutionen, Betriebe)",
         description=(
-            "Sucht in den AfA-Entitäten — Personen, Institutionen oder Betrieben. "
-            "Über `entity_type` wird die Auswahl gesteuert: 'person' (15'824 "
-            "Personen), 'institution' (1'206 Organisationen), 'company' "
-            "(1 Betrieb) oder 'any' für alle drei zusammen. Intern wird auf "
-            "die entsprechenden Hierarchie-IDs eingeschränkt: AfA_Personen, "
-            "AfA_Organisationen, AfA_Betriebe."
+            "Sucht in den AfA-Entitäten — Personen, Institutionen und Betriebe. "
+            "Intern werden die Hierarchie-IDs `AfA_Personen`, "
+            "`AfA_Organisationen`, `AfA_Betriebe` eingeschränkt.\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String.\n"
+            "• `entity_type` (`person`|`institution`|`farm`|`any`, Default "
+            "`any`) — Typ-Filter. `company` bleibt als Deprecated-Alias für "
+            "`farm` erhalten.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional) — bevorzugte Sprache "
+            "für Titel/Highlight.\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20).\n"
+            "• `search_after` (list, optional) — Paginierungs-Cursor."
         ),
     )
     async def search_entities(
@@ -384,10 +405,12 @@ def build_server() -> FastMCP:
         size: _SizeArg = 20,
         search_after: _CursorArg = None,
     ) -> SearchResponse:
+        # Alt-Alias "company" transparent auf "farm" mappen.
+        key = "farm" if entity_type == "company" else entity_type
         params = SearchParams(
             query=query, language=language, sort=sort, size=size,
             search_after=search_after,
-            hierarchy=H.ENTITY_HIERARCHIES[entity_type],
+            hierarchy=H.ENTITY_HIERARCHIES[key],
         )
         return await _client(ctx).search(params)
 
@@ -397,9 +420,17 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Audio-visuelle Quellen durchsuchen",
         description=(
-            "Sucht in den audio-visuellen Beständen des AfA (Fotos und Filme; "
-            "insgesamt 3'197 Dokumente). Optional auf Foto- oder Film-Bestand "
-            "einschränkbar."
+            "Sucht in den audio-visuellen Beständen des AfA (Fotos und Filme). "
+            "Optional auf Foto- oder Film-Bestand einschränkbar.\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String.\n"
+            "• `media_type` (`photos`|`films`, optional) — `photos` = nur "
+            "`AfA_FotoFilm_001`, `films` = nur `AfA_FotoFilm_002`; ohne "
+            "Angabe werden beide durchsucht.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20).\n"
+            "• `search_after` (list, optional) — Paginierungs-Cursor."
         ),
     )
     async def search_audiovisual(
@@ -429,9 +460,15 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Edition Mina Hofstetter",
         description=(
-            "Volltext-Suche in der digitalen Edition Mina Hofstetter (67 Dokumente). "
-            "Briefe, Aufsätze und Schriften der Pionierin des biologisch-dynamischen "
-            "Landbaus in der Schweiz."
+            "Volltext-Suche in der digitalen Edition Mina Hofstetter — "
+            "Briefe, Aufsätze und Schriften der Pionierin des biologisch-"
+            "dynamischen Landbaus in der Schweiz.\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20).\n"
+            "• `search_after` (list, optional) — Paginierungs-Cursor."
         ),
     )
     async def search_edition_hofstetter(
@@ -451,9 +488,15 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Edition Augusta Gillabert-Randin",
         description=(
-            "Volltext-Suche in der digitalen Edition Augusta Gillabert-Randin "
-            "(132 Dokumente). Schriften und Korrespondenz der Schweizer "
-            "Landfrauenaktivistin (1869–1940)."
+            "Volltext-Suche in der digitalen Edition Augusta Gillabert-Randin — "
+            "Schriften und Korrespondenz der Schweizer Landfrauen-Aktivistin "
+            "(1869–1940).\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20).\n"
+            "• `search_after` (list, optional) — Paginierungs-Cursor."
         ),
     )
     async def search_edition_gillabert_randin(
@@ -473,9 +516,15 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Edition Elizabeth Bobbett",
         description=(
-            "Volltext-Suche in der digitalen Edition Elizabeth Bobbett "
-            "(271 Dokumente). Korrespondenz und Schriften der irischen "
-            "Frauenrechtlerin und Landfrau."
+            "Volltext-Suche in der digitalen Edition Elizabeth Bobbett — "
+            "Korrespondenz und Schriften der irischen Frauenrechtlerin und "
+            "Landfrau.\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — Lucene-Query-String.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
+            "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
+            "• `size` (int 1–100, Default 20).\n"
+            "• `search_after` (list, optional) — Paginierungs-Cursor."
         ),
     )
     async def search_edition_bobbett(
@@ -500,7 +549,14 @@ def build_server() -> FastMCP:
         description=(
             "Holt ein einzelnes AfA-Dokument anhand seiner ID inkl. vollem "
             "Anhang-Text (falls vorhanden). Liefert Titel, Abstract, Meta-"
-            "Felder, Hierarchie-Pfad und Volltext zurück."
+            "Felder, Hierarchie-Pfad, Volltext und Links (Suchportal + Live).\n\n"
+            "Parameter:\n"
+            "• `id` (str, erforderlich) — Dokument-ID, z.B. "
+            "`AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. "
+            "IDs stammen aus dem `id`-Feld einer `search`-Antwort.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional) — bevorzugte Sprache "
+            "für Titel/Text; ohne Angabe wird das erste vorhandene "
+            "Sprachfeld zurückgegeben."
         ),
     )
     async def fetch_document(
@@ -517,9 +573,15 @@ def build_server() -> FastMCP:
         title="Hierarchie-Buckets",
         description=(
             "Liefert die verfügbaren Hierarchie-IDs mit Trefferzahlen, "
-            "optional eingegrenzt durch eine Volltext-Anfrage. Die zurück-"
-            "gegebenen `id`-Werte können im `hierarchy`-Parameter der "
-            "Such-Tools verwendet werden."
+            "optional eingegrenzt durch eine Volltext-Anfrage. Die "
+            "zurückgegebenen `id`-Werte können im `hierarchy`-Parameter "
+            "der Such-Tools verwendet werden.\n\n"
+            "Parameter:\n"
+            "• `query` (str, Default `*`) — optionale Volltext-Anfrage; ohne "
+            "Angabe alle Hierarchie-Buckets des Gesamtbestands.\n"
+            "• `size` (int 1–10000, Default 200) — maximale Anzahl "
+            "Hierarchie-Einträge.\n"
+            "• `language` (`de`|`fr`|`it`|`en`, optional) — Label-Sprache."
         ),
     )
     async def list_hierarchy(
@@ -535,7 +597,12 @@ def build_server() -> FastMCP:
     # ------------------------------------------------------------------
     @mcp.tool(
         title="Server-Info",
-        description="Versions-/Endpoint-Information des AfA-MCP-Servers.",
+        description=(
+            "Versions- und Endpunkt-Informationen des AfA-MCP-Servers. "
+            "Liefert Server-Name, Version, ES-Upstream-URL, verfügbare "
+            "Sprachen, Sortier-Optionen und die Konstanten für alle "
+            "Hierarchie-IDs. Keine Parameter."
+        ),
     )
     async def server_info(ctx: Context) -> dict[str, Any]:
         return {

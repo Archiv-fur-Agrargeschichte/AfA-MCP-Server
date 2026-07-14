@@ -246,30 +246,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
       </div>
 
       <div class="panel">
-        <h2 data-i18n="data_h"></h2>
-        <table>
-          <thead><tr>
-            <th data-i18n="th_collection"></th>
-            <th data-i18n="th_hierarchy_id"></th>
-            <th class="count" data-i18n="th_documents"></th>
-          </tr></thead>
-          <tbody>
-            <tr><td data-i18n="coll_persons"></td>       <td class="tool">AfA_Personen</td>      <td class="count">15 824</td></tr>
-            <tr><td data-i18n="coll_inst"></td>          <td class="tool">AfA_Organisationen</td><td class="count">1 206</td></tr>
-            <tr><td data-i18n="coll_farms"></td>         <td class="tool">AfA_Betriebe</td>      <td class="count">1</td></tr>
-            <tr><td data-i18n="coll_arch"></td>          <td class="tool">AfA_Archiv</td>        <td class="count">212</td></tr>
-            <tr><td data-i18n="coll_av"></td>            <td class="tool">AfA_FotoFilm</td>      <td class="count">3 197</td></tr>
-            <tr><td data-i18n="coll_ed_hofstetter"></td> <td class="tool">AfA_Edition_001</td>   <td class="count">67</td></tr>
-            <tr><td data-i18n="coll_ed_gr"></td>         <td class="tool">AfA_Edition_002</td>   <td class="count">132</td></tr>
-            <tr><td data-i18n="coll_ed_bobbett"></td>    <td class="tool">AfA_Edition_003</td>   <td class="count">271</td></tr>
-            <tr><td data-i18n="coll_pub"></td>           <td class="tool">AfA_Publikationen</td> <td class="count">178</td></tr>
-            <tr><td data-i18n="coll_reports"></td>       <td class="tool">AfA_Berichte</td>      <td class="count">72</td></tr>
-            <tr><td data-i18n="coll_other"></td>         <td class="tool">AfA_Weitere</td>       <td class="count">36</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="panel">
         <h2 data-i18n="discovery_h"></h2>
         <ul class="discovery">
           <li><code><a href="/.well-known/mcp.json">/.well-known/mcp.json</a></code> — <span data-i18n="disc_mcp"></span></li>
@@ -321,21 +297,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_list_h: "Hierarchie-Buckets mit Trefferzahlen.",
           tool_server_info: "Versions- und Endpunkt-Information.",
           tools_note: 'Volltext-Suche und Hierarchie-Filter lassen sich beliebig kombinieren — z.B. <code>search(query="Bauernhof", hierarchy=["AfA_FotoFilm"])</code> für alle Bauernhof-Bilder. Mehrere Hierarchie-IDs werden mit OR verknüpft, mit der Volltext-Suche per AND.',
-          data_h: "Datenbestand",
-          th_collection: "Sammlung",
-          th_hierarchy_id: "Hierarchie-ID",
-          th_documents: "Dokumente",
-          coll_persons: "Personen",
-          coll_inst: "Institutionen",
-          coll_farms: "Betriebe",
-          coll_arch: "Archivbestände",
-          coll_av: "Audio-/visuelle Quellen",
-          coll_ed_hofstetter: "Edition Mina Hofstetter",
-          coll_ed_gr: "Edition Augusta Gillabert-Randin",
-          coll_ed_bobbett: "Edition Elizabeth Bobbett",
-          coll_pub: "Publikationen",
-          coll_reports: "Medienberichte",
-          coll_other: "Weitere Quellen",
           discovery_h: "Discovery-Endpunkte",
           disc_mcp: "MCP-Server-Manifest",
           disc_card: "A2A Agent Card",
@@ -380,21 +341,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_list_h: "Buckets hiérarchiques avec nombre de résultats.",
           tool_server_info: "Informations sur la version et le point d'accès.",
           tools_note: 'La recherche plein texte et les filtres hiérarchiques se combinent librement — p. ex. <code>search(query="ferme", hierarchy=["AfA_FotoFilm"])</code> pour toutes les images de ferme. Plusieurs identifiants hiérarchiques sont reliés par OR, et par AND avec la recherche plein texte.',
-          data_h: "Fonds",
-          th_collection: "Collection",
-          th_hierarchy_id: "ID hiérarchique",
-          th_documents: "Documents",
-          coll_persons: "Personnes",
-          coll_inst: "Institutions",
-          coll_farms: "Exploitations",
-          coll_arch: "Fonds d'archives",
-          coll_av: "Sources audiovisuelles",
-          coll_ed_hofstetter: "Édition Mina Hofstetter",
-          coll_ed_gr: "Édition Augusta Gillabert-Randin",
-          coll_ed_bobbett: "Édition Elizabeth Bobbett",
-          coll_pub: "Publications",
-          coll_reports: "Articles de presse",
-          coll_other: "Autres sources",
           discovery_h: "Points de découverte",
           disc_mcp: "Manifeste du serveur MCP",
           disc_card: "A2A Agent Card",
@@ -439,21 +385,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_list_h: "Bucket gerarchici con numero di risultati.",
           tool_server_info: "Informazioni su versione ed endpoint.",
           tools_note: 'Ricerca a testo pieno e filtri gerarchici sono liberamente combinabili — p. es. <code>search(query="fattoria", hierarchy=["AfA_FotoFilm"])</code> per tutte le immagini di fattoria. Più ID gerarchici sono uniti con OR, con la ricerca testuale con AND.',
-          data_h: "Fondi",
-          th_collection: "Collezione",
-          th_hierarchy_id: "ID gerarchico",
-          th_documents: "Documenti",
-          coll_persons: "Persone",
-          coll_inst: "Istituzioni",
-          coll_farms: "Aziende",
-          coll_arch: "Fondi d'archivio",
-          coll_av: "Fonti audiovisive",
-          coll_ed_hofstetter: "Edizione Mina Hofstetter",
-          coll_ed_gr: "Edizione Augusta Gillabert-Randin",
-          coll_ed_bobbett: "Edizione Elizabeth Bobbett",
-          coll_pub: "Pubblicazioni",
-          coll_reports: "Articoli di stampa",
-          coll_other: "Altre fonti",
           discovery_h: "Endpoint di discovery",
           disc_mcp: "Manifest del server MCP",
           disc_card: "A2A Agent Card",
@@ -498,21 +429,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_list_h: "Hierarchy buckets with document counts.",
           tool_server_info: "Version and endpoint information.",
           tools_note: 'Full-text search and hierarchy filters can be combined freely — e.g. <code>search(query="farmhouse", hierarchy=["AfA_FotoFilm"])</code> for all farmhouse pictures. Multiple hierarchy IDs are combined with OR, and with the full-text query via AND.',
-          data_h: "Holdings",
-          th_collection: "Collection",
-          th_hierarchy_id: "Hierarchy ID",
-          th_documents: "Documents",
-          coll_persons: "Persons",
-          coll_inst: "Institutions",
-          coll_farms: "Farms",
-          coll_arch: "Archive holdings",
-          coll_av: "Audiovisual sources",
-          coll_ed_hofstetter: "Mina Hofstetter Edition",
-          coll_ed_gr: "Augusta Gillabert-Randin Edition",
-          coll_ed_bobbett: "Elizabeth Bobbett Edition",
-          coll_pub: "Publications",
-          coll_reports: "Media reports",
-          coll_other: "Other sources",
           discovery_h: "Discovery endpoints",
           disc_mcp: "MCP server manifest",
           disc_card: "A2A agent card",
