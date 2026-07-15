@@ -355,7 +355,18 @@ def build_server() -> FastMCP:
             "• `hierarchy` (list[str], optional) — Hierarchie-IDs zur "
             "Eingrenzung (aus `list_hierarchy`); mehrere per OR verknüpft.\n"
             "• `include_aggregations` (bool, Default false) — "
-            "Hierarchie-Aggregation mitliefern."
+            "Hierarchie-Aggregation mitliefern.\n\n"
+            "Rückgabe (SearchResponse):\n"
+            "• `total` (int) — Gesamtzahl der Treffer (auch über `size` hinaus).\n"
+            "• `hits` (list[SearchHit]) — Trefferliste (max. `size` Einträge). "
+            "Felder pro Hit: `id`, `title`, `abstract`, `text` (Highlight-"
+            "Snippet), `meta`, `hierarchy` (Pfad), `collection` (Label), "
+            "`date` (ISO, optional), `is_pdf`, `document_url` (Suchportal-"
+            "Deep-Link), `original_url` (Quell-URL), `sort` (interner Cursor).\n"
+            "• `next_cursor` (list, optional) — an `search_after` des "
+            "nächsten Requests weitergeben; null = keine weiteren Treffer.\n"
+            "• `aggregations` (dict, optional) — Hierarchie-Buckets nur "
+            "wenn `include_aggregations=true`."
         ),
     )
     async def search(
@@ -393,7 +404,9 @@ def build_server() -> FastMCP:
             "für Titel/Highlight.\n"
             "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
             "• `size` (int 1–100, Default 20).\n"
-            "• `search_after` (list, optional) — Paginierungs-Cursor."
+            "• `search_after` (list, optional) — Paginierungs-Cursor.\n\n"
+            "Rückgabe: `SearchResponse` (siehe `search`) mit `hits` als "
+            "list[SearchHit]."
         ),
     )
     async def search_entities(
@@ -430,7 +443,11 @@ def build_server() -> FastMCP:
             "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
             "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
             "• `size` (int 1–100, Default 20).\n"
-            "• `search_after` (list, optional) — Paginierungs-Cursor."
+            "• `search_after` (list, optional) — Paginierungs-Cursor.\n\n"
+            "Rückgabe: `SearchResponse` (siehe `search`) mit `hits` als "
+            "list[SearchHit]. Bei Foto-/Filmtreffern enthält `is_pdf` "
+            "typischerweise false und `document_url` verweist auf die "
+            "HTML-Katalog-Seite im Suchportal."
         ),
     )
     async def search_audiovisual(
@@ -468,7 +485,9 @@ def build_server() -> FastMCP:
             "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
             "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
             "• `size` (int 1–100, Default 20).\n"
-            "• `search_after` (list, optional) — Paginierungs-Cursor."
+            "• `search_after` (list, optional) — Paginierungs-Cursor.\n\n"
+            "Rückgabe: `SearchResponse` (siehe `search`) — Hits sind auf "
+            "die Edition eingeschränkt."
         ),
     )
     async def search_edition_hofstetter(
@@ -496,7 +515,9 @@ def build_server() -> FastMCP:
             "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
             "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
             "• `size` (int 1–100, Default 20).\n"
-            "• `search_after` (list, optional) — Paginierungs-Cursor."
+            "• `search_after` (list, optional) — Paginierungs-Cursor.\n\n"
+            "Rückgabe: `SearchResponse` (siehe `search`) — Hits sind auf "
+            "die Edition eingeschränkt."
         ),
     )
     async def search_edition_gillabert_randin(
@@ -524,7 +545,9 @@ def build_server() -> FastMCP:
             "• `language` (`de`|`fr`|`it`|`en`, optional).\n"
             "• `sort` (`relevance`|`date`|`id`, Default `relevance`).\n"
             "• `size` (int 1–100, Default 20).\n"
-            "• `search_after` (list, optional) — Paginierungs-Cursor."
+            "• `search_after` (list, optional) — Paginierungs-Cursor.\n\n"
+            "Rückgabe: `SearchResponse` (siehe `search`) — Hits sind auf "
+            "die Edition eingeschränkt."
         ),
     )
     async def search_edition_bobbett(
@@ -547,16 +570,25 @@ def build_server() -> FastMCP:
     @mcp.tool(
         title="Dokument abrufen",
         description=(
-            "Holt ein einzelnes AfA-Dokument anhand seiner ID inkl. vollem "
-            "Anhang-Text (falls vorhanden). Liefert Titel, Abstract, Meta-"
-            "Felder, Hierarchie-Pfad, Volltext und Links (Suchportal + Live).\n\n"
+            "Holt die Metadaten eines einzelnen AfA-Dokuments anhand seiner "
+            "ID. Der Volltext wird **nicht** mitgeliefert — er ist über die "
+            "beiden Links im Response abrufbar (HTML- oder PDF-Datei).\n\n"
             "Parameter:\n"
             "• `id` (str, erforderlich) — Dokument-ID, z.B. "
             "`AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. "
             "IDs stammen aus dem `id`-Feld einer `search`-Antwort.\n"
             "• `language` (`de`|`fr`|`it`|`en`, optional) — bevorzugte Sprache "
-            "für Titel/Text; ohne Angabe wird das erste vorhandene "
-            "Sprachfeld zurückgegeben."
+            "für Titel/Abstract/Meta.\n\n"
+            "Rückgabe: einzelner `SearchHit`. Zurückgegeben werden:\n"
+            "• Metadaten: `id`, `title`, `abstract`, `meta`, `hierarchy` "
+            "(Sammlungs-Pfad), `collection` (Label), `date` (ISO, optional), "
+            "`is_pdf`.\n"
+            "• `document_url` — Link zur PDF- bzw. HTML-Datei im "
+            "**Suchportal** (`recherche2.histoirerurale.ch`).\n"
+            "• `original_url` — **Deep-Link ins Quellportal** (die Website, "
+            "von der der Scraper das Dokument geholt hat; z.B. "
+            "`histoirerurale.ch`, kann je nach Bestand variieren).\n\n"
+            "Null, wenn die ID nicht gefunden wird."
         ),
     )
     async def fetch_document(
@@ -581,7 +613,12 @@ def build_server() -> FastMCP:
             "Angabe alle Hierarchie-Buckets des Gesamtbestands.\n"
             "• `size` (int 1–10000, Default 200) — maximale Anzahl "
             "Hierarchie-Einträge.\n"
-            "• `language` (`de`|`fr`|`it`|`en`, optional) — Label-Sprache."
+            "• `language` (`de`|`fr`|`it`|`en`, optional) — Label-Sprache.\n\n"
+            "Rückgabe (HierarchyResponse):\n"
+            "• `entries` (list[HierarchyEntry]) — pro Eintrag: `id` "
+            "(Hierarchie-ID zur Verwendung im `hierarchy`-Parameter der "
+            "Such-Tools), `count` (Trefferanzahl), `label` (menschenlesbare "
+            "Bezeichnung in der angefragten Sprache, sofern verfügbar)."
         ),
     )
     async def list_hierarchy(
@@ -599,9 +636,17 @@ def build_server() -> FastMCP:
         title="Server-Info",
         description=(
             "Versions- und Endpunkt-Informationen des AfA-MCP-Servers. "
-            "Liefert Server-Name, Version, ES-Upstream-URL, verfügbare "
-            "Sprachen, Sortier-Optionen und die Konstanten für alle "
-            "Hierarchie-IDs. Keine Parameter."
+            "Keine Parameter.\n\n"
+            "Rückgabe (dict):\n"
+            "• `name` (str) — Server-Name (`afa-mcp`).\n"
+            "• `version` (str) — Semver.\n"
+            "• `elasticsearch_url` (str) — Upstream-URL des ES-Backends.\n"
+            "• `languages` (list[str]) — Codes der akzeptierten Sprachen: "
+            "`de`, `fr`, `it`, `en`.\n"
+            "• `sort_orders` (list[str]) — akzeptierte Werte für `sort`.\n"
+            "• `hierarchy_constants` (dict) — sprechende Konstanten (z. B. "
+            "`PERSONS`, `EDITION_BOBBETT`) → Hierarchie-ID-Strings; nützlich, "
+            "um in Code nicht mit Magic-Strings zu arbeiten."
         ),
     )
     async def server_info(ctx: Context) -> dict[str, Any]:

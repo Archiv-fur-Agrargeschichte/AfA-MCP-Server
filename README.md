@@ -29,6 +29,17 @@ Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto-/Film-Bes
 | `hierarchy` | list[str] | — | Hierarchie-IDs zur Einschränkung (OR verknüpft). Aus `list_hierarchy`. |
 | `include_aggregations` | bool | false | Hierarchie-Aggregation mitliefern. |
 
+**Rückgabe (`SearchResponse`):**
+
+| Feld | Typ | Beschreibung |
+|---|---|---|
+| `total` | int | Gesamtzahl der Treffer (auch über `size` hinaus). |
+| `hits` | list[SearchHit] | Trefferliste (max. `size` Einträge). |
+| `next_cursor` | list \| null | An `search_after` des nächsten Requests weitergeben; `null` = keine weiteren Treffer. |
+| `aggregations` | dict \| null | Hierarchie-Buckets, nur wenn `include_aggregations=true`. |
+
+**`SearchHit`-Felder:** `id`, `title`, `abstract`, `text` (Highlight-Snippet), `meta`, `hierarchy` (Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`, `document_url` (Suchportal-Deep-Link), `original_url` (Quell-URL), `sort` (interner Cursor).
+
 ### `search_entities` — Personen / Institutionen / Betriebe
 
 | Parameter | Typ | Default | Beschreibung |
@@ -40,6 +51,8 @@ Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto-/Film-Bes
 | `size` | int (1–100) | 20 | Treffer pro Seite. |
 | `search_after` | list | — | Paginierungs-Cursor. |
 
+**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf Personen/Institutionen/Betriebe eingeschränkt.
+
 ### `search_audiovisual` — Foto- und Film-Bestände
 
 | Parameter | Typ | Default | Beschreibung |
@@ -50,6 +63,8 @@ Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto-/Film-Bes
 | `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
 | `size` | int (1–100) | 20 | Treffer pro Seite. |
 | `search_after` | list | — | Paginierungs-Cursor. |
+
+**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf Foto-/Filmbestände eingeschränkt.
 
 ### `search_edition_hofstetter` · `search_edition_gillabert_randin` · `search_edition_bobbett`
 
@@ -63,12 +78,22 @@ Volltext-Suche jeweils in einer der drei digitalen Editionen (Mina Hofstetter, A
 | `size` | int (1–100) | 20 | Treffer pro Seite. |
 | `search_after` | list | — | Paginierungs-Cursor. |
 
+**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf die jeweilige Edition eingeschränkt.
+
 ### `fetch_document` — Einzelnes Dokument inkl. Volltext
 
 | Parameter | Typ | Default | Beschreibung |
 |---|---|---|---|
 | `id` | str | erforderlich | Dokument-ID, z.B. `AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. |
 | `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
+
+**Rückgabe:** einzelner `SearchHit` mit den Metadaten des Dokuments **ohne Volltext**. Wichtige Felder:
+
+- Metadaten: `id`, `title`, `abstract`, `meta`, `hierarchy` (Sammlungs-Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`.
+- `document_url` — Link zur PDF- oder HTML-Datei im **Suchportal** (`recherche2.histoirerurale.ch`).
+- `original_url` — **Deep-Link ins Quellportal**, also die Website, von der der Scraper das Dokument geholt hat (z.B. `histoirerurale.ch` — kann je nach Bestand variieren).
+
+`null`, wenn die ID nicht gefunden wird.
 
 ### `list_hierarchy` — Hierarchie-Buckets mit Trefferzahlen
 
@@ -78,9 +103,28 @@ Volltext-Suche jeweils in einer der drei digitalen Editionen (Mina Hofstetter, A
 | `size` | int (1–10000) | 200 | Maximale Anzahl Hierarchie-Einträge. |
 | `language` | `de`\|`fr`\|`it`\|`en` | — | Label-Sprache. |
 
+**Rückgabe (`HierarchyResponse`):**
+
+| Feld | Typ | Beschreibung |
+|---|---|---|
+| `entries` | list[HierarchyEntry] | Hierarchie-Einträge. |
+
+**`HierarchyEntry`-Felder:** `id` (Hierarchie-ID zur Verwendung im `hierarchy`-Parameter der Such-Tools), `count` (Trefferanzahl), `label` (menschenlesbare Bezeichnung in der angefragten Sprache, sofern verfügbar).
+
 ### `server_info` — Versions- und Endpunkt-Information
 
-Keine Parameter. Liefert Server-Name, Version, ES-Upstream-URL, verfügbare Sprachen, Sortier-Optionen und die Konstanten für alle Hierarchie-IDs.
+Keine Parameter.
+
+**Rückgabe (dict):**
+
+| Feld | Typ | Beschreibung |
+|---|---|---|
+| `name` | str | Server-Name (`afa-mcp`). |
+| `version` | str | Semver. |
+| `elasticsearch_url` | str | Upstream-URL des ES-Backends. |
+| `languages` | list[str] | `de`, `fr`, `it`, `en`. |
+| `sort_orders` | list[str] | Akzeptierte Werte für `sort`. |
+| `hierarchy_constants` | dict | Sprechende Konstanten (z.B. `PERSONS`, `EDITION_BOBBETT`) → Hierarchie-ID-Strings. |
 
 ## Lokal entwickeln
 

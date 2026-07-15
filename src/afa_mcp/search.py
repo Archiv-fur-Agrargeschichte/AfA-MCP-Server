@@ -315,12 +315,15 @@ class AfaClient:
     async def get_document(
         self, doc_id: str, lang: Optional[Language] = None
     ) -> Optional[SearchHit]:
+        # include_content=False: kein Volltext im Response — Konsumenten
+        # sollen die HTML- bzw. PDF-Datei via `document_url` (Deep-Link
+        # ins Suchportal) oder `original_url` (Live-Website) abrufen.
         body: Dict[str, Any] = {
             "size": 1,
             "query": {"ids": {"values": [doc_id]}},
         }
         resp = await self._post(body)
-        hits, _total = _parse_hits(resp, lang, include_content=True)
+        hits, _total = _parse_hits(resp, lang, include_content=False)
         return hits[0] if hits else None
 
     async def list_hierarchy(

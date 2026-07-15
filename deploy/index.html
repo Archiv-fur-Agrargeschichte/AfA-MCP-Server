@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>recherche2.histoirerurale.ch — MCP Server</title>
+    <title>AGHIST — MCP Server</title>
     <meta name="description" content="MCP server for recherche2.histoirerurale.ch — full-text search over persons, institutions, audiovisual sources, archive holdings, digital editions and publications of the Archives of Rural History." />
     <style>
       :root {
@@ -12,34 +12,83 @@
         --panel: #fdfaf3;
         --ink: #1d1b16;
         --muted: #5d564a;
-        --accent: #4a6b3a;
-        --accent-2: #8a9a5b;
+        --accent: #A00000;
+        --accent-2: #870000;
         --line: #ddd2bb;
+      }
+      @font-face {
+        font-family: 'Merriweather';
+        font-style: normal;
+        font-weight: 400;
+        src: url('fonts/merriweather-v28-latin-regular.eot');
+        src: local(''),
+             url('fonts/merriweather-v28-latin-regular.eot?#iefix') format('embedded-opentype'),
+             url('fonts/merriweather-v28-latin-regular.woff2') format('woff2'),
+             url('fonts/merriweather-v28-latin-regular.woff') format('woff'),
+             url('fonts/merriweather-v28-latin-regular.ttf') format('truetype'),
+             url('fonts/merriweather-v28-latin-regular.svg#Merriweather') format('svg');
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        background:
-          radial-gradient(circle at top left, rgba(138, 154, 91, 0.16), transparent 28rem),
-          linear-gradient(180deg, #f6f1e7 0%, var(--bg) 100%);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #ffffff;
+        /* Dezentes Netzwerk-/Punkte-Muster im AGHIST-Look. */
+        background-image:
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'><g fill='none' stroke='%23b8bcc4' stroke-width='0.6' opacity='0.35'><circle cx='40' cy='60' r='2.2' fill='%23b8bcc4'/><circle cx='170' cy='90' r='2.2' fill='%23b8bcc4'/><circle cx='260' cy='40' r='2.2' fill='%23b8bcc4'/><circle cx='90' cy='170' r='2.2' fill='%23b8bcc4'/><circle cx='220' cy='210' r='2.2' fill='%23b8bcc4'/><circle cx='60' cy='260' r='2.2' fill='%23b8bcc4'/><circle cx='290' cy='280' r='2.2' fill='%23b8bcc4'/><circle cx='150' cy='300' r='2.2' fill='%23b8bcc4'/><line x1='40' y1='60' x2='170' y2='90'/><line x1='170' y1='90' x2='260' y2='40'/><line x1='170' y1='90' x2='90' y2='170'/><line x1='90' y1='170' x2='220' y2='210'/><line x1='90' y1='170' x2='60' y2='260'/><line x1='220' y1='210' x2='290' y2='280'/><line x1='60' y1='260' x2='150' y2='300'/><line x1='150' y1='300' x2='220' y2='210'/></g></svg>");
         color: var(--ink);
       }
-      main { max-width: 56rem; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
-      .lang-switch {
-        display: flex; gap: 0.4rem; justify-content: flex-end;
-        margin-bottom: 1rem;
+      /* AGHIST-Header: durchgehender roter Balken mit Logo links, Sprachschalter rechts. */
+      .site-header {
+        background: var(--accent);
+        color: #ffffff;
+        padding: 0.7rem 1.5rem;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem;
+        box-shadow: 0 2px 0 var(--accent-2);
       }
+      .site-header .brand {
+        display: flex; align-items: center; gap: 0.7rem;
+        font-family: 'Merriweather', Times, serif;
+        font-size: 1.5rem; font-weight: 700; letter-spacing: 0.02em;
+        color: #ffffff; text-decoration: none;
+      }
+      .site-header .brand-mark {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 2.2rem; height: 2.2rem;
+        background: #ffffff; color: var(--accent);
+        border-radius: 50%;
+        font-size: 0.55rem; font-weight: 700; line-height: 1;
+        text-align: center; letter-spacing: 0.02em;
+      }
+      .site-header .brand-mark span { display: block; }
+      .lang-switch { display: flex; gap: 0.35rem; }
       .lang-switch button {
-        font-family: inherit; font-size: 0.85rem;
-        padding: 0.35rem 0.7rem;
-        background: transparent; color: var(--muted);
-        border: 1px solid var(--line); border-radius: 6px;
-        cursor: pointer; transition: all 0.15s;
+        font-family: inherit; font-size: 0.78rem; font-weight: 600;
+        padding: 0.3rem 0.6rem;
+        background: transparent; color: #ffffff;
+        border: 1px solid rgba(255,255,255,0.55);
+        border-radius: 4px; cursor: pointer;
+        transition: all 0.15s; text-transform: uppercase;
       }
-      .lang-switch button:hover { color: var(--ink); border-color: var(--accent-2); }
+      .lang-switch button:hover {
+        background: rgba(255,255,255,0.12);
+        border-color: #ffffff;
+      }
       .lang-switch button.active {
-        background: var(--accent); color: #fdfaf3; border-color: var(--accent);
+        background: #ffffff; color: var(--accent); border-color: #ffffff;
+      }
+      main { max-width: 56rem; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
+      .site-footer {
+        border-top: 1px solid var(--line);
+        background: rgba(0,0,0,0.02);
+        padding: 0.9rem 1.5rem;
+        display: flex; align-items: center; justify-content: space-between;
+        font-size: 0.85rem; color: var(--muted); gap: 1rem;
+      }
+      .site-footer .brand {
+        color: var(--accent); font-family: 'Merriweather', Times, serif;
+        font-weight: 700; letter-spacing: 0.02em; text-decoration: none;
       }
       .eyebrow {
         letter-spacing: 0.08em; text-transform: uppercase;
@@ -55,6 +104,7 @@
       }
       h2 { font-size: 1.45rem; margin: 0 0 1rem; color: var(--ink); }
       h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; color: var(--ink); }
+      h1, h2, h3 { font-family: 'Merriweather', Times, serif; }
       .endpoint {
         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
         font-size: 0.96rem; background: #2b261d; color: #f8f1de;
@@ -105,16 +155,23 @@
     </style>
   </head>
   <body>
-    <main>
+    <header class="site-header" role="banner">
+      <a class="brand" href="/" aria-label="AGHIST">
+        <span class="brand-mark" aria-hidden="true">
+          <span>AfA<br>AHR<br>ARH</span>
+        </span>
+        <span>AGHIST</span>
+      </a>
       <div class="lang-switch" role="group" aria-label="Language">
-        <button data-lang="de">Deutsch</button>
-        <button data-lang="fr">Français</button>
-        <button data-lang="it">Italiano</button>
-        <button data-lang="en">English</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="fr">FR</button>
+        <button data-lang="it">IT</button>
+        <button data-lang="en">EN</button>
       </div>
-
+    </header>
+    <main>
       <div class="eyebrow" data-i18n="eyebrow"></div>
-      <h1>recherche2.histoirerurale.ch
+      <h1>AGHIST
         <small data-i18n="subtitle"></small>
       </h1>
       <p data-i18n-html="intro"></p>
@@ -281,6 +338,10 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
 
       <footer data-i18n-html="footer"></footer>
     </main>
+    <div class="site-footer" role="contentinfo">
+      <a class="brand" href="https://www.recherche2.histoirerurale.ch">AGHIST</a>
+      <span data-i18n-html="poweredby"></span>
+    </div>
 
     <script>
       const I18N = {
@@ -328,7 +389,15 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor aus <code>next_cursor</code> der vorigen Antwort.</td></tr>'
             + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchie-IDs zur Einschränkung (per OR verknüpft, aus <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Hierarchie-Aggregation mitliefern.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Rückgabe (SearchResponse)</h3>'
+            + '<table><thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>total</code></td><td>int</td><td>Gesamtzahl der Treffer (auch über <code>size</code> hinaus).</td></tr>'
+            + '<tr><td><code>hits</code></td><td>list[SearchHit]</td><td>Trefferliste (max. <code>size</code> Einträge).</td></tr>'
+            + '<tr><td><code>next_cursor</code></td><td>list | null</td><td>An <code>search_after</code> des nächsten Requests übergeben; <code>null</code> = keine weiteren Treffer.</td></tr>'
+            + '<tr><td><code>aggregations</code></td><td>dict | null</td><td>Hierarchie-Buckets, nur bei <code>include_aggregations=true</code>.</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>SearchHit-Felder:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>text</code> (Highlight-Snippet), <code>meta</code>, <code>hierarchy</code> (Pfad), <code>collection</code> (Label), <code>date</code> (ISO, optional), <code>is_pdf</code>, <code>document_url</code> (Suchportal-Deep-Link), <code>original_url</code> (Quell-URL), <code>sort</code> (interner Cursor).</p>',
           tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> bleibt als Deprecated-Alias für <code>farm</code> erhalten.</td></tr>'
@@ -336,7 +405,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf Personen/Institutionen/Betriebe eingeschränkt.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
             + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = nur Fotos, <code>films</code> = nur Filme; ohne Angabe beide.</td></tr>'
@@ -344,30 +414,53 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf Foto-/Filmbestände eingeschränkt.</p>',
           tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf die jeweilige Edition eingeschränkt.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>erforderlich</td><td>Dokument-ID, z.B. <code>AfA_Personen_001_DB9920</code>. Aus dem <code>id</code>-Feld einer <code>search</code>-Antwort.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Bevorzugte Sprache für Titel/Text.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Rückgabe (SearchHit, ohne Volltext)</h3>'
+            + '<ul>'
+            + '<li><strong>Metadaten:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (Sammlungs-Pfad), <code>collection</code> (Label), <code>date</code> (ISO, optional), <code>is_pdf</code>.</li>'
+            + '<li><code>document_url</code> — Link zur PDF- oder HTML-Datei im <strong>Suchportal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code> — <strong>Deep-Link ins Quellportal</strong>, also die Website, von der der Scraper das Dokument geholt hat (z.B. <code>histoirerurale.ch</code> — kann je nach Bestand variieren).</li>'
+            + '</ul>'
+            + '<p><code>null</code>, wenn die ID nicht gefunden wird.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optionale Volltext-Anfrage.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Maximale Anzahl Hierarchie-Einträge (1–10 000).</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label-Sprache.</td></tr>'
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Rückgabe (HierarchyResponse)</h3>'
+            + '<table><thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>entries</code></td><td>list[HierarchyEntry]</td><td>Pro Eintrag: <code>id</code> (Hierarchie-ID), <code>count</code> (Trefferanzahl), <code>label</code> (menschenlesbare Bezeichnung).</td></tr>'
             + '</tbody></table>',
-          tool_server_info_params: '<p>Keine Parameter. Liefert Server-Name, Version, Elasticsearch-URL, verfügbare Sprachen, Sortier-Optionen und alle Hierarchie-Konstanten.</p>',
+          tool_server_info_params: '<p>Keine Parameter.</p>'
+            + '<h3 style="margin-top:1rem">Rückgabe (dict)</h3>'
+            + '<table><thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead><tbody>'
+            + '<tr><td><code>name</code></td><td>str</td><td>Server-Name (<code>afa-mcp</code>).</td></tr>'
+            + '<tr><td><code>version</code></td><td>str</td><td>Semver.</td></tr>'
+            + '<tr><td><code>elasticsearch_url</code></td><td>str</td><td>Upstream-URL des ES-Backends.</td></tr>'
+            + '<tr><td><code>languages</code></td><td>list[str]</td><td><code>de</code>, <code>fr</code>, <code>it</code>, <code>en</code></td></tr>'
+            + '<tr><td><code>sort_orders</code></td><td>list[str]</td><td>Akzeptierte Werte für <code>sort</code>.</td></tr>'
+            + '<tr><td><code>hierarchy_constants</code></td><td>dict</td><td>Sprechende Konstanten (z.B. <code>PERSONS</code>, <code>EDITION_BOBBETT</code>) → Hierarchie-ID-Strings.</td></tr>'
+            + '</tbody></table>',
           tools_note: 'Volltext-Suche und Hierarchie-Filter lassen sich beliebig kombinieren — z.B. <code>search(query="Bauernhof", hierarchy=["AfA_FotoFilm"])</code> für alle Bauernhof-Bilder. Mehrere Hierarchie-IDs werden mit OR verknüpft, mit der Volltext-Suche per AND.',
           discovery_h: "Discovery-Endpunkte",
           disc_mcp: "MCP-Server-Manifest",
           disc_card: "A2A Agent Card",
           disc_llms: "LLM-/Crawler-freundliche Beschreibung",
-          footer: 'Recherche-Portal: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Trägerinstitution: <a href="https://histoirerurale.ch">Archiv für Agrargeschichte</a> · Quellcode: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>'
+          footer: 'Recherche-Portal: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Trägerinstitution: <a href="https://histoirerurale.ch">Archiv für Agrargeschichte</a> · Quellcode: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>',
+          poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> und <a href="https://www.pansoft.de/">Pansoft</a>'
         },
         fr: {
           eyebrow: "Serveur MCP · Bêta",
@@ -407,7 +500,15 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur issu de <code>next_cursor</code> de la réponse précédente.</td></tr>'
             + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>IDs de hiérarchie pour restreindre (via OR, issus de <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Inclure l\'agrégation hiérarchique.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Retour (SearchResponse)</h3>'
+            + '<table><thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>total</code></td><td>int</td><td>Nombre total de résultats (même au-delà de <code>size</code>).</td></tr>'
+            + '<tr><td><code>hits</code></td><td>list[SearchHit]</td><td>Liste de résultats (max. <code>size</code> entrées).</td></tr>'
+            + '<tr><td><code>next_cursor</code></td><td>list | null</td><td>À passer à <code>search_after</code> de la requête suivante ; <code>null</code> = plus de résultats.</td></tr>'
+            + '<tr><td><code>aggregations</code></td><td>dict | null</td><td>Buckets hiérarchiques, uniquement si <code>include_aggregations=true</code>.</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Champs de SearchHit :</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>text</code> (extrait mis en évidence), <code>meta</code>, <code>hierarchy</code>, <code>collection</code>, <code>date</code> (ISO, optionnel), <code>is_pdf</code>, <code>document_url</code>, <code>original_url</code>, <code>sort</code>.</p>',
           tool_search_entities_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> reste comme alias obsolète pour <code>farm</code>.</td></tr>'
@@ -415,7 +516,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints aux personnes/institutions/exploitations.</p>',
           tool_search_av_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
             + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = uniquement photos, <code>films</code> = uniquement films; sans précision les deux.</td></tr>'
@@ -423,24 +525,46 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints aux fonds photographiques/filmiques.</p>',
           tool_edition_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints à l\'édition en question.</p>',
           tool_fetch_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>obligatoire</td><td>ID du document, ex. <code>AfA_Personen_001_DB9920</code>. Depuis le champ <code>id</code> d\'une réponse <code>search</code>.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue préférée pour titre/texte.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Retour (SearchHit, sans texte intégral)</h3>'
+            + '<ul>'
+            + '<li><strong>Métadonnées :</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (chemin de collection), <code>collection</code> (libellé), <code>date</code> (ISO, optionnel), <code>is_pdf</code>.</li>'
+            + '<li><code>document_url</code> — lien vers le fichier PDF ou HTML dans le <strong>portail de recherche</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code> — <strong>lien profond vers le portail source</strong>, c\'est-à-dire le site depuis lequel le scraper a récupéré le document (p. ex. <code>histoirerurale.ch</code> — variable selon le fonds).</li>'
+            + '</ul>'
+            + '<p><code>null</code> si l\'ID n\'est pas trouvé.</p>',
           tool_list_h_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête plein texte optionnelle.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Nombre max. d\'entrées hiérarchiques (1–10 000).</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue des libellés.</td></tr>'
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Retour (HierarchyResponse)</h3>'
+            + '<table><thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>entries</code></td><td>list[HierarchyEntry]</td><td>Par entrée : <code>id</code> (ID hiérarchique), <code>count</code> (nombre de résultats), <code>label</code> (libellé lisible).</td></tr>'
             + '</tbody></table>',
-          tool_server_info_params: '<p>Aucun paramètre. Renvoie le nom du serveur, la version, l\'URL Elasticsearch, les langues disponibles, les options de tri et toutes les constantes de hiérarchie.</p>',
+          tool_server_info_params: '<p>Aucun paramètre.</p>'
+            + '<h3 style="margin-top:1rem">Retour (dict)</h3>'
+            + '<table><thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>name</code></td><td>str</td><td>Nom du serveur (<code>afa-mcp</code>).</td></tr>'
+            + '<tr><td><code>version</code></td><td>str</td><td>Semver.</td></tr>'
+            + '<tr><td><code>elasticsearch_url</code></td><td>str</td><td>URL du backend Elasticsearch.</td></tr>'
+            + '<tr><td><code>languages</code></td><td>list[str]</td><td><code>de</code>, <code>fr</code>, <code>it</code>, <code>en</code></td></tr>'
+            + '<tr><td><code>sort_orders</code></td><td>list[str]</td><td>Valeurs acceptées pour <code>sort</code>.</td></tr>'
+            + '<tr><td><code>hierarchy_constants</code></td><td>dict</td><td>Constantes parlantes (ex. <code>PERSONS</code>, <code>EDITION_BOBBETT</code>) → chaînes d\'ID hiérarchique.</td></tr>'
+            + '</tbody></table>',
           tool_ed_hofstetter: "Édition Mina Hofstetter.",
           tool_ed_gr: "Édition Augusta Gillabert-Randin.",
           tool_ed_bobbett: "Édition Elizabeth Bobbett.",
@@ -452,7 +576,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           disc_mcp: "Manifeste du serveur MCP",
           disc_card: "A2A Agent Card",
           disc_llms: "Description orientée LLM / robots d'indexation",
-          footer: 'Portail de recherche : <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Institution porteuse : <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> · Code source : <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>'
+          footer: 'Portail de recherche : <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Institution porteuse : <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> · Code source : <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>',
+          poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> et <a href="https://www.pansoft.de/">Pansoft</a>'
         },
         it: {
           eyebrow: "Server MCP · Beta",
@@ -492,7 +617,15 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore da <code>next_cursor</code> della risposta precedente.</td></tr>'
             + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>ID gerarchici per restringere (via OR, da <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Includere aggregazione gerarchica.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Risposta (SearchResponse)</h3>'
+            + '<table><thead><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>total</code></td><td>int</td><td>Numero totale di risultati (anche oltre <code>size</code>).</td></tr>'
+            + '<tr><td><code>hits</code></td><td>list[SearchHit]</td><td>Elenco risultati (max <code>size</code> voci).</td></tr>'
+            + '<tr><td><code>next_cursor</code></td><td>list | null</td><td>Passare a <code>search_after</code> della richiesta successiva; <code>null</code> = nessun altro risultato.</td></tr>'
+            + '<tr><td><code>aggregations</code></td><td>dict | null</td><td>Bucket gerarchici, solo con <code>include_aggregations=true</code>.</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Campi SearchHit:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>text</code> (frammento evidenziato), <code>meta</code>, <code>hierarchy</code>, <code>collection</code>, <code>date</code> (ISO, opzionale), <code>is_pdf</code>, <code>document_url</code>, <code>original_url</code>, <code>sort</code>.</p>',
           tool_search_entities_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> resta come alias deprecato di <code>farm</code>.</td></tr>'
@@ -500,7 +633,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati a persone/istituzioni/aziende.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
             + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = solo foto, <code>films</code> = solo film; senza specifica entrambi.</td></tr>'
@@ -508,24 +642,46 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati a fondi fotografici/cinematografici.</p>',
           tool_edition_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati all\'edizione specifica.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>obbligatorio</td><td>ID documento, es. <code>AfA_Personen_001_DB9920</code>. Dal campo <code>id</code> di una risposta <code>search</code>.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua preferita per titolo/testo.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Risposta (SearchHit, senza testo integrale)</h3>'
+            + '<ul>'
+            + '<li><strong>Metadati:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (percorso della collezione), <code>collection</code> (etichetta), <code>date</code> (ISO, opzionale), <code>is_pdf</code>.</li>'
+            + '<li><code>document_url</code> — link al file PDF o HTML nel <strong>portale di ricerca</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code> — <strong>deep link al portale sorgente</strong>, ovvero il sito da cui lo scraper ha recuperato il documento (es. <code>histoirerurale.ch</code> — varia a seconda del fondo).</li>'
+            + '</ul>'
+            + '<p><code>null</code> se l\'ID non è trovato.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query full-text opzionale.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Numero max. di voci gerarchiche (1–10 000).</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua delle etichette.</td></tr>'
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Risposta (HierarchyResponse)</h3>'
+            + '<table><thead><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>entries</code></td><td>list[HierarchyEntry]</td><td>Per voce: <code>id</code> (ID gerarchico), <code>count</code> (numero risultati), <code>label</code> (etichetta leggibile).</td></tr>'
             + '</tbody></table>',
-          tool_server_info_params: '<p>Nessun parametro. Restituisce nome server, versione, URL Elasticsearch, lingue disponibili, opzioni di ordinamento e tutte le costanti di gerarchia.</p>',
+          tool_server_info_params: '<p>Nessun parametro.</p>'
+            + '<h3 style="margin-top:1rem">Risposta (dict)</h3>'
+            + '<table><thead><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr></thead><tbody>'
+            + '<tr><td><code>name</code></td><td>str</td><td>Nome del server (<code>afa-mcp</code>).</td></tr>'
+            + '<tr><td><code>version</code></td><td>str</td><td>Semver.</td></tr>'
+            + '<tr><td><code>elasticsearch_url</code></td><td>str</td><td>URL del backend Elasticsearch.</td></tr>'
+            + '<tr><td><code>languages</code></td><td>list[str]</td><td><code>de</code>, <code>fr</code>, <code>it</code>, <code>en</code></td></tr>'
+            + '<tr><td><code>sort_orders</code></td><td>list[str]</td><td>Valori accettati per <code>sort</code>.</td></tr>'
+            + '<tr><td><code>hierarchy_constants</code></td><td>dict</td><td>Costanti parlanti (es. <code>PERSONS</code>, <code>EDITION_BOBBETT</code>) → stringhe ID di gerarchia.</td></tr>'
+            + '</tbody></table>',
           tool_ed_hofstetter: "Edizione Mina Hofstetter.",
           tool_ed_gr: "Edizione Augusta Gillabert-Randin.",
           tool_ed_bobbett: "Edizione Elizabeth Bobbett.",
@@ -537,7 +693,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           disc_mcp: "Manifest del server MCP",
           disc_card: "A2A Agent Card",
           disc_llms: "Descrizione orientata a LLM / crawler",
-          footer: 'Portale di ricerca: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Istituzione promotrice: <a href="https://histoirerurale.ch">Archivio di storia rurale</a> · Codice sorgente: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>'
+          footer: 'Portale di ricerca: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Istituzione promotrice: <a href="https://histoirerurale.ch">Archivio di storia rurale</a> · Codice sorgente: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>',
+          poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> e <a href="https://www.pansoft.de/">Pansoft</a>'
         },
         en: {
           eyebrow: "MCP Server · Beta",
@@ -577,7 +734,15 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor from <code>next_cursor</code> of the previous response.</td></tr>'
             + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchy IDs to restrict (OR-combined, from <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Include hierarchy aggregation in the response.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Response (SearchResponse)</h3>'
+            + '<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>total</code></td><td>int</td><td>Total number of hits (also beyond <code>size</code>).</td></tr>'
+            + '<tr><td><code>hits</code></td><td>list[SearchHit]</td><td>Hit list (max. <code>size</code> entries).</td></tr>'
+            + '<tr><td><code>next_cursor</code></td><td>list | null</td><td>Pass to <code>search_after</code> of the next request; <code>null</code> = no more hits.</td></tr>'
+            + '<tr><td><code>aggregations</code></td><td>dict | null</td><td>Hierarchy buckets, only when <code>include_aggregations=true</code>.</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>SearchHit fields:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>text</code> (highlight snippet), <code>meta</code>, <code>hierarchy</code>, <code>collection</code>, <code>date</code> (ISO, optional), <code>is_pdf</code>, <code>document_url</code>, <code>original_url</code>, <code>sort</code>.</p>',
           tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> remains as a deprecated alias for <code>farm</code>.</td></tr>'
@@ -585,7 +750,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to persons/institutions/farms.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
             + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = photos only, <code>films</code> = films only; unset = both.</td></tr>'
@@ -593,24 +759,46 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to photo/film holdings.</p>',
           tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
             + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to the specific edition.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>required</td><td>Document ID, e.g. <code>AfA_Personen_001_DB9920</code>. From the <code>id</code> field of a <code>search</code> response.</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Preferred language for title/text.</td></tr>'
-            + '</tbody></table>',
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Response (SearchHit, without full text)</h3>'
+            + '<ul>'
+            + '<li><strong>Metadata:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (collection path), <code>collection</code> (label), <code>date</code> (ISO, optional), <code>is_pdf</code>.</li>'
+            + '<li><code>document_url</code> — link to the PDF or HTML file in the <strong>research portal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code> — <strong>deep link into the source portal</strong>, i.e. the website the scraper fetched the document from (e.g. <code>histoirerurale.ch</code> — varies by holding).</li>'
+            + '</ul>'
+            + '<p><code>null</code> if the ID is not found.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optional full-text query.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Max. number of hierarchy entries (1–10 000).</td></tr>'
             + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label language.</td></tr>'
+            + '</tbody></table>'
+            + '<h3 style="margin-top:1rem">Response (HierarchyResponse)</h3>'
+            + '<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>entries</code></td><td>list[HierarchyEntry]</td><td>Per entry: <code>id</code> (hierarchy ID), <code>count</code> (hit count), <code>label</code> (human-readable label).</td></tr>'
             + '</tbody></table>',
-          tool_server_info_params: '<p>No parameters. Returns server name, version, Elasticsearch URL, available languages, sort options and all hierarchy constants.</p>',
+          tool_server_info_params: '<p>No parameters.</p>'
+            + '<h3 style="margin-top:1rem">Response (dict)</h3>'
+            + '<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+            + '<tr><td><code>name</code></td><td>str</td><td>Server name (<code>afa-mcp</code>).</td></tr>'
+            + '<tr><td><code>version</code></td><td>str</td><td>Semver.</td></tr>'
+            + '<tr><td><code>elasticsearch_url</code></td><td>str</td><td>Elasticsearch backend URL.</td></tr>'
+            + '<tr><td><code>languages</code></td><td>list[str]</td><td><code>de</code>, <code>fr</code>, <code>it</code>, <code>en</code></td></tr>'
+            + '<tr><td><code>sort_orders</code></td><td>list[str]</td><td>Accepted values for <code>sort</code>.</td></tr>'
+            + '<tr><td><code>hierarchy_constants</code></td><td>dict</td><td>Speaking constants (e.g. <code>PERSONS</code>, <code>EDITION_BOBBETT</code>) → hierarchy ID strings.</td></tr>'
+            + '</tbody></table>',
           tool_ed_hofstetter: "Mina Hofstetter Edition.",
           tool_ed_gr: "Augusta Gillabert-Randin Edition.",
           tool_ed_bobbett: "Elizabeth Bobbett Edition.",
@@ -622,7 +810,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           disc_mcp: "MCP server manifest",
           disc_card: "A2A agent card",
           disc_llms: "LLM-/crawler-friendly description",
-          footer: 'Research portal: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Hosting institution: <a href="https://histoirerurale.ch">Archives of Rural History</a> · Source code: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>'
+          footer: 'Research portal: <a href="https://www.recherche2.histoirerurale.ch">recherche2.histoirerurale.ch</a> · Hosting institution: <a href="https://histoirerurale.ch">Archives of Rural History</a> · Source code: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server">GitHub</a>',
+          poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> and <a href="https://www.pansoft.de/">Pansoft</a>'
         }
       };
 
@@ -649,8 +838,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         const dict = I18N[lang] || I18N.en;
         document.documentElement.lang = lang;
         document.title = dict.subtitle
-          ? "recherche2.histoirerurale.ch — " + dict.subtitle
-          : "recherche2.histoirerurale.ch";
+          ? "AGHIST — " + dict.subtitle
+          : "AGHIST — MCP Server";
         document.querySelectorAll("[data-i18n]").forEach(el => {
           const key = el.dataset.i18n;
           if (dict[key] != null) el.textContent = dict[key];
