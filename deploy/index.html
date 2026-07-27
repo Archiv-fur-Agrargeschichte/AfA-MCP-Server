@@ -133,6 +133,19 @@
         overflow-x: auto; margin: 0.5rem 0 1rem;
       }
       code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+      blockquote {
+        margin: 0.6rem 0 1rem; padding: 0.6rem 1rem;
+        border-left: 3px solid var(--accent);
+        background: rgba(160, 0, 0, 0.04);
+        font-style: italic; color: var(--ink);
+      }
+      .panel ol, .panel ul { padding-left: 1.3rem; }
+      .panel ol li, .panel ul li { margin: 0.45rem 0; line-height: 1.55; }
+      .tech-divider {
+        margin: 3rem 0 0.4rem;
+        border-top: 2px solid var(--line);
+        padding-top: 1.6rem;
+      }
       details { margin: 0.6rem 0; }
       details summary {
         cursor: pointer; padding: 0.6rem 0.8rem;
@@ -177,9 +190,18 @@
       <p data-i18n-html="intro"></p>
 
       <div class="panel">
-        <h2 data-i18n="endpoint_h"></h2>
-        <code class="endpoint">https://mcp.histoirerurale.ch/mcp</code>
-        <p style="margin: 0;" data-i18n-html="endpoint_p"></p>
+        <h2 data-i18n="guide_h"></h2>
+        <div data-i18n-html="guide_p"></div>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="holdings_h"></h2>
+        <div data-i18n-html="holdings"></div>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="setup_h"></h2>
+        <div data-i18n-html="setup_steps"></div>
       </div>
 
       <div class="panel">
@@ -285,6 +307,32 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
       </div>
 
       <div class="panel">
+        <h2 data-i18n="examples_h"></h2>
+        <div data-i18n-html="examples"></div>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="tips_h"></h2>
+        <div data-i18n-html="tips"></div>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="reliability_h"></h2>
+        <div data-i18n-html="reliability"></div>
+      </div>
+
+      <div class="tech-divider">
+        <h2 data-i18n="techref_h"></h2>
+        <p data-i18n-html="techref_p"></p>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="endpoint_h"></h2>
+        <code class="endpoint">https://mcp.histoirerurale.ch/mcp</code>
+        <p style="margin: 0;" data-i18n-html="endpoint_p"></p>
+      </div>
+
+      <div class="panel">
         <h2 data-i18n="tools_h"></h2>
 
         <details>
@@ -349,6 +397,51 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           eyebrow: "MCP-Server · Beta",
           subtitle: "MCP-Schnittstelle zum Archiv für Agrargeschichte",
           intro: 'Modellfähige Volltextsuche im <a href="https://www.recherche2.histoirerurale.ch">Recherche-Portal</a> des <a href="https://histoirerurale.ch">Archivs für Agrargeschichte</a> — Personen, Institutionen, Betriebe, audio-visuelle Quellen, Archivbestände, digitale Editionen und Publikationen. Über das Model Context Protocol (Streamable HTTP) direkt aus Claude, ChatGPT, Cursor, Perplexity und allen anderen MCP-fähigen Clients ansprechbar.',
+          guide_h: "So funktioniert die Recherche",
+          guide_p: '<p>Einmal eingerichtet, stellen Sie Ihre Recherchefragen in ganz normaler Sprache: Der Assistent durchsucht die Bestände für Sie, kombiniert Suchanfragen, folgt Querverweisen und fasst die Ergebnisse zusammen. Zum Beispiel:</p>'
+            + '<blockquote>«Such nach Personen mit dem Namen Ineichen.»</blockquote>'
+            + '<p>Der Assistent findet 79 Personen, erkennt, dass viele davon zur Familie des Sentenhofs im Aargau gehören, und stellt die Generationenfolge übersichtlich dar. Anschliessend können Sie nachfragen: «Zeig mir mehr zu Franz Ineichen» oder «Gibt es Fotos dazu?»</p>',
+          holdings_h: "Was ist durchsuchbar?",
+          holdings: '<table><thead><tr><th>Bestand</th><th>Inhalt</th></tr></thead><tbody>'
+            + '<tr><td><strong>Personen</strong></td><td>Biografische Einträge zu Akteurinnen und Akteuren der ländlichen Gesellschaft: Lebensdaten, Funktionen, verwandtschaftliche Beziehungen, Quellenhinweise</td></tr>'
+            + '<tr><td><strong>Institutionen</strong></td><td>Verbände, Genossenschaften, Behörden und weitere Organisationen</td></tr>'
+            + '<tr><td><strong>Betriebe</strong></td><td>Landwirtschaftliche Betriebe und Unternehmen</td></tr>'
+            + '<tr><td><strong>Foto &amp; Film</strong></td><td>Audiovisuelle Quellen: Fotografien und Filme</td></tr>'
+            + '<tr><td><strong>Digitale Editionen</strong></td><td>Drei edierte Quellenkorpora: Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett</td></tr>'
+            + '<tr><td><strong>Archivbestände</strong></td><td>Verzeichnisse der Archivbestände des AfA</td></tr>'
+            + '<tr><td><strong>Publikationen &amp; Medienberichte</strong></td><td>Veröffentlichungen und Berichterstattung</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem">Alle Inhalte sind in vier Sprachen erschlossen (Deutsch, Französisch, Italienisch, Englisch).</p>',
+          setup_h: "Einrichten in drei Schritten",
+          setup_steps: '<ol>'
+            + '<li><strong>KI-Assistent wählen.</strong> Sie brauchen einen Zugang zu Claude (claude.ai oder Desktop-App), ChatGPT (Plus/Team/Enterprise), Perplexity Pro oder einer Entwicklungsumgebung wie Cursor oder VS Code.</li>'
+            + '<li><strong>Server verbinden.</strong> Tragen Sie die Adresse <code>https://mcp.histoirerurale.ch/mcp</code> als MCP-Server ein. Die genauen Schritte unterscheiden sich je nach Plattform, siehe die Anleitungen im nächsten Abschnitt.</li>'
+            + '<li><strong>Losfragen.</strong> Stellen Sie Ihre erste Rechercheanfrage in normaler Sprache. Keine Suchsyntax nötig.</li>'
+            + '</ol>',
+          examples_h: "Beispiel-Recherchen",
+          examples: '<p>Die folgenden Prompts können Sie direkt übernehmen und anpassen:</p>'
+            + '<p><strong>Personenrecherche</strong></p><blockquote>«Suche im Agrararchiv nach Personen mit dem Namen Moser und fasse zusammen, in welchen Organisationen sie aktiv waren.»</blockquote>'
+            + '<p><strong>Institutionengeschichte</strong></p><blockquote>«Was findet sich im Archiv zum Schweizerischen Bäuerinnen- und Landfrauenverband? Liste die wichtigsten Dokumente und verknüpften Personen auf.»</blockquote>'
+            + '<p><strong>Bildquellen</strong></p><blockquote>«Gibt es Fotografien zur Mechanisierung der Landwirtschaft in den 1950er Jahren?»</blockquote>'
+            + '<p><strong>Digitale Editionen</strong></p><blockquote>«Durchsuche die Edition Gillabert-Randin nach Einträgen zum Ersten Weltkrieg und zitiere die relevanten Stellen.»</blockquote>'
+            + '<p><strong>Quellenkritische Vertiefung</strong></p><blockquote>«Hol den Volltext des Dokuments zu Franz Ineichen und nenne mir die dort angegebenen Quellen und Dossier-Nummern.»</blockquote>'
+            + '<p><strong>Themenübergreifend</strong></p><blockquote>«Ich schreibe eine Seminararbeit zur Rolle der Landfrauenverbände in der Zwischenkriegszeit. Welche Bestände im AfA sind dafür relevant? Suche in Personen, Institutionen und Publikationen.»</blockquote>',
+          tips_h: "Tipps für gute Ergebnisse",
+          tips: '<ul>'
+            + '<li><strong>Iterativ arbeiten.</strong> Beginnen Sie breit, verengen Sie dann: erst «Landfrauenverbände», dann «nur Kanton Bern», dann «Volltext von Dokument X».</li>'
+            + '<li><strong>Nach Querverweisen fragen.</strong> Die Einträge sind stark vernetzt (Verwandtschaft, Mitgliedschaften). Fragen Sie: «Welche Personen sind mit diesem Eintrag verknüpft?»</li>'
+            + '<li><strong>Sprache angeben, wenn nötig.</strong> Die Bestände sind mehrsprachig; bei französischen Quellen hilft: «Suche auf Französisch nach…»</li>'
+            + '<li><strong>Quellen verifizieren.</strong> Der Assistent fasst zusammen; für Zitate in wissenschaftlichen Arbeiten immer den Original-Eintrag über den mitgelieferten Link (<code>recherche2.histoirerurale.ch</code>) prüfen. Dossier-Nummern (z.B. «AfA Personendossier Nr. 396») verweisen auf die physischen Bestände.</li>'
+            + '<li><strong>Grenzen kennen.</strong> Der Assistent findet nur, was digital erschlossen ist. Nicht-digitalisierte Bestände erreichen Sie über die Dossier-Nummern und eine Anfrage beim AfA.</li>'
+            + '<li><strong>Suchwege nachvollziehen.</strong> Die meisten KI-Assistenten zeigen im Chatverlauf an, welche Suchanfragen sie tatsächlich ausgeführt haben (meist als aufklappbare Blöcke wie «Used afa-recherche search»). Werfen Sie einen Blick hinein: So sehen Sie, mit welchen Begriffen und Filtern gesucht wurde, und erkennen, ob eine Recherche zu eng oder zu breit angelegt war. Die Zusammenfassung des Assistenten ist nicht dasselbe wie das Suchergebnis.</li>'
+            + '</ul>',
+          reliability_h: "Ein Wort zur Verlässlichkeit",
+          reliability: '<p>KI-Assistenten sind ein Recherchewerkzeug, keine Quelle. Zwei Eigenschaften sollten Sie als Historikerin oder Historiker im Blick behalten:</p>'
+            + '<p><strong>Ergebnisse sind nicht reproduzierbar.</strong> Stellen Sie dieselbe Frage zweimal, kann der Assistent unterschiedliche Suchanfragen formulieren, andere Treffer auswählen und zu anderen Schwerpunkten in der Zusammenfassung kommen. Was Sie heute finden, findet eine Kommilitonin morgen mit derselben Frage vielleicht nicht. Halten Sie deshalb fest, was zählt: die Dokument-IDs, die Links zu den Originaleinträgen und die Dossier-Nummern. Diese sind stabil und zitierfähig, der Chatverlauf ist es nicht.</p>'
+            + '<p><strong>Zusammenfassungen können Fehler enthalten.</strong> Der Assistent kann Inhalte verkürzen, Zusammenhänge falsch verknüpfen oder im schlechtesten Fall Details erfinden, die so nicht in der Quelle stehen. Behandeln Sie seine Ausgabe wie das Referat einer Hilfskraft: nützlich als Einstieg und Überblick, aber jede Aussage, die in eine Arbeit einfliesst, gehört am Original-Eintrag verifiziert.</p>'
+            + '<p>Kurz: Der Assistent ersetzt die Suchmaske, nicht die Quellenkritik.</p>',
+          techref_h: "Technische Referenz",
+          techref_p: 'Dieser Abschnitt richtet sich an Entwicklerinnen und Entwickler sowie an alle, die genauer wissen wollen, wie der Assistent sucht.',
           endpoint_h: "MCP-Endpoint",
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentifizierung: keine. In MCP-fähigen Clients als Remote-Server mit dieser URL eintragen.',
           integration_h: "Integration in KI-Systeme",
@@ -466,6 +559,51 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           eyebrow: "Serveur MCP · Bêta",
           subtitle: "Interface MCP des Archives d'histoire rurale",
           intro: 'Recherche en plein texte adaptée aux modèles dans le <a href="https://www.recherche2.histoirerurale.ch">portail de recherche</a> des <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> — personnes, institutions, exploitations, sources audiovisuelles, fonds d\'archives, éditions numériques et publications. Accessible via le Model Context Protocol (Streamable HTTP) directement depuis Claude, ChatGPT, Cursor, Perplexity et tous les autres clients compatibles MCP.',
+          guide_h: "Comment fonctionne la recherche",
+          guide_p: '<p>Une fois la connexion établie, posez vos questions de recherche en langage courant : l\'assistant parcourt les fonds pour vous, combine les requêtes, suit les renvois et résume les résultats. Par exemple :</p>'
+            + '<blockquote>« Cherche des personnes portant le nom Ineichen. »</blockquote>'
+            + '<p>L\'assistant trouve 79 personnes, reconnaît que beaucoup appartiennent à la famille du Sentenhof en Argovie et présente clairement la succession des générations. Vous pouvez ensuite préciser : « Montre-moi plus de détails sur Franz Ineichen » ou « Y a-t-il des photos ? »</p>',
+          holdings_h: "Que peut-on consulter ?",
+          holdings: '<table><thead><tr><th>Fonds</th><th>Contenu</th></tr></thead><tbody>'
+            + '<tr><td><strong>Personnes</strong></td><td>Notices biographiques d\'acteurs et actrices de la société rurale : dates de vie, fonctions, liens de parenté, références aux sources</td></tr>'
+            + '<tr><td><strong>Institutions</strong></td><td>Associations, coopératives, autorités et autres organisations</td></tr>'
+            + '<tr><td><strong>Exploitations</strong></td><td>Exploitations agricoles et entreprises</td></tr>'
+            + '<tr><td><strong>Photo &amp; film</strong></td><td>Sources audiovisuelles : photographies et films</td></tr>'
+            + '<tr><td><strong>Éditions numériques</strong></td><td>Trois corpus de sources édités : Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett</td></tr>'
+            + '<tr><td><strong>Fonds d\'archives</strong></td><td>Inventaires des fonds d\'archives des AHR</td></tr>'
+            + '<tr><td><strong>Publications &amp; presse</strong></td><td>Publications et couverture médiatique</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem">Tous les contenus sont indexés en quatre langues (allemand, français, italien, anglais).</p>',
+          setup_h: "Mise en place en trois étapes",
+          setup_steps: '<ol>'
+            + '<li><strong>Choisir un assistant IA.</strong> Il vous faut un accès à Claude (claude.ai ou application de bureau), ChatGPT (Plus/Team/Enterprise), Perplexity Pro ou un environnement de développement comme Cursor ou VS Code.</li>'
+            + '<li><strong>Connecter le serveur.</strong> Enregistrez l\'adresse <code>https://mcp.histoirerurale.ch/mcp</code> comme serveur MCP. Les étapes exactes varient selon la plateforme, voir les instructions dans la section suivante.</li>'
+            + '<li><strong>Poser vos questions.</strong> Formulez votre première requête en langage courant. Aucune syntaxe de recherche n\'est nécessaire.</li>'
+            + '</ol>',
+          examples_h: "Exemples de recherches",
+          examples: '<p>Les requêtes suivantes peuvent être reprises et adaptées directement :</p>'
+            + '<p><strong>Recherche de personnes</strong></p><blockquote>« Cherche dans les archives agraires des personnes portant le nom Moser et résume dans quelles organisations elles étaient actives. »</blockquote>'
+            + '<p><strong>Histoire des institutions</strong></p><blockquote>« Que trouve-t-on dans les archives sur l\'Union suisse des paysannes et des femmes rurales ? Liste les documents les plus importants et les personnes associées. »</blockquote>'
+            + '<p><strong>Sources iconographiques</strong></p><blockquote>« Existe-t-il des photographies sur la mécanisation de l\'agriculture dans les années 1950 ? »</blockquote>'
+            + '<p><strong>Éditions numériques</strong></p><blockquote>« Parcours l\'édition Gillabert-Randin à la recherche d\'entrées sur la Première Guerre mondiale et cite les passages pertinents. »</blockquote>'
+            + '<p><strong>Approfondissement critique</strong></p><blockquote>« Récupère le texte intégral du document sur Franz Ineichen et indique-moi les sources et numéros de dossier qui y figurent. »</blockquote>'
+            + '<p><strong>Recherche transversale</strong></p><blockquote>« Je rédige un travail de séminaire sur le rôle des associations de paysannes dans l\'entre-deux-guerres. Quels fonds des AHR sont pertinents ? Cherche dans les personnes, les institutions et les publications. »</blockquote>',
+          tips_h: "Conseils pour de bons résultats",
+          tips: '<ul>'
+            + '<li><strong>Travailler par itérations.</strong> Commencez large, puis affinez : d\'abord « associations de paysannes », puis « seulement canton de Berne », puis « texte intégral du document X ».</li>'
+            + '<li><strong>Demander les renvois.</strong> Les notices sont fortement reliées entre elles (parenté, adhésions). Demandez : « Quelles personnes sont liées à cette notice ? »</li>'
+            + '<li><strong>Préciser la langue si nécessaire.</strong> Les fonds sont multilingues ; pour des sources allemandes, il est utile de préciser : « Cherche en allemand… »</li>'
+            + '<li><strong>Vérifier les sources.</strong> L\'assistant résume ; pour toute citation dans un travail scientifique, vérifiez toujours la notice originale via le lien fourni (<code>recherche2.histoirerurale.ch</code>). Les numéros de dossier (p. ex. « AfA Personendossier Nr. 396 ») renvoient aux fonds physiques.</li>'
+            + '<li><strong>Connaître les limites.</strong> L\'assistant ne trouve que ce qui est indexé numériquement. Les fonds non numérisés restent accessibles via les numéros de dossier et une demande auprès des AHR.</li>'
+            + '<li><strong>Retracer les recherches effectuées.</strong> La plupart des assistants IA affichent dans la conversation les requêtes réellement exécutées (souvent sous forme de blocs dépliables comme « Used afa-recherche search »). Jetez-y un œil : vous verrez avec quels termes et filtres la recherche a été menée et reconnaîtrez si elle était trop étroite ou trop large. Le résumé de l\'assistant n\'est pas la même chose que le résultat de recherche.</li>'
+            + '</ul>',
+          reliability_h: "Un mot sur la fiabilité",
+          reliability: '<p>Les assistants IA sont un outil de recherche, pas une source. Deux caractéristiques méritent l\'attention de l\'historien ou de l\'historienne :</p>'
+            + '<p><strong>Les résultats ne sont pas reproductibles.</strong> Posez deux fois la même question et l\'assistant peut formuler d\'autres requêtes, sélectionner d\'autres résultats et mettre d\'autres accents dans son résumé. Ce que vous trouvez aujourd\'hui, un collègue ne le trouvera peut-être pas demain avec la même question. Notez donc ce qui compte : les identifiants de documents, les liens vers les notices originales et les numéros de dossier. Ceux-ci sont stables et citables, la conversation ne l\'est pas.</p>'
+            + '<p><strong>Les résumés peuvent contenir des erreurs.</strong> L\'assistant peut raccourcir des contenus, relier des faits de manière erronée ou, dans le pire des cas, inventer des détails absents de la source. Traitez sa production comme l\'exposé d\'un assistant de recherche : utile comme point d\'entrée et vue d\'ensemble, mais toute affirmation destinée à un travail doit être vérifiée sur la notice originale.</p>'
+            + '<p>En bref : l\'assistant remplace le masque de recherche, pas la critique des sources.</p>',
+          techref_h: "Référence technique",
+          techref_p: 'Cette section s\'adresse aux développeurs et développeuses ainsi qu\'à toute personne souhaitant comprendre précisément comment l\'assistant effectue ses recherches.',
           endpoint_h: "Point d'accès MCP",
           endpoint_p: 'Transport : <em>Streamable HTTP</em>. Authentification : aucune. À ajouter dans les clients MCP comme serveur distant avec cette URL.',
           integration_h: "Intégration dans les systèmes d'IA",
@@ -583,6 +721,51 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           eyebrow: "Server MCP · Beta",
           subtitle: "Interfaccia MCP dell'Archivio di storia rurale",
           intro: 'Ricerca a testo pieno predisposta per i modelli nel <a href="https://www.recherche2.histoirerurale.ch">portale di ricerca</a> dell\'<a href="https://histoirerurale.ch">Archivio di storia rurale</a> — persone, istituzioni, aziende, fonti audiovisive, fondi d\'archivio, edizioni digitali e pubblicazioni. Accessibile tramite il Model Context Protocol (Streamable HTTP) direttamente da Claude, ChatGPT, Cursor, Perplexity e tutti gli altri client compatibili con MCP.',
+          guide_h: "Come funziona la ricerca",
+          guide_p: '<p>Una volta configurato, ponete le vostre domande di ricerca in linguaggio corrente: l\'assistente esplora i fondi per voi, combina le interrogazioni, segue i rinvii e riassume i risultati. Per esempio:</p>'
+            + '<blockquote>«Cerca persone con il cognome Ineichen.»</blockquote>'
+            + '<p>L\'assistente trova 79 persone, riconosce che molte appartengono alla famiglia del Sentenhof in Argovia e presenta chiaramente la successione delle generazioni. Potete poi approfondire: «Mostrami di più su Franz Ineichen» oppure «Ci sono fotografie?»</p>',
+          holdings_h: "Che cosa si può consultare?",
+          holdings: '<table><thead><tr><th>Fondo</th><th>Contenuto</th></tr></thead><tbody>'
+            + '<tr><td><strong>Persone</strong></td><td>Schede biografiche di attori e attrici della società rurale: date di vita, funzioni, legami di parentela, riferimenti alle fonti</td></tr>'
+            + '<tr><td><strong>Istituzioni</strong></td><td>Associazioni, cooperative, autorità e altre organizzazioni</td></tr>'
+            + '<tr><td><strong>Aziende</strong></td><td>Aziende agricole e imprese</td></tr>'
+            + '<tr><td><strong>Foto &amp; film</strong></td><td>Fonti audiovisive: fotografie e film</td></tr>'
+            + '<tr><td><strong>Edizioni digitali</strong></td><td>Tre corpora di fonti edite: Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett</td></tr>'
+            + '<tr><td><strong>Fondi d\'archivio</strong></td><td>Inventari dei fondi d\'archivio dell\'ASR</td></tr>'
+            + '<tr><td><strong>Pubblicazioni &amp; stampa</strong></td><td>Pubblicazioni e copertura mediatica</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem">Tutti i contenuti sono indicizzati in quattro lingue (tedesco, francese, italiano, inglese).</p>',
+          setup_h: "Configurazione in tre passi",
+          setup_steps: '<ol>'
+            + '<li><strong>Scegliere un assistente IA.</strong> Serve un accesso a Claude (claude.ai o app desktop), ChatGPT (Plus/Team/Enterprise), Perplexity Pro oppure un ambiente di sviluppo come Cursor o VS Code.</li>'
+            + '<li><strong>Collegare il server.</strong> Registrate l\'indirizzo <code>https://mcp.histoirerurale.ch/mcp</code> come server MCP. I passaggi esatti variano a seconda della piattaforma, vedi le istruzioni nella sezione successiva.</li>'
+            + '<li><strong>Iniziare a chiedere.</strong> Formulate la vostra prima richiesta in linguaggio corrente. Nessuna sintassi di ricerca necessaria.</li>'
+            + '</ol>',
+          examples_h: "Esempi di ricerca",
+          examples: '<p>Le richieste seguenti possono essere riprese e adattate direttamente:</p>'
+            + '<p><strong>Ricerca di persone</strong></p><blockquote>«Cerca nell\'archivio agrario persone con il cognome Moser e riassumi in quali organizzazioni erano attive.»</blockquote>'
+            + '<p><strong>Storia delle istituzioni</strong></p><blockquote>«Che cosa si trova nell\'archivio sull\'Unione svizzera delle contadine e delle donne rurali? Elenca i documenti più importanti e le persone collegate.»</blockquote>'
+            + '<p><strong>Fonti iconografiche</strong></p><blockquote>«Esistono fotografie sulla meccanizzazione dell\'agricoltura negli anni Cinquanta?»</blockquote>'
+            + '<p><strong>Edizioni digitali</strong></p><blockquote>«Esplora l\'edizione Gillabert-Randin alla ricerca di voci sulla Prima guerra mondiale e cita i passaggi rilevanti.»</blockquote>'
+            + '<p><strong>Approfondimento critico</strong></p><blockquote>«Recupera il testo integrale del documento su Franz Ineichen e indicami le fonti e i numeri di dossier ivi riportati.»</blockquote>'
+            + '<p><strong>Ricerca trasversale</strong></p><blockquote>«Sto scrivendo un lavoro di seminario sul ruolo delle associazioni di contadine nel periodo tra le due guerre. Quali fondi dell\'ASR sono rilevanti? Cerca tra persone, istituzioni e pubblicazioni.»</blockquote>',
+          tips_h: "Consigli per buoni risultati",
+          tips: '<ul>'
+            + '<li><strong>Lavorare per iterazioni.</strong> Iniziate in modo ampio, poi restringete: prima «associazioni di contadine», poi «solo Canton Berna», poi «testo integrale del documento X».</li>'
+            + '<li><strong>Chiedere i rinvii.</strong> Le schede sono fortemente collegate tra loro (parentele, appartenenze). Chiedete: «Quali persone sono collegate a questa scheda?»</li>'
+            + '<li><strong>Indicare la lingua se necessario.</strong> I fondi sono plurilingui; per fonti tedesche è utile precisare: «Cerca in tedesco…»</li>'
+            + '<li><strong>Verificare le fonti.</strong> L\'assistente riassume; per le citazioni in lavori scientifici verificate sempre la scheda originale tramite il link fornito (<code>recherche2.histoirerurale.ch</code>). I numeri di dossier (p. es. «AfA Personendossier Nr. 396») rimandano ai fondi fisici.</li>'
+            + '<li><strong>Conoscere i limiti.</strong> L\'assistente trova solo ciò che è indicizzato digitalmente. I fondi non digitalizzati restano accessibili tramite i numeri di dossier e una richiesta all\'ASR.</li>'
+            + '<li><strong>Ripercorrere le ricerche effettuate.</strong> La maggior parte degli assistenti IA mostra nella conversazione le interrogazioni realmente eseguite (spesso come blocchi espandibili tipo «Used afa-recherche search»). Dateci un\'occhiata: vedrete con quali termini e filtri è stata condotta la ricerca e riconoscerete se era troppo ristretta o troppo ampia. Il riassunto dell\'assistente non è la stessa cosa del risultato di ricerca.</li>'
+            + '</ul>',
+          reliability_h: "Una parola sull'affidabilità",
+          reliability: '<p>Gli assistenti IA sono uno strumento di ricerca, non una fonte. Due caratteristiche meritano l\'attenzione dello storico o della storica:</p>'
+            + '<p><strong>I risultati non sono riproducibili.</strong> Ponete due volte la stessa domanda e l\'assistente può formulare interrogazioni diverse, selezionare altri risultati e porre accenti diversi nel riassunto. Ciò che trovate oggi, un collega potrebbe non trovarlo domani con la stessa domanda. Annotate quindi ciò che conta: gli identificativi dei documenti, i link alle schede originali e i numeri di dossier. Questi sono stabili e citabili, la conversazione no.</p>'
+            + '<p><strong>I riassunti possono contenere errori.</strong> L\'assistente può abbreviare contenuti, collegare fatti in modo errato o, nel peggiore dei casi, inventare dettagli assenti dalla fonte. Trattate il suo output come la relazione di un assistente di ricerca: utile come punto di partenza e panoramica, ma ogni affermazione destinata a un lavoro va verificata sulla scheda originale.</p>'
+            + '<p>In breve: l\'assistente sostituisce la maschera di ricerca, non la critica delle fonti.</p>',
+          techref_h: "Riferimento tecnico",
+          techref_p: 'Questa sezione si rivolge a sviluppatori e sviluppatrici e a chiunque voglia capire con precisione come l\'assistente effettua le ricerche.',
           endpoint_h: "Endpoint MCP",
           endpoint_p: 'Trasporto: <em>Streamable HTTP</em>. Autenticazione: nessuna. Da inserire nei client MCP come server remoto con questo URL.',
           integration_h: "Integrazione nei sistemi di IA",
@@ -700,6 +883,51 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           eyebrow: "MCP Server · Beta",
           subtitle: "MCP interface to the Archives of Rural History",
           intro: 'Model-ready full-text search across the <a href="https://www.recherche2.histoirerurale.ch">research portal</a> of the <a href="https://histoirerurale.ch">Archives of Rural History</a> — persons, institutions, farms, audiovisual sources, archive holdings, digital editions and publications. Accessible via the Model Context Protocol (Streamable HTTP) directly from Claude, ChatGPT, Cursor, Perplexity and any other MCP-capable client.',
+          guide_h: "How research works",
+          guide_p: '<p>Once connected, you ask your research questions in plain language: the assistant searches the holdings for you, combines queries, follows cross-references and summarises the results. For example:</p>'
+            + '<blockquote>"Search for persons named Ineichen."</blockquote>'
+            + '<p>The assistant finds 79 persons, recognises that many of them belong to the Sentenhof family in Aargau, and lays out the succession of generations clearly. You can then follow up: "Show me more about Franz Ineichen" or "Are there any photos?"</p>',
+          holdings_h: "What can be searched?",
+          holdings: '<table><thead><tr><th>Holding</th><th>Content</th></tr></thead><tbody>'
+            + '<tr><td><strong>Persons</strong></td><td>Biographical entries on actors of rural society: life dates, functions, family relations, source references</td></tr>'
+            + '<tr><td><strong>Institutions</strong></td><td>Associations, cooperatives, authorities and other organisations</td></tr>'
+            + '<tr><td><strong>Farms</strong></td><td>Agricultural holdings and enterprises</td></tr>'
+            + '<tr><td><strong>Photo &amp; film</strong></td><td>Audiovisual sources: photographs and films</td></tr>'
+            + '<tr><td><strong>Digital editions</strong></td><td>Three edited source corpora: Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett</td></tr>'
+            + '<tr><td><strong>Archive holdings</strong></td><td>Inventories of the ARH archive holdings</td></tr>'
+            + '<tr><td><strong>Publications &amp; media</strong></td><td>Publications and media coverage</td></tr>'
+            + '</tbody></table>'
+            + '<p style="margin-top:.6rem">All content is indexed in four languages (German, French, Italian, English).</p>',
+          setup_h: "Set up in three steps",
+          setup_steps: '<ol>'
+            + '<li><strong>Choose an AI assistant.</strong> You need access to Claude (claude.ai or the desktop app), ChatGPT (Plus/Team/Enterprise), Perplexity Pro, or a development environment such as Cursor or VS Code.</li>'
+            + '<li><strong>Connect the server.</strong> Register the address <code>https://mcp.histoirerurale.ch/mcp</code> as an MCP server. The exact steps differ per platform, see the instructions in the next section.</li>'
+            + '<li><strong>Start asking.</strong> Pose your first research question in plain language. No search syntax required.</li>'
+            + '</ol>',
+          examples_h: "Example research questions",
+          examples: '<p>The following prompts can be copied and adapted directly:</p>'
+            + '<p><strong>Person research</strong></p><blockquote>"Search the agrarian archive for persons named Moser and summarise which organisations they were active in."</blockquote>'
+            + '<p><strong>Institutional history</strong></p><blockquote>"What does the archive hold on the Swiss Farm Women\'s Association? List the most important documents and linked persons."</blockquote>'
+            + '<p><strong>Visual sources</strong></p><blockquote>"Are there photographs of the mechanisation of agriculture in the 1950s?"</blockquote>'
+            + '<p><strong>Digital editions</strong></p><blockquote>"Search the Gillabert-Randin edition for entries on the First World War and quote the relevant passages."</blockquote>'
+            + '<p><strong>Source-critical deep dive</strong></p><blockquote>"Fetch the full text of the document on Franz Ineichen and give me the sources and dossier numbers stated there."</blockquote>'
+            + '<p><strong>Cross-holding research</strong></p><blockquote>"I am writing a seminar paper on the role of farm women\'s associations in the interwar period. Which ARH holdings are relevant? Search persons, institutions and publications."</blockquote>',
+          tips_h: "Tips for good results",
+          tips: '<ul>'
+            + '<li><strong>Work iteratively.</strong> Start broad, then narrow down: first "farm women\'s associations", then "canton of Bern only", then "full text of document X".</li>'
+            + '<li><strong>Ask for cross-references.</strong> The entries are densely interlinked (kinship, memberships). Ask: "Which persons are linked to this entry?"</li>'
+            + '<li><strong>Specify the language when needed.</strong> The holdings are multilingual; for German sources it helps to say: "Search in German for…"</li>'
+            + '<li><strong>Verify sources.</strong> The assistant summarises; for quotations in academic work, always check the original entry via the provided link (<code>recherche2.histoirerurale.ch</code>). Dossier numbers (e.g. "AfA Personendossier Nr. 396") point to the physical holdings.</li>'
+            + '<li><strong>Know the limits.</strong> The assistant only finds what has been digitally indexed. Non-digitised holdings remain accessible via the dossier numbers and an enquiry to the ARH.</li>'
+            + '<li><strong>Retrace the searches.</strong> Most AI assistants show in the conversation which queries they actually executed (usually as expandable blocks such as "Used afa-recherche search"). Take a look inside: you will see which terms and filters were used and can tell whether a search was too narrow or too broad. The assistant\'s summary is not the same as the search result.</li>'
+            + '</ul>',
+          reliability_h: "A word on reliability",
+          reliability: '<p>AI assistants are a research tool, not a source. As a historian, keep two properties in mind:</p>'
+            + '<p><strong>Results are not reproducible.</strong> Ask the same question twice and the assistant may formulate different queries, select different hits and set different emphases in its summary. What you find today, a fellow student may not find tomorrow with the same question. Therefore record what matters: the document IDs, the links to the original entries and the dossier numbers. These are stable and citable, the chat transcript is not.</p>'
+            + '<p><strong>Summaries can contain errors.</strong> The assistant may shorten content, connect facts incorrectly or, at worst, invent details that are not in the source. Treat its output like a research assistant\'s briefing: useful as an entry point and overview, but every statement that goes into a paper must be verified against the original entry.</p>'
+            + '<p>In short: the assistant replaces the search form, not source criticism.</p>',
+          techref_h: "Technical reference",
+          techref_p: 'This section is aimed at developers and at anyone who wants to understand precisely how the assistant searches.',
           endpoint_h: "MCP endpoint",
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentication: none. Add it to MCP-capable clients as a remote server with this URL.',
           integration_h: "Integration into AI systems",
