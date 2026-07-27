@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AGHIST — MCP Server</title>
-    <meta name="description" content="MCP server for recherche2.histoirerurale.ch — full-text search over persons, institutions, audiovisual sources, archive holdings, digital editions and publications of the Archives of Rural History." />
+    <title>AGHIST · MCP Server</title>
+    <meta name="description" content="MCP server for recherche2.histoirerurale.ch: full-text search over persons, institutions, audiovisual sources, archive holdings, digital editions and publications of the Archives of Rural History." />
     <style>
       :root {
         color-scheme: light;
@@ -336,39 +336,39 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         <h2 data-i18n="tools_h"></h2>
 
         <details>
-          <summary><code>search</code> — <span data-i18n="tool_search"></span></summary>
+          <summary><code>search</code> · <span data-i18n="tool_search"></span></summary>
           <div data-i18n-html="tool_search_params"></div>
         </details>
         <details>
-          <summary><code>search_entities</code> — <span data-i18n-html="tool_search_entities"></span></summary>
+          <summary><code>search_entities</code> · <span data-i18n-html="tool_search_entities"></span></summary>
           <div data-i18n-html="tool_search_entities_params"></div>
         </details>
         <details>
-          <summary><code>search_audiovisual</code> — <span data-i18n-html="tool_search_av"></span></summary>
+          <summary><code>search_audiovisual</code> · <span data-i18n-html="tool_search_av"></span></summary>
           <div data-i18n-html="tool_search_av_params"></div>
         </details>
         <details>
-          <summary><code>search_edition_hofstetter</code> — <span data-i18n="tool_ed_hofstetter"></span></summary>
+          <summary><code>search_edition_hofstetter</code> · <span data-i18n="tool_ed_hofstetter"></span></summary>
           <div data-i18n-html="tool_edition_params"></div>
         </details>
         <details>
-          <summary><code>search_edition_gillabert_randin</code> — <span data-i18n="tool_ed_gr"></span></summary>
+          <summary><code>search_edition_gillabert_randin</code> · <span data-i18n="tool_ed_gr"></span></summary>
           <div data-i18n-html="tool_edition_params"></div>
         </details>
         <details>
-          <summary><code>search_edition_bobbett</code> — <span data-i18n="tool_ed_bobbett"></span></summary>
+          <summary><code>search_edition_bobbett</code> · <span data-i18n="tool_ed_bobbett"></span></summary>
           <div data-i18n-html="tool_edition_params"></div>
         </details>
         <details>
-          <summary><code>fetch_document</code> — <span data-i18n="tool_fetch"></span></summary>
+          <summary><code>fetch_document</code> · <span data-i18n="tool_fetch"></span></summary>
           <div data-i18n-html="tool_fetch_params"></div>
         </details>
         <details>
-          <summary><code>list_hierarchy</code> — <span data-i18n="tool_list_h"></span></summary>
+          <summary><code>list_hierarchy</code> · <span data-i18n="tool_list_h"></span></summary>
           <div data-i18n-html="tool_list_h_params"></div>
         </details>
         <details>
-          <summary><code>server_info</code> — <span data-i18n="tool_server_info"></span></summary>
+          <summary><code>server_info</code> · <span data-i18n="tool_server_info"></span></summary>
           <div data-i18n-html="tool_server_info_params"></div>
         </details>
 
@@ -378,9 +378,9 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
       <div class="panel">
         <h2 data-i18n="discovery_h"></h2>
         <ul class="discovery">
-          <li><code><a href="/.well-known/mcp.json">/.well-known/mcp.json</a></code> — <span data-i18n="disc_mcp"></span></li>
-          <li><code><a href="/.well-known/agent-card.json">/.well-known/agent-card.json</a></code> — <span data-i18n="disc_card"></span></li>
-          <li><code><a href="/llms.txt">/llms.txt</a></code> — <span data-i18n="disc_llms"></span></li>
+          <li><code><a href="/.well-known/mcp.json">/.well-known/mcp.json</a></code> · <span data-i18n="disc_mcp"></span></li>
+          <li><code><a href="/.well-known/agent-card.json">/.well-known/agent-card.json</a></code> · <span data-i18n="disc_card"></span></li>
+          <li><code><a href="/llms.txt">/llms.txt</a></code> · <span data-i18n="disc_llms"></span></li>
         </ul>
       </div>
 
@@ -396,7 +396,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         de: {
           eyebrow: "MCP-Server · Beta",
           subtitle: "MCP-Schnittstelle zum Archiv für Agrargeschichte",
-          intro: 'Modellfähige Volltextsuche im <a href="https://www.recherche2.histoirerurale.ch">Recherche-Portal</a> des <a href="https://histoirerurale.ch">Archivs für Agrargeschichte</a> — Personen, Institutionen, Betriebe, audio-visuelle Quellen, Archivbestände, digitale Editionen und Publikationen. Über das Model Context Protocol (Streamable HTTP) direkt aus Claude, ChatGPT, Cursor, Perplexity und allen anderen MCP-fähigen Clients ansprechbar.',
+          intro: 'Modellfähige Volltextsuche im <a href="https://www.recherche2.histoirerurale.ch">Recherche-Portal</a> des <a href="https://histoirerurale.ch">Archivs für Agrargeschichte</a>: Personen, Institutionen, Betriebe, audio-visuelle Quellen, Archivbestände, digitale Editionen und Publikationen. Über das Model Context Protocol (Streamable HTTP) direkt aus Claude, ChatGPT, Cursor, Perplexity und allen anderen MCP-fähigen Clients ansprechbar.',
           guide_h: "So funktioniert die Recherche",
           guide_p: '<p>Einmal eingerichtet, stellen Sie Ihre Recherchefragen in ganz normaler Sprache: Der Assistent durchsucht die Bestände für Sie, kombiniert Suchanfragen, folgt Querverweisen und fasst die Ergebnisse zusammen. Zum Beispiel:</p>'
             + '<blockquote>«Such nach Personen mit dem Namen Ineichen.»</blockquote>'
@@ -446,8 +446,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentifizierung: keine. In MCP-fähigen Clients als Remote-Server mit dieser URL eintragen.',
           integration_h: "Integration in KI-Systeme",
           integration_p: 'Klick auf den jeweiligen Client für die genaue Anleitung. Die URL ist immer dieselbe: <code>https://mcp.histoirerurale.ch/mcp</code>.',
-          claude_web: '<strong>claude.ai (Web)</strong> — Settings → <em>Connectors</em> → <em>Add custom connector</em> → URL eintragen:',
-          claude_desktop: '<strong>Claude Desktop</strong> — in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) bzw. <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows) den Eintrag ergänzen:',
+          claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → URL eintragen:',
+          claude_desktop: '<strong>Claude Desktop</strong>: in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) bzw. <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows) den Eintrag ergänzen:',
           claude_restart: "Claude Desktop danach neu starten.",
           chatgpt: 'In ChatGPT → Settings → <em>Connectors</em> → <em>Custom connectors</em> → <em>New connector</em>:',
           chatgpt_use: 'Den Connector im Chat per "+ Tools" aktivieren. Auch in Custom GPTs als Action / MCP-Server hinterlegbar.',
@@ -456,12 +456,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           perplexity: 'In Perplexity → Settings → <em>Connectors</em> → <em>Add connector</em> → <em>MCP Server</em>:',
           perplexity_space: "In Spaces lässt sich der Connector pro Workspace aktivieren.",
           vscode: 'In <code>.vscode/mcp.json</code> im Workspace oder global über <em>MCP: Open User Configuration</em>:',
-          vscode_use: 'Im Copilot-Chat-Panel <em>Agent-Mode</em> auswählen — die Tools stehen dann zur Verfügung.',
+          vscode_use: 'Im Copilot-Chat-Panel <em>Agent-Mode</em> auswählen; die Tools stehen dann zur Verfügung.',
           cli_intro: "Einmaliger Aufruf in einem beliebigen Terminal:",
           cli_done: "Danach in jeder Claude-Code-Sitzung verfügbar.",
           custom_clients_h: "Eigene MCP-Clients (Python / TypeScript)",
           custom_py: 'Python mit dem offiziellen <code>mcp</code>-SDK:',
-          custom_ts: 'TypeScript/Node mit <code>@modelcontextprotocol/sdk</code> analog — StreamableHTTPClientTransport mit derselben URL.',
+          custom_ts: 'TypeScript/Node mit <code>@modelcontextprotocol/sdk</code> analog: StreamableHTTPClientTransport mit derselben URL.',
           tools_h: "Werkzeuge",
           th_name: "Name",
           th_function: "Funktion",
@@ -476,11 +476,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_server_info: "Versions- und Endpunkt-Information.",
           tool_search_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String (Phrasen mit "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, Wildcards <code>*</code> und <code>?</code>).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Bevorzugte Sprache für Titel/Highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Kein Filter — fällt auf andere Sprachen zurück.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Bevorzugte Sprache für Titel/Highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Kein Filter; fällt auf andere Sprachen zurück.</td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Treffer pro Seite (1–100).</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor aus <code>next_cursor</code> der vorigen Antwort.</td></tr>'
-            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchie-IDs zur Einschränkung (per OR verknüpft, aus <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursor aus <code>next_cursor</code> der vorigen Antwort.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>-</td><td>Hierarchie-IDs zur Einschränkung (per OR verknüpft, aus <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Hierarchie-Aggregation mitliefern.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Rückgabe (SearchResponse)</h3>'
@@ -494,44 +494,44 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> bleibt als Deprecated-Alias für <code>farm</code> erhalten.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Paginierungs-Cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf Personen/Institutionen/Betriebe eingeschränkt.</p>',
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>); Hits sind auf Personen/Institutionen/Betriebe eingeschränkt.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
-            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = nur Fotos, <code>films</code> = nur Filme; ohne Angabe beide.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>-</td><td><code>photos</code> = nur Fotos, <code>films</code> = nur Filme; ohne Angabe beide.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Paginierungs-Cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf Foto-/Filmbestände eingeschränkt.</p>',
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>); Hits sind auf Foto-/Filmbestände eingeschränkt.</p>',
           tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene-Query-String.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Paginierungs-Cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Paginierungs-Cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>) — Hits sind auf die jeweilige Edition eingeschränkt.</p>',
+            + '<p style="margin-top:.6rem"><strong>Rückgabe:</strong> <code>SearchResponse</code> (siehe <code>search</code>); Hits sind auf die jeweilige Edition eingeschränkt.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>erforderlich</td><td>Dokument-ID, z.B. <code>AfA_Personen_001_DB9920</code>. Aus dem <code>id</code>-Feld einer <code>search</code>-Antwort.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Bevorzugte Sprache für Titel/Text.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Bevorzugte Sprache für Titel/Text.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Rückgabe (SearchHit, ohne Volltext)</h3>'
             + '<ul>'
             + '<li><strong>Metadaten:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (Sammlungs-Pfad), <code>collection</code> (Label), <code>date</code> (ISO, optional), <code>is_pdf</code>.</li>'
-            + '<li><code>document_url</code> — Link zur PDF- oder HTML-Datei im <strong>Suchportal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
-            + '<li><code>original_url</code> — <strong>Deep-Link ins Quellportal</strong>, also die Website, von der der Scraper das Dokument geholt hat (z.B. <code>histoirerurale.ch</code> — kann je nach Bestand variieren).</li>'
+            + '<li><code>document_url</code>: Link zur PDF- oder HTML-Datei im <strong>Suchportal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code>: <strong>Deep-Link ins Quellportal</strong>, also die Website, von der der Scraper das Dokument geholt hat (z.B. <code>histoirerurale.ch</code>; kann je nach Bestand variieren).</li>'
             + '</ul>'
             + '<p><code>null</code>, wenn die ID nicht gefunden wird.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optionale Volltext-Anfrage.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Maximale Anzahl Hierarchie-Einträge (1–10 000).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label-Sprache.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Label-Sprache.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Rückgabe (HierarchyResponse)</h3>'
             + '<table><thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead><tbody>'
@@ -547,7 +547,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
             + '<tr><td><code>sort_orders</code></td><td>list[str]</td><td>Akzeptierte Werte für <code>sort</code>.</td></tr>'
             + '<tr><td><code>hierarchy_constants</code></td><td>dict</td><td>Sprechende Konstanten (z.B. <code>PERSONS</code>, <code>EDITION_BOBBETT</code>) → Hierarchie-ID-Strings.</td></tr>'
             + '</tbody></table>',
-          tools_note: 'Volltext-Suche und Hierarchie-Filter lassen sich beliebig kombinieren — z.B. <code>search(query="Bauernhof", hierarchy=["AfA_FotoFilm"])</code> für alle Bauernhof-Bilder. Mehrere Hierarchie-IDs werden mit OR verknüpft, mit der Volltext-Suche per AND.',
+          tools_note: 'Volltext-Suche und Hierarchie-Filter lassen sich beliebig kombinieren, z.B. <code>search(query="Bauernhof", hierarchy=["AfA_FotoFilm"])</code> für alle Bauernhof-Bilder. Mehrere Hierarchie-IDs werden mit OR verknüpft, mit der Volltext-Suche per AND.',
           discovery_h: "Discovery-Endpunkte",
           disc_mcp: "MCP-Server-Manifest",
           disc_card: "A2A Agent Card",
@@ -558,7 +558,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         fr: {
           eyebrow: "Serveur MCP · Bêta",
           subtitle: "Interface MCP des Archives d'histoire rurale",
-          intro: 'Recherche en plein texte adaptée aux modèles dans le <a href="https://www.recherche2.histoirerurale.ch">portail de recherche</a> des <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> — personnes, institutions, exploitations, sources audiovisuelles, fonds d\'archives, éditions numériques et publications. Accessible via le Model Context Protocol (Streamable HTTP) directement depuis Claude, ChatGPT, Cursor, Perplexity et tous les autres clients compatibles MCP.',
+          intro: 'Recherche en plein texte adaptée aux modèles dans le <a href="https://www.recherche2.histoirerurale.ch">portail de recherche</a> des <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> : personnes, institutions, exploitations, sources audiovisuelles, fonds d\'archives, éditions numériques et publications. Accessible via le Model Context Protocol (Streamable HTTP) directement depuis Claude, ChatGPT, Cursor, Perplexity et tous les autres clients compatibles MCP.',
           guide_h: "Comment fonctionne la recherche",
           guide_p: '<p>Une fois la connexion établie, posez vos questions de recherche en langage courant : l\'assistant parcourt les fonds pour vous, combine les requêtes, suit les renvois et résume les résultats. Par exemple :</p>'
             + '<blockquote>« Cherche des personnes portant le nom Ineichen. »</blockquote>'
@@ -608,8 +608,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           endpoint_p: 'Transport : <em>Streamable HTTP</em>. Authentification : aucune. À ajouter dans les clients MCP comme serveur distant avec cette URL.',
           integration_h: "Intégration dans les systèmes d'IA",
           integration_p: 'Cliquez sur le client concerné pour les instructions détaillées. L\'URL est toujours la même : <code>https://mcp.histoirerurale.ch/mcp</code>.',
-          claude_web: '<strong>claude.ai (Web)</strong> — Settings → <em>Connectors</em> → <em>Add custom connector</em> → saisir l\'URL :',
-          claude_desktop: '<strong>Claude Desktop</strong> — dans <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) ou <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), ajouter :',
+          claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → saisir l\'URL :',
+          claude_desktop: '<strong>Claude Desktop</strong> : dans <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) ou <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), ajouter :',
           claude_restart: "Redémarrer Claude Desktop ensuite.",
           chatgpt: 'Dans ChatGPT → Settings → <em>Connectors</em> → <em>Custom connectors</em> → <em>New connector</em> :',
           chatgpt_use: 'Activer le connecteur dans la conversation via "+ Tools". Également utilisable dans les Custom GPTs comme Action / serveur MCP.',
@@ -618,12 +618,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           perplexity: 'Dans Perplexity → Settings → <em>Connectors</em> → <em>Add connector</em> → <em>MCP Server</em> :',
           perplexity_space: "Dans les Spaces, le connecteur peut être activé par espace de travail.",
           vscode: 'Dans <code>.vscode/mcp.json</code> au niveau du projet ou globalement via <em>MCP: Open User Configuration</em> :',
-          vscode_use: 'Sélectionner le <em>mode Agent</em> dans le panneau Copilot Chat — les outils sont alors disponibles.',
+          vscode_use: 'Sélectionner le <em>mode Agent</em> dans le panneau Copilot Chat ; les outils sont alors disponibles.',
           cli_intro: "Appel unique dans n'importe quel terminal :",
           cli_done: "Disponible ensuite dans chaque session Claude Code.",
           custom_clients_h: "Clients MCP personnalisés (Python / TypeScript)",
           custom_py: 'Python avec le SDK officiel <code>mcp</code> :',
-          custom_ts: 'TypeScript/Node avec <code>@modelcontextprotocol/sdk</code> de manière analogue — StreamableHTTPClientTransport avec la même URL.',
+          custom_ts: 'TypeScript/Node avec <code>@modelcontextprotocol/sdk</code> de manière analogue : StreamableHTTPClientTransport avec la même URL.',
           tools_h: "Outils",
           th_name: "Nom",
           th_function: "Fonction",
@@ -632,11 +632,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_av: 'Fonds photographiques et filmiques (limitable à <code>photos</code> / <code>films</code>).',
           tool_search_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene (expressions entre "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, jokers <code>*</code> et <code>?</code>).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue préférée pour titre/extrait: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Pas un filtre — rétrograde sur les autres langues.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Langue préférée pour titre/extrait: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Pas un filtre ; rétrograde sur les autres langues.</td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Résultats par page (1–100).</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur issu de <code>next_cursor</code> de la réponse précédente.</td></tr>'
-            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>IDs de hiérarchie pour restreindre (via OR, issus de <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Curseur issu de <code>next_cursor</code> de la réponse précédente.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>-</td><td>IDs de hiérarchie pour restreindre (via OR, issus de <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Inclure l\'agrégation hiérarchique.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Retour (SearchResponse)</h3>'
@@ -650,44 +650,44 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_entities_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> reste comme alias obsolète pour <code>farm</code>.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Curseur de pagination.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints aux personnes/institutions/exploitations.</p>',
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) ; les hits sont restreints aux personnes/institutions/exploitations.</p>',
           tool_search_av_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
-            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = uniquement photos, <code>films</code> = uniquement films; sans précision les deux.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>-</td><td><code>photos</code> = uniquement photos, <code>films</code> = uniquement films; sans précision les deux.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Curseur de pagination.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints aux fonds photographiques/filmiques.</p>',
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) ; les hits sont restreints aux fonds photographiques/filmiques.</p>',
           tool_edition_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête Lucene.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Curseur de pagination.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Curseur de pagination.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) — les hits sont restreints à l\'édition en question.</p>',
+            + '<p style="margin-top:.6rem"><strong>Retour :</strong> <code>SearchResponse</code> (voir <code>search</code>) ; les hits sont restreints à l\'édition en question.</p>',
           tool_fetch_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>obligatoire</td><td>ID du document, ex. <code>AfA_Personen_001_DB9920</code>. Depuis le champ <code>id</code> d\'une réponse <code>search</code>.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue préférée pour titre/texte.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Langue préférée pour titre/texte.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Retour (SearchHit, sans texte intégral)</h3>'
             + '<ul>'
             + '<li><strong>Métadonnées :</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (chemin de collection), <code>collection</code> (libellé), <code>date</code> (ISO, optionnel), <code>is_pdf</code>.</li>'
-            + '<li><code>document_url</code> — lien vers le fichier PDF ou HTML dans le <strong>portail de recherche</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
-            + '<li><code>original_url</code> — <strong>lien profond vers le portail source</strong>, c\'est-à-dire le site depuis lequel le scraper a récupéré le document (p. ex. <code>histoirerurale.ch</code> — variable selon le fonds).</li>'
+            + '<li><code>document_url</code> : lien vers le fichier PDF ou HTML dans le <strong>portail de recherche</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code> : <strong>lien profond vers le portail source</strong>, c\'est-à-dire le site depuis lequel le scraper a récupéré le document (p. ex. <code>histoirerurale.ch</code> ; variable selon le fonds).</li>'
             + '</ul>'
             + '<p><code>null</code> si l\'ID n\'est pas trouvé.</p>',
           tool_list_h_params: '<table><thead><tr><th>Paramètre</th><th>Type</th><th>Défaut</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Requête plein texte optionnelle.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Nombre max. d\'entrées hiérarchiques (1–10 000).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Langue des libellés.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Langue des libellés.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Retour (HierarchyResponse)</h3>'
             + '<table><thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead><tbody>'
@@ -709,7 +709,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_fetch: "Document individuel avec texte intégral à partir de son identifiant.",
           tool_list_h: "Buckets hiérarchiques avec nombre de résultats.",
           tool_server_info: "Informations sur la version et le point d'accès.",
-          tools_note: 'La recherche plein texte et les filtres hiérarchiques se combinent librement — p. ex. <code>search(query="ferme", hierarchy=["AfA_FotoFilm"])</code> pour toutes les images de ferme. Plusieurs identifiants hiérarchiques sont reliés par OR, et par AND avec la recherche plein texte.',
+          tools_note: 'La recherche plein texte et les filtres hiérarchiques se combinent librement, p. ex. <code>search(query="ferme", hierarchy=["AfA_FotoFilm"])</code> pour toutes les images de ferme. Plusieurs identifiants hiérarchiques sont reliés par OR, et par AND avec la recherche plein texte.',
           discovery_h: "Points de découverte",
           disc_mcp: "Manifeste du serveur MCP",
           disc_card: "A2A Agent Card",
@@ -720,7 +720,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         it: {
           eyebrow: "Server MCP · Beta",
           subtitle: "Interfaccia MCP dell'Archivio di storia rurale",
-          intro: 'Ricerca a testo pieno predisposta per i modelli nel <a href="https://www.recherche2.histoirerurale.ch">portale di ricerca</a> dell\'<a href="https://histoirerurale.ch">Archivio di storia rurale</a> — persone, istituzioni, aziende, fonti audiovisive, fondi d\'archivio, edizioni digitali e pubblicazioni. Accessibile tramite il Model Context Protocol (Streamable HTTP) direttamente da Claude, ChatGPT, Cursor, Perplexity e tutti gli altri client compatibili con MCP.',
+          intro: 'Ricerca a testo pieno predisposta per i modelli nel <a href="https://www.recherche2.histoirerurale.ch">portale di ricerca</a> dell\'<a href="https://histoirerurale.ch">Archivio di storia rurale</a>: persone, istituzioni, aziende, fonti audiovisive, fondi d\'archivio, edizioni digitali e pubblicazioni. Accessibile tramite il Model Context Protocol (Streamable HTTP) direttamente da Claude, ChatGPT, Cursor, Perplexity e tutti gli altri client compatibili con MCP.',
           guide_h: "Come funziona la ricerca",
           guide_p: '<p>Una volta configurato, ponete le vostre domande di ricerca in linguaggio corrente: l\'assistente esplora i fondi per voi, combina le interrogazioni, segue i rinvii e riassume i risultati. Per esempio:</p>'
             + '<blockquote>«Cerca persone con il cognome Ineichen.»</blockquote>'
@@ -770,8 +770,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           endpoint_p: 'Trasporto: <em>Streamable HTTP</em>. Autenticazione: nessuna. Da inserire nei client MCP come server remoto con questo URL.',
           integration_h: "Integrazione nei sistemi di IA",
           integration_p: 'Clicca sul rispettivo client per le istruzioni dettagliate. L\'URL è sempre lo stesso: <code>https://mcp.histoirerurale.ch/mcp</code>.',
-          claude_web: '<strong>claude.ai (Web)</strong> — Settings → <em>Connectors</em> → <em>Add custom connector</em> → inserire l\'URL:',
-          claude_desktop: '<strong>Claude Desktop</strong> — in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) o <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), aggiungere:',
+          claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → inserire l\'URL:',
+          claude_desktop: '<strong>Claude Desktop</strong>: in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) o <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), aggiungere:',
           claude_restart: "Riavviare poi Claude Desktop.",
           chatgpt: 'In ChatGPT → Settings → <em>Connectors</em> → <em>Custom connectors</em> → <em>New connector</em>:',
           chatgpt_use: 'Attivare il connettore nella chat tramite "+ Tools". Anche nei Custom GPTs come Action / server MCP.',
@@ -780,12 +780,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           perplexity: 'In Perplexity → Settings → <em>Connectors</em> → <em>Add connector</em> → <em>MCP Server</em>:',
           perplexity_space: "Negli Spaces il connettore può essere attivato per ogni area di lavoro.",
           vscode: 'In <code>.vscode/mcp.json</code> nel workspace o globalmente tramite <em>MCP: Open User Configuration</em>:',
-          vscode_use: 'Selezionare la <em>modalità Agent</em> nel pannello Copilot Chat — gli strumenti saranno disponibili.',
+          vscode_use: 'Selezionare la <em>modalità Agent</em> nel pannello Copilot Chat; gli strumenti saranno disponibili.',
           cli_intro: "Comando una tantum in qualsiasi terminale:",
           cli_done: "Successivamente disponibile in ogni sessione Claude Code.",
           custom_clients_h: "Client MCP personalizzati (Python / TypeScript)",
           custom_py: 'Python con l\'SDK ufficiale <code>mcp</code>:',
-          custom_ts: 'TypeScript/Node con <code>@modelcontextprotocol/sdk</code> in modo analogo — StreamableHTTPClientTransport con lo stesso URL.',
+          custom_ts: 'TypeScript/Node con <code>@modelcontextprotocol/sdk</code> in modo analogo: StreamableHTTPClientTransport con lo stesso URL.',
           tools_h: "Strumenti",
           th_name: "Nome",
           th_function: "Funzione",
@@ -794,11 +794,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_av: 'Fondi fotografici e cinematografici (limitabili a <code>photos</code> / <code>films</code>).',
           tool_search_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene (frasi tra "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, jolly <code>*</code> e <code>?</code>).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua preferita per titolo/estratto: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Non è un filtro — ripiega sulle altre lingue.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Lingua preferita per titolo/estratto: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Non è un filtro; ripiega sulle altre lingue.</td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Risultati per pagina (1–100).</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore da <code>next_cursor</code> della risposta precedente.</td></tr>'
-            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>ID gerarchici per restringere (via OR, da <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursore da <code>next_cursor</code> della risposta precedente.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>-</td><td>ID gerarchici per restringere (via OR, da <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Includere aggregazione gerarchica.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Risposta (SearchResponse)</h3>'
@@ -812,44 +812,44 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_entities_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> resta come alias deprecato di <code>farm</code>.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursore di paginazione.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati a persone/istituzioni/aziende.</p>',
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>); i risultati sono limitati a persone/istituzioni/aziende.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
-            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = solo foto, <code>films</code> = solo film; senza specifica entrambi.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>-</td><td><code>photos</code> = solo foto, <code>films</code> = solo film; senza specifica entrambi.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursore di paginazione.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati a fondi fotografici/cinematografici.</p>',
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>); i risultati sono limitati a fondi fotografici/cinematografici.</p>',
           tool_edition_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query Lucene.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursore di paginazione.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursore di paginazione.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>) — i risultati sono limitati all\'edizione specifica.</p>',
+            + '<p style="margin-top:.6rem"><strong>Risposta:</strong> <code>SearchResponse</code> (vedi <code>search</code>); i risultati sono limitati all\'edizione specifica.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>obbligatorio</td><td>ID documento, es. <code>AfA_Personen_001_DB9920</code>. Dal campo <code>id</code> di una risposta <code>search</code>.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua preferita per titolo/testo.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Lingua preferita per titolo/testo.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Risposta (SearchHit, senza testo integrale)</h3>'
             + '<ul>'
             + '<li><strong>Metadati:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (percorso della collezione), <code>collection</code> (etichetta), <code>date</code> (ISO, opzionale), <code>is_pdf</code>.</li>'
-            + '<li><code>document_url</code> — link al file PDF o HTML nel <strong>portale di ricerca</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
-            + '<li><code>original_url</code> — <strong>deep link al portale sorgente</strong>, ovvero il sito da cui lo scraper ha recuperato il documento (es. <code>histoirerurale.ch</code> — varia a seconda del fondo).</li>'
+            + '<li><code>document_url</code>: link al file PDF o HTML nel <strong>portale di ricerca</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code>: <strong>deep link al portale sorgente</strong>, ovvero il sito da cui lo scraper ha recuperato il documento (es. <code>histoirerurale.ch</code>; varia a seconda del fondo).</li>'
             + '</ul>'
             + '<p><code>null</code> se l\'ID non è trovato.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parametro</th><th>Tipo</th><th>Default</th><th>Descrizione</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Query full-text opzionale.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Numero max. di voci gerarchiche (1–10 000).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Lingua delle etichette.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Lingua delle etichette.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Risposta (HierarchyResponse)</h3>'
             + '<table><thead><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr></thead><tbody>'
@@ -871,7 +871,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_fetch: "Singolo documento con testo integrale tramite il suo ID.",
           tool_list_h: "Bucket gerarchici con numero di risultati.",
           tool_server_info: "Informazioni su versione ed endpoint.",
-          tools_note: 'Ricerca a testo pieno e filtri gerarchici sono liberamente combinabili — p. es. <code>search(query="fattoria", hierarchy=["AfA_FotoFilm"])</code> per tutte le immagini di fattoria. Più ID gerarchici sono uniti con OR, con la ricerca testuale con AND.',
+          tools_note: 'Ricerca a testo pieno e filtri gerarchici sono liberamente combinabili, p. es. <code>search(query="fattoria", hierarchy=["AfA_FotoFilm"])</code> per tutte le immagini di fattoria. Più ID gerarchici sono uniti con OR, con la ricerca testuale con AND.',
           discovery_h: "Endpoint di discovery",
           disc_mcp: "Manifest del server MCP",
           disc_card: "A2A Agent Card",
@@ -882,7 +882,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         en: {
           eyebrow: "MCP Server · Beta",
           subtitle: "MCP interface to the Archives of Rural History",
-          intro: 'Model-ready full-text search across the <a href="https://www.recherche2.histoirerurale.ch">research portal</a> of the <a href="https://histoirerurale.ch">Archives of Rural History</a> — persons, institutions, farms, audiovisual sources, archive holdings, digital editions and publications. Accessible via the Model Context Protocol (Streamable HTTP) directly from Claude, ChatGPT, Cursor, Perplexity and any other MCP-capable client.',
+          intro: 'Model-ready full-text search across the <a href="https://www.recherche2.histoirerurale.ch">research portal</a> of the <a href="https://histoirerurale.ch">Archives of Rural History</a>: persons, institutions, farms, audiovisual sources, archive holdings, digital editions and publications. Accessible via the Model Context Protocol (Streamable HTTP) directly from Claude, ChatGPT, Cursor, Perplexity and any other MCP-capable client.',
           guide_h: "How research works",
           guide_p: '<p>Once connected, you ask your research questions in plain language: the assistant searches the holdings for you, combines queries, follows cross-references and summarises the results. For example:</p>'
             + '<blockquote>"Search for persons named Ineichen."</blockquote>'
@@ -932,8 +932,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentication: none. Add it to MCP-capable clients as a remote server with this URL.',
           integration_h: "Integration into AI systems",
           integration_p: 'Click the respective client for detailed instructions. The URL is always the same: <code>https://mcp.histoirerurale.ch/mcp</code>.',
-          claude_web: '<strong>claude.ai (Web)</strong> — Settings → <em>Connectors</em> → <em>Add custom connector</em> → enter the URL:',
-          claude_desktop: '<strong>Claude Desktop</strong> — in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) or <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), add:',
+          claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → enter the URL:',
+          claude_desktop: '<strong>Claude Desktop</strong>: in <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) or <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> (Windows), add:',
           claude_restart: "Then restart Claude Desktop.",
           chatgpt: 'In ChatGPT → Settings → <em>Connectors</em> → <em>Custom connectors</em> → <em>New connector</em>:',
           chatgpt_use: 'Enable the connector in chat via "+ Tools". Also usable in Custom GPTs as Action / MCP server.',
@@ -942,12 +942,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           perplexity: 'In Perplexity → Settings → <em>Connectors</em> → <em>Add connector</em> → <em>MCP Server</em>:',
           perplexity_space: "In Spaces, the connector can be enabled per workspace.",
           vscode: 'In <code>.vscode/mcp.json</code> at the workspace level, or globally via <em>MCP: Open User Configuration</em>:',
-          vscode_use: 'Select <em>Agent mode</em> in the Copilot Chat panel — the tools are then available.',
+          vscode_use: 'Select <em>Agent mode</em> in the Copilot Chat panel; the tools are then available.',
           cli_intro: "One-off invocation in any terminal:",
           cli_done: "Available in every Claude Code session afterwards.",
           custom_clients_h: "Custom MCP clients (Python / TypeScript)",
           custom_py: 'Python with the official <code>mcp</code> SDK:',
-          custom_ts: 'TypeScript/Node with <code>@modelcontextprotocol/sdk</code> in the same fashion — StreamableHTTPClientTransport with the same URL.',
+          custom_ts: 'TypeScript/Node with <code>@modelcontextprotocol/sdk</code> in the same fashion: StreamableHTTPClientTransport with the same URL.',
           tools_h: "Tools",
           th_name: "Name",
           th_function: "Function",
@@ -956,11 +956,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_av: 'Photographic and film holdings (optionally narrowed to <code>photos</code> / <code>films</code>).',
           tool_search_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string (phrases in "…", <code>AND</code>/<code>OR</code>/<code>NOT</code>, wildcards <code>*</code> and <code>?</code>).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Preferred language for title/highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Not a filter — falls back to other languages.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Preferred language for title/highlight: <code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code>. Not a filter; falls back to other languages.</td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>Hits per page (1–100).</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Cursor from <code>next_cursor</code> of the previous response.</td></tr>'
-            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>—</td><td>Hierarchy IDs to restrict (OR-combined, from <code>list_hierarchy</code>).</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Cursor from <code>next_cursor</code> of the previous response.</td></tr>'
+            + '<tr><td><code>hierarchy</code></td><td>list[str]</td><td>-</td><td>Hierarchy IDs to restrict (OR-combined, from <code>list_hierarchy</code>).</td></tr>'
             + '<tr><td><code>include_aggregations</code></td><td>bool</td><td>false</td><td>Include hierarchy aggregation in the response.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Response (SearchResponse)</h3>'
@@ -974,44 +974,44 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_search_entities_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
             + '<tr><td><code>entity_type</code></td><td>enum</td><td><code>any</code></td><td><code>person</code>|<code>institution</code>|<code>farm</code>|<code>any</code>. <code>company</code> remains as a deprecated alias for <code>farm</code>.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Pagination cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to persons/institutions/farms.</p>',
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>); hits are restricted to persons/institutions/farms.</p>',
           tool_search_av_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
-            + '<tr><td><code>media_type</code></td><td>enum</td><td>—</td><td><code>photos</code> = photos only, <code>films</code> = films only; unset = both.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>media_type</code></td><td>enum</td><td>-</td><td><code>photos</code> = photos only, <code>films</code> = films only; unset = both.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Pagination cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to photo/film holdings.</p>',
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>); hits are restricted to photo/film holdings.</p>',
           tool_edition_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Lucene query string.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td><code>de</code>|<code>fr</code>|<code>it</code>|<code>en</code></td></tr>'
             + '<tr><td><code>sort</code></td><td>enum</td><td><code>relevance</code></td><td><code>relevance</code>|<code>date</code>|<code>id</code></td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>20</td><td>1–100.</td></tr>'
-            + '<tr><td><code>search_after</code></td><td>list</td><td>—</td><td>Pagination cursor.</td></tr>'
+            + '<tr><td><code>search_after</code></td><td>list</td><td>-</td><td>Pagination cursor.</td></tr>'
             + '</tbody></table>'
-            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>) — hits are restricted to the specific edition.</p>',
+            + '<p style="margin-top:.6rem"><strong>Response:</strong> <code>SearchResponse</code> (see <code>search</code>); hits are restricted to the specific edition.</p>',
           tool_fetch_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>id</code></td><td>str</td><td>required</td><td>Document ID, e.g. <code>AfA_Personen_001_DB9920</code>. From the <code>id</code> field of a <code>search</code> response.</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Preferred language for title/text.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Preferred language for title/text.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Response (SearchHit, without full text)</h3>'
             + '<ul>'
             + '<li><strong>Metadata:</strong> <code>id</code>, <code>title</code>, <code>abstract</code>, <code>meta</code>, <code>hierarchy</code> (collection path), <code>collection</code> (label), <code>date</code> (ISO, optional), <code>is_pdf</code>.</li>'
-            + '<li><code>document_url</code> — link to the PDF or HTML file in the <strong>research portal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
-            + '<li><code>original_url</code> — <strong>deep link into the source portal</strong>, i.e. the website the scraper fetched the document from (e.g. <code>histoirerurale.ch</code> — varies by holding).</li>'
+            + '<li><code>document_url</code>: link to the PDF or HTML file in the <strong>research portal</strong> (<code>recherche2.histoirerurale.ch</code>).</li>'
+            + '<li><code>original_url</code>: <strong>deep link into the source portal</strong>, i.e. the website the scraper fetched the document from (e.g. <code>histoirerurale.ch</code>; varies by holding).</li>'
             + '</ul>'
             + '<p><code>null</code> if the ID is not found.</p>',
           tool_list_h_params: '<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>'
             + '<tr><td><code>query</code></td><td>str</td><td><code>*</code></td><td>Optional full-text query.</td></tr>'
             + '<tr><td><code>size</code></td><td>int</td><td>200</td><td>Max. number of hierarchy entries (1–10 000).</td></tr>'
-            + '<tr><td><code>language</code></td><td>enum</td><td>—</td><td>Label language.</td></tr>'
+            + '<tr><td><code>language</code></td><td>enum</td><td>-</td><td>Label language.</td></tr>'
             + '</tbody></table>'
             + '<h3 style="margin-top:1rem">Response (HierarchyResponse)</h3>'
             + '<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>'
@@ -1033,7 +1033,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           tool_fetch: "Single document including full text via its ID.",
           tool_list_h: "Hierarchy buckets with document counts.",
           tool_server_info: "Version and endpoint information.",
-          tools_note: 'Full-text search and hierarchy filters can be combined freely — e.g. <code>search(query="farmhouse", hierarchy=["AfA_FotoFilm"])</code> for all farmhouse pictures. Multiple hierarchy IDs are combined with OR, and with the full-text query via AND.',
+          tools_note: 'Full-text search and hierarchy filters can be combined freely, e.g. <code>search(query="farmhouse", hierarchy=["AfA_FotoFilm"])</code> for all farmhouse pictures. Multiple hierarchy IDs are combined with OR, and with the full-text query via AND.',
           discovery_h: "Discovery endpoints",
           disc_mcp: "MCP server manifest",
           disc_card: "A2A agent card",
@@ -1066,8 +1066,8 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         const dict = I18N[lang] || I18N.en;
         document.documentElement.lang = lang;
         document.title = dict.subtitle
-          ? "AGHIST — " + dict.subtitle
-          : "AGHIST — MCP Server";
+          ? "AGHIST · " + dict.subtitle
+          : "AGHIST · MCP Server";
         document.querySelectorAll("[data-i18n]").forEach(el => {
           const key = el.dataset.i18n;
           if (dict[key] != null) el.textContent = dict[key];
