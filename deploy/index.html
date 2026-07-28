@@ -343,6 +343,24 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
       </div>
 
       <div class="panel">
+        <h2 data-i18n="direct_h"></h2>
+        <div data-i18n-html="direct_intro"></div>
+        <pre>curl -s -X POST https://mcp.histoirerurale.ch/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "search_entities",
+      "arguments": {"entity_type": "person", "query": "Ineichen", "size": 5}
+    }
+  }'</pre>
+        <div data-i18n-html="direct_notes"></div>
+      </div>
+
+      <div class="panel">
         <h2 data-i18n="tools_h"></h2>
 
         <details>
@@ -455,6 +473,9 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           techref_p: 'Dieser Abschnitt richtet sich an Entwicklerinnen und Entwickler sowie an alle, die genauer wissen wollen, wie der Assistent sucht.',
           endpoint_h: "MCP-Endpoint",
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentifizierung: keine. In MCP-fähigen Clients als Remote-Server mit dieser URL eintragen.',
+          direct_h: "Direktzugriff ohne KI",
+          direct_intro: '<p>Für technisch versierte Nutzerinnen und Nutzer ist der MCP-Server auch ohne KI-Assistent nutzbar, ähnlich einer gewöhnlichen API. MCP basiert auf JSON-RPC über HTTP: Jedes Werkzeug lässt sich direkt aufrufen, etwa per <code>curl</code> oder aus einem Skript (siehe «Eigene MCP-Clients»). Das ist der Weg zu voller Reproduzierbarkeit: gleicher Aufruf, gleiche Treffer, kein Sprachmodell dazwischen.</p>',
+          direct_notes: '<p>Die Antwort enthält die Trefferliste als JSON im Feld <code>result.content[0].text</code>. Zwei Hinweise: Der <code>Accept</code>-Header muss beide Inhaltstypen nennen (<code>application/json, text/event-stream</code>), sonst lehnt der Server die Anfrage ab. Und der sonst übliche <code>initialize</code>-Handshake des MCP-Protokolls entfällt, weil der Server zustandslos betrieben wird; einzelne Aufrufe funktionieren direkt. Damit eignet sich der Server auch für quantitative Auswertungen und Digital-Humanities-Projekte: Trefferzahlen über Bestände vergleichen, Korpora systematisch abfragen oder Ergebnisse in eigene Werkzeuge einbinden.</p>',
           integration_h: "Integration in KI-Systeme",
           integration_p: 'Klick auf den jeweiligen Client für die genaue Anleitung. Die URL ist immer dieselbe: <code>https://mcp.histoirerurale.ch/mcp</code>.',
           claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → URL eintragen:',
@@ -618,6 +639,9 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           techref_p: 'Cette section s\'adresse aux développeurs et développeuses ainsi qu\'à toute personne souhaitant comprendre précisément comment l\'assistant effectue ses recherches.',
           endpoint_h: "Point d'accès MCP",
           endpoint_p: 'Transport : <em>Streamable HTTP</em>. Authentification : aucune. À ajouter dans les clients MCP comme serveur distant avec cette URL.',
+          direct_h: "Accès direct sans IA",
+          direct_intro: '<p>Pour les utilisateurs et utilisatrices techniques, le serveur MCP s\'utilise aussi sans assistant IA, comme une API ordinaire. MCP repose sur JSON-RPC via HTTP : chaque outil peut être appelé directement, par exemple avec <code>curl</code> ou depuis un script (voir « Clients MCP personnalisés »). C\'est la voie vers une reproductibilité totale : même requête, mêmes résultats, sans modèle de langage intermédiaire.</p>',
+          direct_notes: '<p>La réponse contient la liste des résultats au format JSON dans le champ <code>result.content[0].text</code>. Deux remarques : l\'en-tête <code>Accept</code> doit mentionner les deux types de contenu (<code>application/json, text/event-stream</code>), sinon le serveur refuse la requête. Et le handshake <code>initialize</code> habituel du protocole MCP n\'est pas requis, car le serveur fonctionne sans état ; les appels isolés fonctionnent directement. Le serveur convient ainsi aussi aux analyses quantitatives et aux projets d\'humanités numériques : comparer les nombres de résultats entre fonds, interroger systématiquement des corpus ou intégrer les résultats dans ses propres outils.</p>',
           integration_h: "Intégration dans les systèmes d'IA",
           integration_p: 'Cliquez sur le client concerné pour les instructions détaillées. L\'URL est toujours la même : <code>https://mcp.histoirerurale.ch/mcp</code>.',
           claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → saisir l\'URL :',
@@ -781,6 +805,9 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           techref_p: 'Questa sezione si rivolge a sviluppatori e sviluppatrici e a chiunque voglia capire con precisione come l\'assistente effettua le ricerche.',
           endpoint_h: "Endpoint MCP",
           endpoint_p: 'Trasporto: <em>Streamable HTTP</em>. Autenticazione: nessuna. Da inserire nei client MCP come server remoto con questo URL.',
+          direct_h: "Accesso diretto senza IA",
+          direct_intro: '<p>Per utenti tecnici, il server MCP è utilizzabile anche senza assistente IA, come una normale API. MCP si basa su JSON-RPC via HTTP: ogni strumento può essere richiamato direttamente, per esempio con <code>curl</code> o da uno script (vedi «Client MCP personalizzati»). È la strada verso la piena riproducibilità: stessa chiamata, stessi risultati, senza modello linguistico intermedio.</p>',
+          direct_notes: '<p>La risposta contiene l\'elenco dei risultati in formato JSON nel campo <code>result.content[0].text</code>. Due note: l\'intestazione <code>Accept</code> deve indicare entrambi i tipi di contenuto (<code>application/json, text/event-stream</code>), altrimenti il server rifiuta la richiesta. E l\'usuale handshake <code>initialize</code> del protocollo MCP non è necessario, perché il server è privo di stato; le singole chiamate funzionano direttamente. Il server si presta così anche ad analisi quantitative e progetti di digital humanities: confrontare i numeri di risultati tra i fondi, interrogare sistematicamente i corpora o integrare i risultati nei propri strumenti.</p>',
           integration_h: "Integrazione nei sistemi di IA",
           integration_p: 'Clicca sul rispettivo client per le istruzioni dettagliate. L\'URL è sempre lo stesso: <code>https://mcp.histoirerurale.ch/mcp</code>.',
           claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → inserire l\'URL:',
@@ -944,6 +971,9 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
           techref_p: 'This section is aimed at developers and at anyone who wants to understand precisely how the assistant searches.',
           endpoint_h: "MCP endpoint",
           endpoint_p: 'Transport: <em>Streamable HTTP</em>. Authentication: none. Add it to MCP-capable clients as a remote server with this URL.',
+          direct_h: "Direct access without AI",
+          direct_intro: '<p>For technical users, the MCP server can also be used without an AI assistant, much like an ordinary API. MCP is built on JSON-RPC over HTTP: every tool can be called directly, for example with <code>curl</code> or from a script (see "Custom MCP clients"). This is the path to full reproducibility: same call, same hits, no language model in between.</p>',
+          direct_notes: '<p>The response contains the hit list as JSON in the <code>result.content[0].text</code> field. Two notes: the <code>Accept</code> header must name both content types (<code>application/json, text/event-stream</code>), otherwise the server rejects the request. And the usual MCP <code>initialize</code> handshake is not required, because the server runs statelessly; single calls work directly. This makes the server suitable for quantitative analysis and digital-humanities projects too: comparing hit counts across holdings, querying corpora systematically, or integrating results into your own tools.</p>',
           integration_h: "Integration into AI systems",
           integration_p: 'Click the respective client for detailed instructions. The URL is always the same: <code>https://mcp.histoirerurale.ch/mcp</code>.',
           claude_web: '<strong>claude.ai (Web)</strong>: Settings → <em>Connectors</em> → <em>Add custom connector</em> → enter the URL:',
