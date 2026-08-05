@@ -50,31 +50,8 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Header: weisser Logobalken, darunter der rote Streifen, wie auf der Hauptseite
+   Header: roter Streifen mit Logo, Titel und Sprachwahl
    --------------------------------------------------------------------------- */
-
-.site-header {
-  background: var(--surface);
-}
-
-.site-header__inner {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0.6rem 15px;
-  display: flex;
-  align-items: center;
-}
-
-.site-header__logo {
-  display: inline-block;
-  line-height: 0;
-}
-
-.site-header__logo img {
-  height: 48px;
-  width: auto;
-  max-width: 100%;
-}
 
 .site-bar {
   background: var(--afa-red);
@@ -86,8 +63,19 @@ body {
   padding: 0 15px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 12px;
+}
+
+.site-bar__logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  padding: 6px 0;
+}
+
+.site-bar__logo img {
+  height: 36px;
+  width: auto;
 }
 
 .site-bar__title {
@@ -104,9 +92,13 @@ body {
   text-decoration: none;
 }
 
+/* Sprachwahl rechts ausrichten */
+.lang-switch { margin-left: auto; }
+
 /* Sprachwahl: gleiche Optik wie div.mod-languages der Hauptseite */
 .lang-switch {
   display: flex;
+  align-self: stretch;
 }
 
 .lang-switch button {
@@ -448,6 +440,6 @@ ul.discovery li { margin: 0.3rem 0; }
 
 @media (max-width: 600px) {
   .site-footer__inner { flex-direction: column; gap: 0.4rem; }
-  .site-header__logo img { height: 40px; }
+  .site-bar__logo img { height: 30px; }
   p { text-align: left; }
 }
