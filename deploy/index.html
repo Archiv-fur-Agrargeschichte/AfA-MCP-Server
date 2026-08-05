@@ -27,10 +27,10 @@
       </div>
     </div>
 <main>
-      <p class="tag">Beta</p>
-      <h1><span data-i18n="brand"></span>
-        <small data-i18n="subtitle"></small>
-      </h1>
+      <div class="page-head">
+        <h1 data-i18n="subtitle"></h1>
+        <p class="tag">Beta</p>
+      </div>
       <p data-i18n-html="intro"></p>
 
       <div class="panel">
@@ -170,11 +170,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         <div data-i18n-html="reliability"></div>
       </div>
 
-      <div class="panel">
-        <h2 data-i18n="prompts_h"></h2>
-        <div data-i18n-html="prompts"></div>
-      </div>
-
       <div class="section-divider">
         <h2 data-i18n="techref_h"></h2>
         <p data-i18n-html="techref_p"></p>
@@ -184,6 +179,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         <h2 data-i18n="endpoint_h"></h2>
         <code class="endpoint">https://mcp.histoirerurale.ch/mcp</code>
         <p data-i18n-html="endpoint_p"></p>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="sysprompt_h"></h2>
+        <div data-i18n-html="sysprompt"></div>
       </div>
 
       <div class="panel">

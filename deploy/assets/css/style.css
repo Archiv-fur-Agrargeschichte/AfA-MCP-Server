@@ -165,15 +165,6 @@ h1 {
   margin: 0 0 0.6rem;
 }
 
-h1 small {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 17px;
-  font-weight: normal;
-  color: var(--ink);
-  margin-top: 0.5rem;
-}
-
 h2 {
   font-size: 18px;
   line-height: 1.45;
@@ -209,10 +200,21 @@ a:hover {
   text-decoration: none;
 }
 
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.page-head h1 { margin: 0; }
+
 /* Label im Stil von .pageTitle a der Hauptseite: roter Block, weisse Serifenschrift */
 .tag {
   display: inline-block;
-  margin: 0 0 0.8rem;
+  margin: 0;
   padding: 5px 15px;
   background-color: var(--afa-red);
   color: #ffffff;
