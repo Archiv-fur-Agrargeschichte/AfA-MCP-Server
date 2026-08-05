@@ -5,7 +5,7 @@ arbeitet. Deshalb wird er hier festgenagelt: Regeln, die versehentlich
 verschwinden, faellt sonst niemand auf.
 """
 
-from afa_mcp.server import SERVER_INSTRUCTIONS, build_server
+from afa_mcp.server import _INSTRUCTIONS_DE, _INSTRUCTIONS_EN, SERVER_INSTRUCTIONS, build_server
 
 
 def test_instructions_are_passed_to_the_server():
@@ -40,7 +40,37 @@ def test_instructions_carry_the_working_rules():
 
 
 def test_instructions_are_numbered_consecutively():
-    numbers = [f"\n{i}." for i in range(1, 11)]
-    for marker in numbers:
-        assert marker in SERVER_INSTRUCTIONS, marker
-    assert "\n11." not in SERVER_INSTRUCTIONS
+    for block in (_INSTRUCTIONS_DE, _INSTRUCTIONS_EN):
+        for i in range(1, 11):
+            assert f"\n{i}." in block, i
+        assert "\n11." not in block
+
+
+def test_instructions_are_bilingual():
+    # MCP kennt keine Sprachverhandlung fuer `instructions`, also muss der eine
+    # Text fuer deutsch- und englischsprachige Sitzungen taugen.
+    assert SERVER_INSTRUCTIONS == _INSTRUCTIONS_DE + "\n\n" + _INSTRUCTIONS_EN
+    for expected in ("Arbeitsregeln:", "Working rules:"):
+        assert expected in SERVER_INSTRUCTIONS, expected
+
+
+def test_english_instructions_carry_the_same_rules():
+    rules = [
+        "not in the holdings",
+        "document_url",
+        "highlight snippet",
+        "sort='id'",
+        "next_cursor",
+        "verbatim",
+        "no selection by importance",
+        "both IDs",
+    ]
+    for rule in rules:
+        assert rule in _INSTRUCTIONS_EN, rule
+
+
+def test_instructions_mention_the_prompt_templates():
+    # Ohne Hinweis bleiben die servergelieferten Vorlagen unentdeckt.
+    for block in (_INSTRUCTIONS_DE, _INSTRUCTIONS_EN):
+        assert "prompts/list" in block
+        assert "entity_dossier" in block

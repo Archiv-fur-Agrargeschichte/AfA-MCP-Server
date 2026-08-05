@@ -46,7 +46,14 @@ SERVER_INSTRUCTIONS = (
 |---|---|---|
 | Regel 3 zusätzlich in jede `search`-Tool-Description | Wird beim Tool-Call gelesen, nicht nur bei Session-Start | klein, offen |
 | Feld `text` in `SearchHit` umbenennen zu `highlight_snippet` | Name sagt selbst, dass er gekürzt ist | Breaking Change, offen |
-| MCP-Prompts-Primitive aktivieren (aktuell `"prompts": False` in `_server_card_payload`) | `01` bis `06` als servergelieferte Prompt-Templates mit Argumenten | mittel, offen |
+| MCP-Prompts-Primitive aktivieren | `01` bis `06` als servergelieferte Prompt-Templates mit Argumenten | **umgesetzt** in `src/afa_mcp/prompts.py` |
 | `retrieved_at` je Response | Bestandsänderung von Modellvarianz unterscheidbar | klein, offen |
 
-Der Prompts-Primitive ist der eigentliche Zielzustand: Prompt-Dateien veralten beim Kopieren, servergelieferte Prompts nicht.
+Der Prompts-Primitive war der eigentliche Zielzustand und ist erreicht: Prompt-Dateien veralten beim
+Kopieren, servergelieferte Prompts nicht. Die sechs Vorlagen stehen in `src/afa_mcp/prompts.py`,
+zweisprachig, mit dem Argument `language`. Die Dateien `01` bis `06` in diesem Ordner bleiben die
+Langfassung mit Begründung, und die Notlösung für Clients ohne Prompts-Unterstützung.
+
+Der Systemprompt selbst ist ebenfalls zweisprachig ausgeliefert (`_INSTRUCTIONS_DE` und
+`_INSTRUCTIONS_EN`), weil MCP für `instructions` keine Sprachverhandlung kennt: Der Client bekommt
+einen Text, und der muss für deutsch- wie englischsprachige Sitzungen taugen.

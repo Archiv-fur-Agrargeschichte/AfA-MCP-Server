@@ -40,6 +40,11 @@ korrekt, aber die wichtigste Funktion einer Person erschien nur in einem Drittel
 | `06-selbstpruefung-diff.md` | Lauf gegen Vorlauf diffen | Meta-Prompt |
 | `99-server-instructions.md` | Wortlaut des Systemprompts im Server, umgesetzt | wirkt auf alle Clients |
 
+`01` bis `06` liefert der Server zusätzlich als MCP-Prompts aus (`src/afa_mcp/prompts.py`,
+zweisprachig, Argument `language`). Ein Client zeigt sie zur Auswahl an, es muss also niemand mehr
+etwas kopieren. Die Dateien hier bleiben die Langfassung mit Begründung und die Notlösung für
+Clients ohne Prompts-Unterstützung.
+
 Zu jeder Antwort gehört ein **Lauf-Manifest** (siehe `01`), sonst ist die Reproduktion nicht prüfbar.
 Zu jedem wiederverwendbaren Ergebnis gehört zusätzlich ein **Rezept mit Fingerprint** (siehe `00`),
 sonst ist die Reproduktion nur innerhalb der eigenen Sitzung möglich.

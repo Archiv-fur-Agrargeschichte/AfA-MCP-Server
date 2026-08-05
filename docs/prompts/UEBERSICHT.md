@@ -40,6 +40,11 @@ konsumieren so eine Datei.
 
 Ohne 06 ist "reproduzierbar" eine unbelegte Behauptung.
 
+Diese sechs werden nicht mehr nur kopiert: Der Server liefert sie als MCP-Prompts aus, definiert in
+`src/afa_mcp/prompts.py`, zweisprachig über das Argument `language`. Der Wortlaut dort ist die
+Kurzfassung fuer den taeglichen Gebrauch, die Dateien hier die Langfassung mit Begruendung. Wer eine
+Regel aendert, aendert beides.
+
 ## Ebene 4: der Ausstieg aus dem Prompting
 
 **`skills-vorschlag.md`**

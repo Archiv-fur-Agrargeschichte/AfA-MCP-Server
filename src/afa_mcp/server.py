@@ -44,6 +44,7 @@ from .models import (
     SearchResponse,
     SortOrder,
 )
+from .prompts import register_prompts
 from .search import AfaClient
 
 logger = logging.getLogger(__name__)
@@ -144,7 +145,7 @@ def _server_card_payload() -> dict[str, Any]:
                 "stateless": _env_bool("MCP_STATELESS_HTTP", True),
             }
         },
-        "capabilities": {"tools": True, "resources": True, "prompts": False},
+        "capabilities": {"tools": True, "resources": True, "prompts": True},
         "tools": [
             {"name": "search", "title": "Search AfA",
              "description": "Full-text search across the Archives of Rural History."},
@@ -311,7 +312,7 @@ _HierarchySizeArg = Annotated[
 # Herleitung und Begruendung der einzelnen Regeln: docs/prompts/
 # ---------------------------------------------------------------------------
 
-SERVER_INSTRUCTIONS = (
+_INSTRUCTIONS_DE = (
     "MCP-Server für das Archiv für Agrargeschichte (AfA / Archives "
     "d'histoire rurale / Archives of Rural History). Volltext-Suche "
     "in Personen, Institutionen, Betrieben, audiovisuellen Quellen "
@@ -340,8 +341,50 @@ SERVER_INSTRUCTIONS = (
     "9. Widersprüche zwischen Einträgen führst du mit beiden IDs auf, statt "
     "sie aufzulösen.\n"
     "10. Gib am Ende die tatsächlich ausgeführten Suchaufrufe wörtlich aus "
-    "(query, hierarchy, sort, size), damit der Lauf wiederholbar ist."
+    "(query, hierarchy, sort, size), damit der Lauf wiederholbar ist.\n\n"
+    "Für wiederkehrende Recherchearten liefert dieser Server Vorlagen als "
+    "MCP-Prompts (prompts/list), etwa recherche_belegt, entity_dossier oder "
+    "trefferliste_vollstaendig. Weise darauf hin, wenn eine Anfrage dazu passt."
 )
+
+_INSTRUCTIONS_EN = (
+    "English version of the same instructions.\n\n"
+    "MCP server of the Archives of Rural History (Archiv für Agrargeschichte / "
+    "Archives d'histoire rurale). Full-text search across persons, institutions, "
+    "farms, audiovisual sources (photo/film), archive holdings, digital editions "
+    "(Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett), publications "
+    "and media reports. Supports full-text search, hierarchy filters and the "
+    "retrieval of single documents.\n\n"
+    "Working rules:\n"
+    "1. Answer only from tool responses in this session. Mark anything without "
+    "support in the holdings as 'not in the holdings' instead of filling it in "
+    "from prior knowledge.\n"
+    "2. Give the document ID and the document_url for every statement.\n"
+    "3. The `text` field of a search response is a shortened highlight snippet. "
+    "Do not answer from it, call fetch_document for the ID instead.\n"
+    "4. fetch_document returns metadata, not the full text. The content sits "
+    "behind document_url; point to it instead of guessing it.\n"
+    "5. Use sort='id' when the result should be repeatable. sort='relevance' is "
+    "not stable across index changes.\n"
+    "6. Page through next_cursor until null before speaking of 'all hits'. "
+    "Otherwise state how many hits you checked and the total.\n"
+    "7. Quote names, dates, offices and dossier numbers verbatim.\n"
+    "8. Where a question touches several offices, mandates or links of a person, "
+    "list all of them that the record names, with no selection by importance.\n"
+    "9. List contradictions between records with both IDs instead of resolving "
+    "them.\n"
+    "10. End by printing the search calls you actually made, verbatim (query, "
+    "hierarchy, sort, size), so that the run can be repeated.\n\n"
+    "For recurring kinds of research this server ships templates as MCP prompts "
+    "(prompts/list), for instance recherche_belegt, entity_dossier or "
+    "trefferliste_vollstaendig. Point them out when a request matches one."
+)
+
+
+# Beide Sprachen zusammen, weil MCP fuer `instructions` keine Sprachverhandlung
+# kennt: Der Client bekommt einen Text, und der muss fuer deutschsprachige wie
+# englischsprachige Sitzungen taugen.
+SERVER_INSTRUCTIONS = _INSTRUCTIONS_DE + "\n\n" + _INSTRUCTIONS_EN
 
 
 # ---------------------------------------------------------------------------
@@ -356,6 +399,8 @@ def build_server() -> FastMCP:
         lifespan=_lifespan,
         transport_security=_transport_security(),
     )
+
+    register_prompts(mcp)
 
     def _client(ctx: Context) -> AfaClient:
         return ctx.request_context.lifespan_context["client"]

@@ -323,6 +323,29 @@ wiederholbare Läufe), beseitigt sie aber nicht: Auswahl und Formulierung des
 Modells bleiben variabel. `tests/test_instructions.py` hält den Wortlaut fest,
 Herleitung und Alternativen stehen in `docs/prompts/99-server-instructions.md`.
 
+### Vorlagen (MCP-Prompts)
+
+`src/afa_mcp/prompts.py` liefert sechs vorformulierte Recherche-Aufträge über das
+Prompts-Primitive von MCP (`prompts/list`, `prompts/get`). Ein Client zeigt sie
+zur Auswahl an, Claude Code etwa als `/mcp__afa-recherche__entity_dossier`.
+
+| Prompt | Zweck | Argumente |
+|---|---|---|
+| `recherche_belegt` | Frage aus dem Bestand beantworten, mit ID, Link und Lauf-Protokoll | `frage` |
+| `trefferliste_vollstaendig` | alle Treffer einer wörtlich vorgegebenen Anfrage, ohne Auswahl | `query`, `hierarchy` |
+| `entity_dossier` | Person, Institution oder Betrieb nach festem Formular | `name`, `typ` |
+| `av_quellenliste` | Fotos und Filme mit Jahr, Dauer, Auftraggeber, Dossiernummer | `thema`, `zeitraum` |
+| `widerspruchspruefung` | Angaben mehrerer Einträge gegenüberstellen, ohne sie aufzulösen | `sachverhalt`, `ids` |
+| `fremdpruefung` | fremdes Ergebnis blind nachrechnen und die Abweichung benennen | `rezept` |
+
+Jede Vorlage kennt zusätzlich `language` (`de` oder `en`, Standard `de`); MCP
+kennt keine Sprachverhandlung für Prompts, deshalb ist die Sprache ein Argument.
+Abgrenzung zum Systemprompt: Der gilt immer und ungefragt und trägt nur Regeln
+für jede Recherche. Die Vorlagen sind länger, strenger und teils unbequem
+(vollständige Aufzählung statt Zusammenfassung), also wählt sie eine Person
+bewusst aus. Namen und Argumente sind wie Werkzeugnamen öffentliche
+Schnittstelle, `tests/test_prompts.py` hält sie fest.
+
 ### Landing-Page (`deploy/`)
 
 Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt:
