@@ -307,6 +307,27 @@ ASGI-App mit OAuth-/Discovery-Routen. `src/afa_mcp/hierarchy.py` zentralisiert
 die Hierarchie-IDs, damit Tool-Code und Tests nicht mit Magic-Strings arbeiten
 müssen.
 
+### Landing-Page (`deploy/`)
+
+Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt:
+
+```
+deploy/index.html              nur Markup
+deploy/assets/css/style.css    Design-System der Hauptseite histoirerurale.ch/afa
+deploy/assets/js/i18n.js       Übersetzungen (de, fr, it, en)
+deploy/assets/js/app.js        Sprachwahl und Textersetzung
+deploy/assets/img/logo-afa.png Logo der Hauptseite
+deploy/assets/fonts/           Merriweather (Überschriften)
+```
+
+Farben, Schriften und Komponenten übernehmen das Joomla-Template der Hauptseite
+(Cassiopeia plus `user.css`): Rot `#a00000`, Hover `#870000`, Fliesstext
+Helvetica Neue 15px, Überschriften Merriweather in Rot, Container 1170px.
+
+nginx liefert `/assets/` direkt aus (Location in `deploy/nginx.conf` und
+`deploy/nginx-http.conf`); unter Plesk liegen die Dateien in `httpdocs` und
+werden ohne Zusatzregel ausgeliefert.
+
 ## Quellen
 
 - Website: <https://histoirerurale.ch>

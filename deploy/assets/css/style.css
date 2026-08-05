@@ -1,0 +1,446 @@
+/* ---------------------------------------------------------------------------
+   AfA MCP-Server, Design-System der Hauptseite histoirerurale.ch/afa
+   Farben, Typografie, Abstaende und Komponenten folgen dem Joomla-Template
+   (Cassiopeia + user.css) der Hauptseite.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Farben der Hauptseite */
+  --afa-red: #a00000;
+  --afa-red-dark: #870000;
+  --ink: #333333;
+  --muted: #787878;
+  --line: #eeeeee;
+  --line-strong: silver;
+  --surface: #ffffff;
+  --surface-soft: #f5f5f5;
+
+  /* Typografie der Hauptseite */
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-head: "Merriweather", Times, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Layout */
+  --container: 1170px;
+  --shadow-card: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/merriweather-v28-latin-regular.woff2") format("woff2"),
+       url("../fonts/merriweather-v28-latin-regular.woff") format("woff");
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.49;
+}
+
+/* ---------------------------------------------------------------------------
+   Header: weisser Logobalken, darunter der rote Streifen, wie auf der Hauptseite
+   --------------------------------------------------------------------------- */
+
+.site-header {
+  background: var(--surface);
+}
+
+.site-header__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0.6rem 15px;
+  display: flex;
+  align-items: center;
+}
+
+.site-header__logo {
+  display: inline-block;
+  line-height: 0;
+}
+
+.site-header__logo img {
+  height: 56px;
+  width: auto;
+  max-width: 100%;
+}
+
+.site-bar {
+  background: var(--afa-red);
+}
+
+.site-bar__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-bar__title {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  padding: 14px 0;
+  text-decoration: none;
+}
+
+.site-bar__title:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Sprachwahl: gleiche Optik wie div.mod-languages der Hauptseite */
+.lang-switch {
+  display: flex;
+}
+
+.lang-switch button {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  background: transparent;
+  border: 0;
+  padding: 14px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.lang-switch button:hover {
+  background-color: var(--afa-red-dark);
+}
+
+.lang-switch button.active {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+.lang-switch button.active:hover {
+  background-color: #f0f0f0;
+}
+
+/* ---------------------------------------------------------------------------
+   Layout
+   --------------------------------------------------------------------------- */
+
+main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 25px 15px 40px;
+}
+
+@media (min-width: 768px) {
+  main { padding-top: 30px; }
+}
+
+/* ---------------------------------------------------------------------------
+   Typografie
+   --------------------------------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  color: var(--afa-red);
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.3;
+  margin: 0 0 0.6rem;
+}
+
+h1 small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: normal;
+  color: var(--ink);
+  margin-top: 0.5rem;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 25px 0 0.8rem;
+}
+
+h3 {
+  font-size: 20px;
+  margin: 1.4rem 0 0.4rem;
+}
+
+@media (min-width: 768px) {
+  h1 { font-size: 34px; }
+  h2 { font-size: 22px; margin-top: 30px; }
+}
+
+@media (min-width: 1200px) {
+  h2 { font-size: 24px; }
+}
+
+p {
+  text-align: justify;
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--afa-red);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--afa-red-dark);
+  text-decoration: none;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+   Panel: Karte im Stil der Kacheln der Hauptseite (eckig, weiss, Schatten)
+   --------------------------------------------------------------------------- */
+
+.panel {
+  margin-top: 25px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.panel > h2:first-child {
+  margin-top: 0;
+}
+
+.panel ol,
+.panel ul {
+  padding-left: 1.3rem;
+  margin: 0 0 1rem;
+}
+
+.panel ol li,
+.panel ul li {
+  margin: 0.45rem 0;
+}
+
+@media (min-width: 768px) {
+  .panel { padding: 25px 30px; }
+}
+
+.section-divider {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-strong);
+}
+
+/* ---------------------------------------------------------------------------
+   Tabellen
+   --------------------------------------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 1rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px 5px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+th {
+  color: var(--afa-red);
+  font-weight: bold;
+}
+
+td.tool { font-family: var(--font-mono); }
+
+td.count {
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   Code
+   --------------------------------------------------------------------------- */
+
+pre, code {
+  font-family: var(--font-mono);
+}
+
+pre {
+  background: var(--surface-soft);
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  color: var(--ink);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0.5rem 0 1rem;
+}
+
+code {
+  font-size: 0.92em;
+  background: var(--surface-soft);
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 0.08em 0.35em;
+}
+
+.endpoint {
+  display: block;
+  background: var(--surface-soft);
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 14px;
+  margin: 0.5rem 0 1rem;
+  overflow-x: auto;
+}
+
+pre code,
+code.endpoint {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Zitate: Beispielprompts
+   --------------------------------------------------------------------------- */
+
+blockquote {
+  margin: 0.6rem 0 1rem;
+  padding: 10px 15px;
+  border-left: 3px solid var(--afa-red);
+  background: var(--surface-soft);
+  color: var(--ink);
+  font-style: italic;
+}
+
+blockquote p { margin: 0; }
+
+/* ---------------------------------------------------------------------------
+   Aufklappbare Bloecke: Optik der Buttons der Hauptseite (btnLink)
+   --------------------------------------------------------------------------- */
+
+details {
+  margin: 0 0 10px;
+  border: 1px solid var(--line);
+}
+
+details summary {
+  cursor: pointer;
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--surface);
+  list-style: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+details summary::-webkit-details-marker { display: none; }
+
+details summary::before {
+  content: "\25B8";
+  color: var(--afa-red);
+  display: inline-block;
+  width: 1.1em;
+  transition: transform 0.15s, color 0.3s;
+}
+
+details summary:hover {
+  background-color: var(--afa-red);
+  color: #ffffff;
+}
+
+details summary:hover::before,
+details[open] summary:hover::before { color: #ffffff; }
+
+details summary:hover code { color: #ffffff; }
+
+details[open] summary { border-bottom: 1px solid var(--line); }
+details[open] summary::before { transform: rotate(90deg); }
+
+details > div { padding: 15px; }
+details > div > *:last-child { margin-bottom: 0; }
+details > div table { margin: 0; }
+details > div table th { color: var(--muted); font-size: 12px; }
+details > div table td { font-size: 14px; }
+details > div table td:first-child { white-space: nowrap; }
+
+summary code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------------
+   Listen und Footer
+   --------------------------------------------------------------------------- */
+
+ul.discovery { padding-left: 1.2rem; }
+ul.discovery li { margin: 0.3rem 0; }
+
+.content-footer {
+  margin-top: 40px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: 93%;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line-strong);
+  margin-top: 40px;
+  padding: 15px;
+  color: var(--muted);
+  font-size: 93%;
+  text-align: center;
+}
+
+.site-footer__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-footer a { color: var(--afa-red); }
+
+@media (max-width: 600px) {
+  .site-footer__inner { flex-direction: column; gap: 0.4rem; }
+  .site-header__logo img { height: 38px; }
+  p { text-align: left; }
+}
