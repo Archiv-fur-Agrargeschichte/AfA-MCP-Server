@@ -20,7 +20,7 @@ function detectLang() {
 function applyLang(lang) {
   const dict = I18N[lang] || I18N.en;
   document.documentElement.lang = lang;
-  document.title = dict.brand_bar || dict.brand || "Archiv für Agrargeschichte";
+  document.title = "AfA MCP-Server";
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
     if (dict[key] != null) el.textContent = dict[key];

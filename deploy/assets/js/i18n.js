@@ -1,8 +1,9 @@
 const I18N = {
   de: {
+    prompts_h: 'Reproduzierbare Recherche: Prompt-Vorlagen',
+    prompts: '<p>Dieselbe Frage zweimal gestellt ergibt nicht zwangsläufig dieselbe Antwort. Nicht weil der Assistent etwas erfindet, sondern weil er auswählt: Er nennt beim zweiten Mal andere Funktionen einer Person, bricht die Trefferliste an anderer Stelle ab oder formuliert eine Suchanfrage leicht anders. Für eine Publikation ist das ein Problem, denn niemand kann Ihren Chatverlauf nachvollziehen.</p><p>Im Quellcode liegen deshalb Prompt-Vorlagen, die eine Recherche so festlegen, dass eine andere Person sie in einem anderen Chat und mit einem anderen Assistenten wiederholen kann:</p><ul><li><strong>Rezept mit Fingerprint.</strong> Eine versionierte Datei mit den wörtlichen Suchaufrufen, dem Ausgabeschema, dem Abrufdatum und einer Prüfsumme über die gefundenen Kennungen. Verglichen wird die Prüfsumme, nicht der Text.</li><li><strong>Arbeitsvorlagen.</strong> Belegte Recherche, vollständige Trefferliste ohne Auswahl, Personendossier mit festen Feldern, Bild- und Filmliste, Prüfung widersprüchlicher Einträge.</li><li><strong>Fremdprüfung.</strong> Eine Vorlage, mit der jemand anders Ihr Ergebnis blind nachrechnet und die Abweichung benennt: veränderter Bestand oder mangelhaftes Rezept.</li></ul><p>Vorlagen und Anleitung: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server/tree/main/docs/prompts">docs/prompts im Quellcode</a>.</p>',
     brand: "Archiv für Agrargeschichte",
     brand_bar: "Archiv für Agrargeschichte · MCP-Server",
-    eyebrow: "MCP-Server · Beta",
     subtitle: "MCP-Schnittstelle zum Archiv für Agrargeschichte",
     intro: 'Modellfähige Volltextsuche im <a href="https://www.recherche2.histoirerurale.ch">Recherche-Portal</a> des <a href="https://histoirerurale.ch">Archivs für Agrargeschichte</a>: Personen, Institutionen, Betriebe, audio-visuelle Quellen, Archivbestände, digitale Editionen und Publikationen. Über das Model Context Protocol (Streamable HTTP) direkt aus Claude, ChatGPT, Cursor, Perplexity und allen anderen MCP-fähigen Clients ansprechbar.',
     guide_h: "So funktioniert die Recherche",
@@ -179,9 +180,10 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> und <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   fr: {
+    prompts_h: 'Recherche reproductible : modèles de prompts',
+    prompts: '<p>La même question posée deux fois ne donne pas nécessairement la même réponse. Non parce que l\'assistant invente, mais parce qu\'il sélectionne : il cite d\'autres fonctions d\'une personne, s\'arrête ailleurs dans la liste des résultats ou reformule légèrement la requête. Pour une publication, c\'est un problème, car personne ne peut vérifier votre historique de conversation.</p><p>Le code source contient donc des modèles de prompts qui fixent une recherche de sorte qu\'une autre personne puisse la répéter dans une autre conversation et avec un autre assistant :</p><ul><li><strong>Recette avec empreinte.</strong> Un fichier versionné contenant les appels de recherche littéraux, le schéma de sortie, la date de consultation et une somme de contrôle sur les identifiants trouvés. On compare la somme de contrôle, pas le texte.</li><li><strong>Modèles de travail.</strong> Recherche sourcée, liste complète des résultats sans sélection, dossier de personne à champs fixes, liste de photos et de films, examen des notices contradictoires.</li><li><strong>Vérification par un tiers.</strong> Un modèle permettant à quelqu\'un d\'autre de refaire votre résultat à l\'aveugle et de nommer l\'écart : fonds modifié ou recette insuffisante.</li></ul><p>Modèles et mode d\'emploi : <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server/tree/main/docs/prompts">docs/prompts dans le code source</a>.</p>',
     brand: "Archives d'histoire rurale",
     brand_bar: "Archives d'histoire rurale · Serveur MCP",
-    eyebrow: "Serveur MCP · Bêta",
     subtitle: "Interface MCP des Archives d'histoire rurale",
     intro: 'Recherche en plein texte adaptée aux modèles dans le <a href="https://www.recherche2.histoirerurale.ch">portail de recherche</a> des <a href="https://histoirerurale.ch">Archives d\'histoire rurale</a> : personnes, institutions, exploitations, sources audiovisuelles, fonds d\'archives, éditions numériques et publications. Accessible via le Model Context Protocol (Streamable HTTP) directement depuis Claude, ChatGPT, Cursor, Perplexity et tous les autres clients compatibles MCP.',
     guide_h: "Comment fonctionne la recherche",
@@ -358,9 +360,10 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> et <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   it: {
+    prompts_h: 'Ricerca riproducibile: modelli di prompt',
+    prompts: '<p>La stessa domanda posta due volte non dà necessariamente la stessa risposta. Non perché l\'assistente inventi, ma perché seleziona: cita altre funzioni di una persona, interrompe l\'elenco dei risultati in un altro punto o riformula leggermente la query. Per una pubblicazione questo è un problema, perché nessuno può ripercorrere la cronologia della vostra conversazione.</p><p>Nel codice sorgente si trovano quindi modelli di prompt che fissano una ricerca in modo che un\'altra persona possa ripeterla in un\'altra conversazione e con un altro assistente:</p><ul><li><strong>Ricetta con impronta.</strong> Un file versionato con le chiamate di ricerca letterali, lo schema di output, la data di consultazione e una somma di controllo sugli identificatori trovati. Si confronta la somma di controllo, non il testo.</li><li><strong>Modelli di lavoro.</strong> Ricerca documentata, elenco completo dei risultati senza selezione, dossier personale a campi fissi, elenco di foto e film, verifica di voci contraddittorie.</li><li><strong>Verifica esterna.</strong> Un modello con cui un\'altra persona ricalcola il vostro risultato alla cieca e nomina lo scostamento: fondo modificato o ricetta insufficiente.</li></ul><p>Modelli e istruzioni: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server/tree/main/docs/prompts">docs/prompts nel codice sorgente</a>.</p>',
     brand: "Archivio di storia rurale",
     brand_bar: "Archivio di storia rurale · Server MCP",
-    eyebrow: "Server MCP · Beta",
     subtitle: "Interfaccia MCP dell'Archivio di storia rurale",
     intro: 'Ricerca a testo pieno predisposta per i modelli nel <a href="https://www.recherche2.histoirerurale.ch">portale di ricerca</a> dell\'<a href="https://histoirerurale.ch">Archivio di storia rurale</a>: persone, istituzioni, aziende, fonti audiovisive, fondi d\'archivio, edizioni digitali e pubblicazioni. Accessibile tramite il Model Context Protocol (Streamable HTTP) direttamente da Claude, ChatGPT, Cursor, Perplexity e tutti gli altri client compatibili con MCP.',
     guide_h: "Come funziona la ricerca",
@@ -537,9 +540,10 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> e <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   en: {
+    prompts_h: 'Reproducible research: prompt templates',
+    prompts: '<p>The same question asked twice does not necessarily give the same answer. Not because the assistant invents things, but because it selects: it names different offices held by a person, stops the result list at a different point, or phrases a query slightly differently. For a publication that is a problem, because nobody can retrace your chat history.</p><p>The source code therefore ships prompt templates that pin a search down so that another person can repeat it in another chat and with another assistant:</p><ul><li><strong>Recipe with fingerprint.</strong> A versioned file holding the verbatim search calls, the output schema, the retrieval date and a checksum over the identifiers found. What gets compared is the checksum, not the prose.</li><li><strong>Working templates.</strong> Sourced research, complete result list without selection, person dossier with fixed fields, photo and film list, review of contradictory records.</li><li><strong>Third party check.</strong> A template with which someone else redoes your result blind and names the deviation: changed holdings or a deficient recipe.</li></ul><p>Templates and instructions: <a href="https://github.com/Archiv-fur-Agrargeschichte/AfA-MCP-Server/tree/main/docs/prompts">docs/prompts in the source code</a>.</p>',
     brand: "Archives of Rural History",
     brand_bar: "Archives of Rural History · MCP server",
-    eyebrow: "MCP Server · Beta",
     subtitle: "MCP interface to the Archives of Rural History",
     intro: 'Model-ready full-text search across the <a href="https://www.recherche2.histoirerurale.ch">research portal</a> of the <a href="https://histoirerurale.ch">Archives of Rural History</a>: persons, institutions, farms, audiovisual sources, archive holdings, digital editions and publications. Accessible via the Model Context Protocol (Streamable HTTP) directly from Claude, ChatGPT, Cursor, Perplexity and any other MCP-capable client.',
     guide_h: "How research works",

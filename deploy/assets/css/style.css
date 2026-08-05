@@ -71,7 +71,7 @@ body {
 }
 
 .site-header__logo img {
-  height: 56px;
+  height: 48px;
   width: auto;
   max-width: 100%;
 }
@@ -209,12 +209,17 @@ a:hover {
   text-decoration: none;
 }
 
-.eyebrow {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* Label im Stil von .pageTitle a der Hauptseite: roter Block, weisse Serifenschrift */
+.tag {
+  display: inline-block;
+  margin: 0 0 0.8rem;
+  padding: 5px 15px;
+  background-color: var(--afa-red);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-size: 17px;
+  line-height: 1.3;
+  text-align: center;
 }
 
 /* ---------------------------------------------------------------------------
@@ -441,6 +446,6 @@ ul.discovery li { margin: 0.3rem 0; }
 
 @media (max-width: 600px) {
   .site-footer__inner { flex-direction: column; gap: 0.4rem; }
-  .site-header__logo img { height: 38px; }
+  .site-header__logo img { height: 40px; }
   p { text-align: left; }
 }

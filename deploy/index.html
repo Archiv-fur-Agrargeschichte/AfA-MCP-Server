@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Archiv für Agrargeschichte · MCP-Server</title>
+    <title>AfA MCP-Server</title>
     <meta name="description" content="MCP-Server für recherche2.histoirerurale.ch: Volltextsuche in Personen, Institutionen, audiovisuellen Quellen, Archivbeständen, digitalen Editionen und Publikationen des Archivs für Agrargeschichte." />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
@@ -11,7 +11,7 @@
     <header class="site-header" role="banner">
       <div class="site-header__inner">
         <a class="site-header__logo" href="https://www.histoirerurale.ch/afa/index.php/de/">
-          <img src="assets/img/logo-afa.png" alt="Archiv für Agrargeschichte, Archives d'histoire rurale, Archives of Rural History" />
+          <img src="assets/img/logo-afa-mark.png" alt="AfA AHR ARH" />
         </a>
       </div>
     </header>
@@ -27,7 +27,7 @@
       </div>
     </div>
 <main>
-      <div class="eyebrow" data-i18n="eyebrow"></div>
+      <p class="tag">Beta</p>
       <h1><span data-i18n="brand"></span>
         <small data-i18n="subtitle"></small>
       </h1>
@@ -168,6 +168,11 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
       <div class="panel">
         <h2 data-i18n="reliability_h"></h2>
         <div data-i18n-html="reliability"></div>
+      </div>
+
+      <div class="panel">
+        <h2 data-i18n="prompts_h"></h2>
+        <div data-i18n-html="prompts"></div>
       </div>
 
       <div class="section-divider">
