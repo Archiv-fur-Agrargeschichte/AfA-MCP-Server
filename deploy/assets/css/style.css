@@ -55,8 +55,26 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Header: roter Streifen mit Logo, Titel und Sprachwahl
+   Header: Logo der Hauptseite ueber dem roten Balken mit Navigation
    --------------------------------------------------------------------------- */
+
+.site-logo {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 14px 15px;
+}
+
+.site-logo__link {
+  display: block;
+  line-height: 0;
+}
+
+.site-logo__link img {
+  width: 100%;
+  max-width: 90%;
+  height: auto;
+  margin: 0 5%;
+}
 
 .site-bar {
   background: var(--afa-red);
@@ -70,32 +88,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 0 12px;
-}
-
-.site-bar__logo {
-  display: inline-flex;
-  align-items: center;
-  line-height: 0;
-  padding: 6px 0;
-}
-
-.site-bar__logo img {
-  height: 36px;
-  width: auto;
-}
-
-.site-bar__title {
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.02em;
-  padding: 14px 0;
-  text-decoration: none;
-}
-
-.site-bar__title:hover {
-  color: #ffffff;
-  text-decoration: none;
 }
 
 /* Abschnitts-Navigation: Optik der Hauptnavigation der Hauptseite */
@@ -467,13 +459,11 @@ ul.discovery li { margin: 0.3rem 0; }
 .site-footer a { color: var(--afa-red); }
 
 @media (max-width: 900px) {
-  .site-bar__title { display: none; }
   .site-nav a { padding: 12px 7px; }
 }
 
 @media (max-width: 600px) {
   .site-footer__inner { flex-direction: column; gap: 0.4rem; }
   .lang-switch { margin-left: auto; }
-  .site-bar__logo img { height: 30px; }
   p { text-align: left; }
 }
