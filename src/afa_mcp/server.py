@@ -8,7 +8,7 @@ Tools (alle über `streamable-http` erreichbar):
   * search_edition_hofstetter        — Edition Mina Hofstetter
   * search_edition_gillabert_randin  — Edition Augusta Gillabert-Randin
   * search_edition_bobbett           — Edition Elizabeth Bobbett
-  * fetch_document                   — Einzelnes Dokument inkl. Volltext
+  * fetch_document                   — Metadaten eines einzelnen Dokuments
   * list_hierarchy                   — Hierarchie-Buckets mit Trefferzahlen
   * server_info                      — Endpunkt- und Versionsinfo
 
@@ -159,7 +159,7 @@ def _server_card_payload() -> dict[str, Any]:
             {"name": "search_edition_bobbett", "title": "Edition Elizabeth Bobbett",
              "description": "Search the Elizabeth Bobbett digital edition."},
             {"name": "fetch_document", "title": "Fetch document",
-             "description": "Retrieve a single document together with its full text."},
+             "description": "Retrieve the metadata of a single document by ID."},
             {"name": "list_hierarchy", "title": "List hierarchy",
              "description": "List hierarchy buckets with document counts."},
             {"name": "server_info", "title": "Server information",
@@ -299,6 +299,52 @@ _HierarchySizeArg = Annotated[
 
 
 # ---------------------------------------------------------------------------
+# Systemprompt (MCP-Feld `instructions`)
+#
+# Wird bei jeder Verbindung an den Client geliefert und dort dem Sprachmodell
+# vorangestellt. Er wirkt damit in jedem Client, ohne dass Nutzende etwas
+# einrichten. Die Arbeitsregeln verringern die beiden dokumentierten
+# Schwachstellen der Recherche per Sprachmodell: Auslassungen (das Modell
+# waehlt aus, was es nennt) und nicht wiederholbare Laeufe (das Modell waehlt
+# Suchbegriffe, Sortierung und Abbruchpunkt selbst).
+#
+# Herleitung und Begruendung der einzelnen Regeln: docs/prompts/
+# ---------------------------------------------------------------------------
+
+SERVER_INSTRUCTIONS = (
+    "MCP-Server für das Archiv für Agrargeschichte (AfA / Archives "
+    "d'histoire rurale / Archives of Rural History). Volltext-Suche "
+    "in Personen, Institutionen, Betrieben, audiovisuellen Quellen "
+    "(Foto/Film), Archivbeständen, digitalen Editionen (Mina Hofstetter, "
+    "Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen und "
+    "Medienberichten. Unterstützt Volltextsuche, Hierarchie-Filter und "
+    "den Abruf einzelner Dokumente.\n\n"
+    "Arbeitsregeln:\n"
+    "1. Antworte nur aus Tool-Responses dieser Sitzung. Angaben ohne Beleg "
+    "im Bestand kennzeichnest du als 'nicht im Bestand', statt sie aus "
+    "Vorwissen zu ergänzen.\n"
+    "2. Nenne zu jeder Aussage die Dokument-ID und die document_url.\n"
+    "3. Das Feld `text` einer Suchantwort ist ein gekürztes Highlight-"
+    "Snippet. Antworte nicht daraus, sondern rufe fetch_document für die "
+    "ID auf.\n"
+    "4. fetch_document liefert Metadaten, keinen Volltext. Der Inhalt liegt "
+    "hinter document_url; verweise darauf, statt ihn zu vermuten.\n"
+    "5. Verwende sort='id', wenn das Ergebnis wiederholbar sein soll. "
+    "sort='relevance' ist über Index-Änderungen hinweg nicht stabil.\n"
+    "6. Paginiere über next_cursor bis null, bevor du von 'allen Treffern' "
+    "sprichst. Andernfalls nenne die Zahl der geprüften Treffer und total.\n"
+    "7. Gib Namen, Daten, Funktionen und Dossiernummern wörtlich wieder.\n"
+    "8. Nennt eine Frage mehrere Funktionen, Ämter oder Verknüpfungen einer "
+    "Person, dann führe alle auf, die im Eintrag stehen, ohne Auswahl nach "
+    "Wichtigkeit.\n"
+    "9. Widersprüche zwischen Einträgen führst du mit beiden IDs auf, statt "
+    "sie aufzulösen.\n"
+    "10. Gib am Ende die tatsächlich ausgeführten Suchaufrufe wörtlich aus "
+    "(query, hierarchy, sort, size), damit der Lauf wiederholbar ist."
+)
+
+
+# ---------------------------------------------------------------------------
 # Tools
 # ---------------------------------------------------------------------------
 
@@ -306,15 +352,7 @@ _HierarchySizeArg = Annotated[
 def build_server() -> FastMCP:
     mcp = FastMCP(
         name="afa",
-        instructions=(
-            "MCP-Server für das Archiv für Agrargeschichte (AfA / Archives "
-            "d'histoire rurale / Archives of Rural History). Volltext-Suche "
-            "in Personen, Institutionen, Betrieben, audiovisuellen Quellen "
-            "(Foto/Film), Archivbeständen, digitalen Editionen (Mina Hofstetter, "
-            "Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen und "
-            "Medienberichten. Unterstützt Volltextsuche, Hierarchie-Filter, "
-            "Einzeldokumenten-Abruf inkl. Volltext."
-        ),
+        instructions=SERVER_INSTRUCTIONS,
         lifespan=_lifespan,
         transport_security=_transport_security(),
     )

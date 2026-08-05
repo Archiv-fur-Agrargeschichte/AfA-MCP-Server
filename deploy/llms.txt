@@ -21,7 +21,7 @@
 - search_edition_hofstetter       — Edition Mina Hofstetter
 - search_edition_gillabert_randin — Edition Augusta Gillabert-Randin
 - search_edition_bobbett          — Edition Elizabeth Bobbett
-- fetch_document                  — Volltext eines einzelnen Dokuments
+- fetch_document                  — Metadaten eines einzelnen Dokuments
 - list_hierarchy                  — Hierarchie-Buckets mit Trefferzahlen
 - server_info                     — Versions- und Endpunkt-Information
 

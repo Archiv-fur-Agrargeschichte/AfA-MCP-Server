@@ -12,10 +12,12 @@ Ebene 4   skills-vorschlag         was nicht das Modell tun soll, sondern Code
 ## Ebene 1: der einzige echte Systemprompt
 
 **`99-server-instructions.md`**
-Steckt in `src/afa_mcp/server.py` und wird bei jeder Session an jeden Client geliefert. Trägt nur
-Regeln, die immer gelten: Belegpflicht, Snippet ist nicht Volltext, `sort=id`, paginieren,
-Widersprüche nicht auflösen. Niemand muss etwas kopieren, deshalb der stärkste Hebel für
-Reproduzierbarkeit über Chats hinweg. Enthält bewusst keine fallspezifische Logik.
+Dokumentiert den Systemprompt, der als `SERVER_INSTRUCTIONS` in `src/afa_mcp/server.py` steht und
+bei jeder Session an jeden Client geliefert wird. Er trägt nur Regeln, die immer gelten:
+Belegpflicht, Snippet ist nicht der Eintrag, `sort=id`, vollständig blättern, alle Ämter nennen,
+Widersprüche nicht auflösen. Niemand muss etwas kopieren, deshalb der stärkste Hebel. Enthält
+bewusst keine fallspezifische Logik. Änderungen daran sind Code-Änderungen und von
+`tests/test_instructions.py` abgedeckt.
 
 ## Ebene 2: das Format, nicht der Prompt
 

@@ -38,7 +38,7 @@ korrekt, aber die wichtigste Funktion einer Person erschien nur in einem Drittel
 | `04-av-quellenliste.md` | Foto-/Filmliste für Publikation | hoch |
 | `05-widerspruchspruefung.md` | Zwei Einträge zum selben Sachverhalt vergleichen | hoch |
 | `06-selbstpruefung-diff.md` | Lauf gegen Vorlauf diffen | Meta-Prompt |
-| `99-server-instructions.md` | Vorschlag für `instructions=` im Server | wirkt auf alle Clients |
+| `99-server-instructions.md` | Wortlaut des Systemprompts im Server, umgesetzt | wirkt auf alle Clients |
 
 Zu jeder Antwort gehört ein **Lauf-Manifest** (siehe `01`), sonst ist die Reproduktion nicht prüfbar.
 Zu jedem wiederverwendbaren Ergebnis gehört zusätzlich ein **Rezept mit Fingerprint** (siehe `00`),

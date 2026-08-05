@@ -307,6 +307,22 @@ ASGI-App mit OAuth-/Discovery-Routen. `src/afa_mcp/hierarchy.py` zentralisiert
 die Hierarchie-IDs, damit Tool-Code und Tests nicht mit Magic-Strings arbeiten
 müssen.
 
+### Systemprompt (`SERVER_INSTRUCTIONS`)
+
+`src/afa_mcp/server.py` liefert im MCP-Feld `instructions` nicht nur eine Beschreibung
+der Bestände, sondern zehn Arbeitsregeln: Aussagen mit Dokument-ID und
+`document_url` belegen, statt aus dem gekürzten `text`-Snippet zu antworten den
+Eintrag abrufen, `sort='id'` für wiederholbare Reihenfolge, über `next_cursor`
+bis zum Ende blättern, bevor von «allen Treffern» die Rede ist, alle im Eintrag
+genannten Ämter aufführen, Widersprüche mit beiden IDs stehen lassen und die
+ausgeführten Suchaufrufe am Ende wörtlich ausgeben.
+
+Der Text wirkt in jedem Client, ohne dass Nutzende etwas einrichten. Er
+verringert die beiden dokumentierten Schwachstellen (Auslassungen und nicht
+wiederholbare Läufe), beseitigt sie aber nicht: Auswahl und Formulierung des
+Modells bleiben variabel. `tests/test_instructions.py` hält den Wortlaut fest,
+Herleitung und Alternativen stehen in `docs/prompts/99-server-instructions.md`.
+
 ### Landing-Page (`deploy/`)
 
 Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt:
