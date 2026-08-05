@@ -14,6 +14,14 @@
           <img src="assets/img/logo-afa-mark.png" alt="AfA AHR ARH" />
         </a>
         <a class="site-bar__title" href="/" data-i18n="brand_bar"></a>
+        <nav class="site-nav" aria-label="Abschnitte">
+          <a href="#einrichten" data-i18n="nav_setup"></a>
+          <a href="#clients" data-i18n="nav_clients"></a>
+          <a href="#beispiele" data-i18n="nav_examples"></a>
+          <a href="#tipps" data-i18n="nav_tips"></a>
+          <a href="#verlaesslichkeit" data-i18n="nav_reliability"></a>
+          <a href="#technik" data-i18n="nav_reference"></a>
+        </nav>
         <div class="lang-switch" role="group" aria-label="Sprache">
           <button data-lang="de">DE</button>
           <button data-lang="fr">FR</button>
@@ -39,12 +47,12 @@
         <div data-i18n-html="holdings"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="einrichten">
         <h2 data-i18n="setup_h"></h2>
         <div data-i18n-html="setup_steps"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="clients">
         <h2 data-i18n="integration_h"></h2>
         <p data-i18n-html="integration_p"></p>
 
@@ -146,12 +154,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         </details>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="beispiele">
         <h2 data-i18n="examples_h"></h2>
         <div data-i18n-html="examples"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="tipps">
         <h2 data-i18n="tips_h"></h2>
         <div data-i18n-html="tips"></div>
       </div>
@@ -161,12 +169,12 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         <div data-i18n-html="semantic"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="verlaesslichkeit">
         <h2 data-i18n="reliability_h"></h2>
         <div data-i18n-html="reliability"></div>
       </div>
 
-      <div class="section-divider">
+      <div class="section-divider" id="technik">
         <h2 data-i18n="techref_h"></h2>
         <p data-i18n-html="techref_p"></p>
       </div>

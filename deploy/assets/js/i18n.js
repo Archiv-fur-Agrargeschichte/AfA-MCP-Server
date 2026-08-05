@@ -1,5 +1,11 @@
 const I18N = {
   de: {
+    nav_setup: 'Einrichten',
+    nav_clients: 'Clients',
+    nav_examples: 'Beispiele',
+    nav_tips: 'Tipps',
+    nav_reliability: 'Verlässlichkeit',
+    nav_reference: 'Technik',
     brand: "Archiv für Agrargeschichte",
     brand_bar: "Archiv für Agrargeschichte · MCP-Server",
     subtitle: "MCP-Schnittstelle zum Archiv für Agrargeschichte",
@@ -181,6 +187,12 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> und <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   fr: {
+    nav_setup: 'Installation',
+    nav_clients: 'Clients',
+    nav_examples: 'Exemples',
+    nav_tips: 'Conseils',
+    nav_reliability: 'Fiabilité',
+    nav_reference: 'Technique',
     brand: "Archives d'histoire rurale",
     brand_bar: "Archives d'histoire rurale · Serveur MCP",
     subtitle: "Interface MCP des Archives d'histoire rurale",
@@ -362,6 +374,12 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> et <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   it: {
+    nav_setup: 'Configurazione',
+    nav_clients: 'Client',
+    nav_examples: 'Esempi',
+    nav_tips: 'Consigli',
+    nav_reliability: 'Affidabilità',
+    nav_reference: 'Tecnica',
     brand: "Archivio di storia rurale",
     brand_bar: "Archivio di storia rurale · Server MCP",
     subtitle: "Interfaccia MCP dell'Archivio di storia rurale",
@@ -543,6 +561,12 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> e <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   en: {
+    nav_setup: 'Setup',
+    nav_clients: 'Clients',
+    nav_examples: 'Examples',
+    nav_tips: 'Tips',
+    nav_reliability: 'Reliability',
+    nav_reference: 'Technical',
     brand: "Archives of Rural History",
     brand_bar: "Archives of Rural History · MCP server",
     subtitle: "MCP interface to the Archives of Rural History",
