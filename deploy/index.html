@@ -7,7 +7,7 @@
     <meta name="description" content="MCP-Server für recherche2.histoirerurale.ch: Volltextsuche in Personen, Institutionen, audiovisuellen Quellen, Archivbeständen, digitalen Editionen und Publikationen des Archivs für Agrargeschichte." />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body>
+  <body id="top">
     <header class="site-logo" role="banner">
       <a class="site-logo__link" href="https://www.histoirerurale.ch/afa/index.php/de/">
         <img src="assets/img/logo-afa.png" alt="Archiv für Agrargeschichte, Archives d'histoire rurale, Archives of Rural History" />
@@ -16,9 +16,9 @@
     <div class="site-bar">
       <div class="site-bar__inner">
         <nav class="site-nav" aria-label="Abschnitte">
-          <a href="#einrichten" data-i18n="nav_setup"></a>
+          <a href="#top" data-i18n="nav_intro"></a>
           <a href="#clients" data-i18n="nav_clients"></a>
-          <a href="#beispiele" data-i18n="nav_examples"></a>
+          <a href="#werkzeuge" data-i18n="nav_examples"></a>
           <a href="#tipps" data-i18n="nav_tips"></a>
           <a href="#verlaesslichkeit" data-i18n="nav_reliability"></a>
           <a href="#technik" data-i18n="nav_reference"></a>
@@ -48,13 +48,9 @@
         <div data-i18n-html="holdings"></div>
       </div>
 
-      <div class="panel" id="einrichten">
-        <h2 data-i18n="setup_h"></h2>
-        <div data-i18n-html="setup_steps"></div>
-      </div>
-
       <div class="panel" id="clients">
         <h2 data-i18n="integration_h"></h2>
+        <div data-i18n-html="setup_steps"></div>
         <p data-i18n-html="integration_p"></p>
 
         <details>
@@ -155,7 +151,7 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         </details>
       </div>
 
-      <div class="panel" id="beispiele">
+      <div class="panel" id="werkzeuge">
         <h2 data-i18n="examples_h"></h2>
         <div data-i18n-html="examples"></div>
       </div>
@@ -209,48 +205,6 @@ async with streamablehttp_client("https://mcp.histoirerurale.ch/mcp") as (read, 
         <div data-i18n-html="direct_notes"></div>
       </div>
 
-      <div class="panel">
-        <h2 data-i18n="tools_h"></h2>
-
-        <details>
-          <summary><code>search</code> · <span data-i18n="tool_search"></span></summary>
-          <div data-i18n-html="tool_search_params"></div>
-        </details>
-        <details>
-          <summary><code>search_entities</code> · <span data-i18n-html="tool_search_entities"></span></summary>
-          <div data-i18n-html="tool_search_entities_params"></div>
-        </details>
-        <details>
-          <summary><code>search_audiovisual</code> · <span data-i18n-html="tool_search_av"></span></summary>
-          <div data-i18n-html="tool_search_av_params"></div>
-        </details>
-        <details>
-          <summary><code>search_edition_hofstetter</code> · <span data-i18n="tool_ed_hofstetter"></span></summary>
-          <div data-i18n-html="tool_edition_params"></div>
-        </details>
-        <details>
-          <summary><code>search_edition_gillabert_randin</code> · <span data-i18n="tool_ed_gr"></span></summary>
-          <div data-i18n-html="tool_edition_params"></div>
-        </details>
-        <details>
-          <summary><code>search_edition_bobbett</code> · <span data-i18n="tool_ed_bobbett"></span></summary>
-          <div data-i18n-html="tool_edition_params"></div>
-        </details>
-        <details>
-          <summary><code>fetch_document</code> · <span data-i18n="tool_fetch"></span></summary>
-          <div data-i18n-html="tool_fetch_params"></div>
-        </details>
-        <details>
-          <summary><code>list_hierarchy</code> · <span data-i18n="tool_list_h"></span></summary>
-          <div data-i18n-html="tool_list_h_params"></div>
-        </details>
-        <details>
-          <summary><code>server_info</code> · <span data-i18n="tool_server_info"></span></summary>
-          <div data-i18n-html="tool_server_info_params"></div>
-        </details>
-
-        <p data-i18n-html="tools_note"></p>
-      </div>
 
       <div class="panel">
         <h2 data-i18n="discovery_h"></h2>

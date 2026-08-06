@@ -1,8 +1,26 @@
 const I18N = {
   de: {
-    nav_setup: 'Einrichten',
+    nav_intro: 'Einführung',
+    call_intro: 'Für diese Anfrage ruft der Assistent dieses Werkzeug auf:',
+    more_tools_h: 'Weitere Werkzeuge',
+    tools_intro: '<p>So können Sie den MCP-Server benutzen:<br> Default portalübergreifend, spezifische Anfragen unten</p>',
+    ex1_h: 'Personenrecherche',
+    ex1_q: '«Suche auf dem AGHIST-MCP-Server nach Landräten im Kanton Nidwalden und stelle diese in einer Excel-Tabelle mit den Spalten Nachname, Vorname, AfA-Nummer, Geburtsdatum, Todesdatum und Amtsjahre dar.»',
+    ex1_tool: 'Personenrecherche Werkzeug',
+    ex2_h: 'Institutionensuche',
+    ex2_q: '«Suche auf dem AGHIST-MCP-Server nach Landfrauen- und Bäuerinnenvereinigungen in der Schweiz. Wie sind diese heute auf nationaler Ebene organisiert? Inwiefern änderte sich dies im Laufe der Zeit? Darstellung in einem geeigneten Diagramm.»',
+    ex2_tool: 'Institutionensuche Werkzeug',
+    ex3_h: 'Suche nach Fotos und Filmen',
+    ex3_q: '«Gibt es Fotografien und Filme zur Mechanisierung (aber nicht Motorisierung) der Landwirtschaft in der ersten Hälfte des 20. Jahrhunderts? Erstelle eine Liste mit Titel und Live-URL zum Eintrag.»',
+    ex3_tool: 'Suche nach Fotos und Filmen Werkzeug',
+    ex4_h: 'Digitale Editionen',
+    ex4_q: '«Durchsuche die Edition Gillabert-Randin nach Textstellen zum Frauenstimmrecht und zitiere diese.»',
+    ex4_tool: 'Digitale Editionen Werkzeug',
+    ex5_h: 'Volltext von Einträgen konsultieren',
+    ex5_q: '«Hol den Volltext des Eintrags zu Ineichen, Franz (1887-1953)--DB1734 und nenne mir die dort angegebenen Quellenangaben.»',
+    ex5_tool: 'Volltext von Einträgen konsultieren Werkzeug',
     nav_clients: 'Clients',
-    nav_examples: 'Beispiele',
+    nav_examples: 'Werkzeuge',
     nav_tips: 'Tipps',
     nav_reliability: 'Verlässlichkeit',
     nav_reference: 'Technisches',
@@ -27,7 +45,6 @@ const I18N = {
     setup_h: "Einrichten in drei Schritten",
     setup_steps: '<ol><li><strong>KI-Assistent wählen.</strong> Sie brauchen einen Zugang zu Claude (claude.ai oder Desktop-App), ChatGPT (Plus/Team/Enterprise), Perplexity Pro oder einer Entwicklungsumgebung wie Cursor oder VS Code.</li><li><strong>Server verbinden (Konnektor hinzufügen, App hinzufügen).</strong> Tragen Sie die Adresse des Endpoints <code>https://mcp.histoirerurale.ch/mcp</code> als MCP-Server ein. Die genauen Schritte unterscheiden sich je nach Plattform, siehe die Anleitungen im nächsten Abschnitt.</li><li><strong>Losfragen.</strong> Stellen Sie Ihre erste Rechercheanfrage in normaler Sprache. Eine Suchsyntax kann (zusätzlich) verwendet werden.</li></ol>',
     examples_h: 'Werkzeuge des MCP-Servers',
-    examples: '<p>So können Sie den MCP-Server benutzen:<br> Default portalübergreifend, spezifische Anfragen unten</p><p><strong>Personenrecherche</strong></p><blockquote>«Suche auf dem AGHIST-MCP-Server nach Landräten im Kanton Nidwalden und stelle diese in einer Excel-Tabelle mit den Spalten Nachname, Vorname, AfA-Nummer, Geburtsdatum, Todesdatum und Amtsjahre dar.»</blockquote><p><strong>Institutionensuche</strong></p><blockquote>«Suche auf dem AGHIST-MCP-Server nach Landfrauen- und Bäuerinnenvereinigungen in der Schweiz. Wie sind diese heute auf nationaler Ebene organisiert? Inwiefern änderte sich dies im Laufe der Zeit? Darstellung in einem geeigneten Diagramm.»</blockquote><p><strong>Suche nach Fotos und Filmen</strong></p><blockquote>«Gibt es Fotografien und Filme zur Mechanisierung (aber nicht Motorisierung) der Landwirtschaft in der ersten Hälfte des 20. Jahrhunderts? Erstelle eine Liste mit Titel und Live-URL zum Eintrag.»</blockquote><p><strong>Digitale Editionen</strong></p><blockquote>«Durchsuche die Edition Gillabert-Randin nach Textstellen zum Frauenstimmrecht und zitiere diese.»</blockquote><p><strong>Volltext von Einträgen konsultieren</strong></p><blockquote>«Hol den Volltext des Eintrags zu Ineichen, Franz (1887-1953)--DB1734 und nenne mir die dort angegebenen Quellenangaben.»</blockquote>',
     tips_h: 'Vorgehensweisen den MCP zu nutzen',
     tips: '<ul><li><strong>Iterativ arbeiten.</strong> Beginnen Sie mit einer breit gefassten Anfrage und verengen Sie erst in einem zweiten Schritt: erst «Landfrauenverbände», dann «nur Kanton Bern», dann «Volltext von Dokument X».</li><li><strong>Nach Querverweisen fragen.</strong> Die Einträge insbesondere im Portal «Personen und Institutionen» sind vernetzt (Verwandtschaft, Mitgliedschaften, Vorgänger und Nachfolger von Funktionärinnen und Funktionären, etc.). Fragen Sie: «Welche weiteren Personen sind mit dem Eintrag Schnyder, Bertha (1887-1968)--DB3219 verknüpft?»</li><li><strong>Mehrsprachig suchen.</strong> Die Online-Ressourcen sind mehrsprachig, Prompts können wie folgt ergänzt werden: «Suche auch auf Englisch und Französisch».</li><li><strong>Quellen verifizieren.</strong> Für Zitate immer den Quell-Eintrag über die mitgelieferte Live-URL (<code>recherche2.histoirerurale.ch</code>) angeben.</li><li><strong>Scope berücksichtigen.</strong> Der Assistent findet nur, was im AGHIST-Portal hinterlegt ist.</li><li><strong>Suchwege nachvollziehen.</strong> Die meisten KI-Assistenten zeigen im Chatverlauf an, welche Suchanfragen sie tatsächlich ausgeführt haben (meist als aufklappbare Blöcke wie «Used afa-recherche search»). Werfen Sie einen Blick hinein: So sehen Sie, mit welchen Begriffen und Filtern gesucht wurde, und erkennen, ob eine Recherche zu eng oder zu breit angelegt war. Die Zusammenfassung des Assistenten ist nicht dasselbe wie das Suchergebnis.</li></ul>',
     semantic_h: "Wie sucht der Assistent eigentlich?",
@@ -168,9 +185,27 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> und <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   fr: {
-    nav_setup: 'Installation',
+    nav_intro: 'Introduction',
+    call_intro: 'Pour cette requête, l’assistant appelle cet outil :',
+    more_tools_h: 'Autres outils',
+    tools_intro: '<p>Voici comment utiliser le serveur MCP :<br> par défaut sur l’ensemble des portails, requêtes spécifiques ci-dessous</p>',
+    ex1_h: 'Recherche de personnes',
+    ex1_q: '« Cherche sur le serveur MCP AGHIST les membres du Grand Conseil (Landrat) du canton de Nidwald et présente-les dans un tableau Excel avec les colonnes nom, prénom, numéro AfA, date de naissance, date de décès et années de mandat. »',
+    ex1_tool: 'Outil : Recherche de personnes',
+    ex2_h: 'Recherche d’institutions',
+    ex2_q: '« Cherche sur le serveur MCP AGHIST les associations de paysannes et de femmes rurales en Suisse. Comment sont-elles organisées aujourd’hui au niveau national ? Dans quelle mesure cela a-t-il changé au fil du temps ? Présentation dans un diagramme approprié. »',
+    ex2_tool: 'Outil : Recherche d’institutions',
+    ex3_h: 'Recherche de photos et de films',
+    ex3_q: '« Existe-t-il des photographies et des films sur la mécanisation (mais pas la motorisation) de l’agriculture dans la première moitié du XXe siècle ? Établis une liste avec le titre et l’URL en direct vers la notice. »',
+    ex3_tool: 'Outil : Recherche de photos et de films',
+    ex4_h: 'Éditions numériques',
+    ex4_q: '« Parcours l’édition Gillabert-Randin à la recherche de passages sur le suffrage féminin et cite-les. »',
+    ex4_tool: 'Outil : Éditions numériques',
+    ex5_h: 'Consulter le texte intégral des notices',
+    ex5_q: '« Récupère le texte intégral de la notice Ineichen, Franz (1887-1953)--DB1734 et indique-moi les références de sources qui y figurent. »',
+    ex5_tool: 'Outil : Consulter le texte intégral des notices',
     nav_clients: 'Clients',
-    nav_examples: 'Exemples',
+    nav_examples: 'Outils',
     nav_tips: 'Conseils',
     nav_reliability: 'Fiabilité',
     nav_reference: 'Technique',
@@ -195,7 +230,6 @@ const I18N = {
     setup_h: "Mise en place en trois étapes",
     setup_steps: '<ol><li><strong>Choisir un assistant IA.</strong> Il vous faut un accès à Claude (claude.ai ou application de bureau), ChatGPT (Plus/Team/Enterprise), Perplexity Pro ou un environnement de développement comme Cursor ou VS Code.</li><li><strong>Connecter le serveur (ajouter un connecteur, ajouter une application).</strong> Enregistrez l’adresse du point d’accès <code>https://mcp.histoirerurale.ch/mcp</code> comme serveur MCP. Les étapes exactes varient selon la plateforme, voir les instructions dans la section suivante.</li><li><strong>Poser vos questions.</strong> Formulez votre première requête en langage courant. Une syntaxe de recherche peut être utilisée (en complément).</li></ol>',
     examples_h: 'Outils du serveur MCP',
-    examples: '<p>Voici comment utiliser le serveur MCP :<br> par défaut sur l’ensemble des portails, requêtes spécifiques ci-dessous</p><p><strong>Recherche de personnes</strong></p><blockquote>« Cherche sur le serveur MCP AGHIST les membres du Grand Conseil (Landrat) du canton de Nidwald et présente-les dans un tableau Excel avec les colonnes nom, prénom, numéro AfA, date de naissance, date de décès et années de mandat. »</blockquote><p><strong>Recherche d’institutions</strong></p><blockquote>« Cherche sur le serveur MCP AGHIST les associations de paysannes et de femmes rurales en Suisse. Comment sont-elles organisées aujourd’hui au niveau national ? Dans quelle mesure cela a-t-il changé au fil du temps ? Présentation dans un diagramme approprié. »</blockquote><p><strong>Recherche de photos et de films</strong></p><blockquote>« Existe-t-il des photographies et des films sur la mécanisation (mais pas la motorisation) de l’agriculture dans la première moitié du XXe siècle ? Établis une liste avec le titre et l’URL en direct vers la notice. »</blockquote><p><strong>Éditions numériques</strong></p><blockquote>« Parcours l’édition Gillabert-Randin à la recherche de passages sur le suffrage féminin et cite-les. »</blockquote><p><strong>Consulter le texte intégral des notices</strong></p><blockquote>« Récupère le texte intégral de la notice Ineichen, Franz (1887-1953)--DB1734 et indique-moi les références de sources qui y figurent. »</blockquote>',
     tips_h: 'Manières d’utiliser le MCP',
     tips: '<ul><li><strong>Travailler par itérations.</strong> Commencez par une requête largement formulée et ne restreignez que dans un deuxième temps : d’abord « associations de paysannes », puis « seulement canton de Berne », puis « texte intégral du document X ».</li><li><strong>Demander les renvois.</strong> Les notices, en particulier dans le portail « Personnes et institutions », sont reliées entre elles (parenté, adhésions, prédécesseurs et successeurs de fonctionnaires, etc.). Demandez : « Quelles autres personnes sont liées à la notice Schnyder, Bertha (1887-1968)--DB3219 ? »</li><li><strong>Chercher en plusieurs langues.</strong> Les ressources en ligne sont multilingues ; les prompts peuvent être complétés ainsi : « Cherche aussi en anglais et en français ».</li><li><strong>Vérifier les sources.</strong> Pour toute citation, indiquez toujours la notice source via l’URL en direct fournie (<code>recherche2.histoirerurale.ch</code>).</li><li><strong>Tenir compte du périmètre.</strong> L’assistant ne trouve que ce qui est déposé dans le portail AGHIST.</li><li><strong>Retracer les recherches effectuées.</strong> La plupart des assistants IA affichent dans la conversation les requêtes réellement exécutées (souvent sous forme de blocs dépliables comme « Used afa-recherche search »). Jetez-y un œil : vous verrez avec quels termes et filtres la recherche a été menée et reconnaîtrez si elle était trop étroite ou trop large. Le résumé de l’assistant n’est pas la même chose que le résultat de recherche.</li></ul>',
     semantic_h: "Comment l'assistant cherche-t-il vraiment ?",
@@ -336,9 +370,27 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> et <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   it: {
-    nav_setup: 'Configurazione',
+    nav_intro: 'Introduzione',
+    call_intro: 'Per questa richiesta l’assistente richiama questo strumento:',
+    more_tools_h: 'Altri strumenti',
+    tools_intro: '<p>Ecco come utilizzare il server MCP:<br> per impostazione predefinita su tutti i portali, richieste specifiche qui sotto</p>',
+    ex1_h: 'Ricerca di persone',
+    ex1_q: '«Cerca sul server MCP AGHIST i membri del Gran Consiglio (Landrat) del Canton Nidvaldo e presentali in una tabella Excel con le colonne cognome, nome, numero AfA, data di nascita, data di morte e anni di carica.»',
+    ex1_tool: 'Strumento: Ricerca di persone',
+    ex2_h: 'Ricerca di istituzioni',
+    ex2_q: '«Cerca sul server MCP AGHIST le associazioni di contadine e di donne rurali in Svizzera. Come sono organizzate oggi a livello nazionale? In che misura è cambiato nel tempo? Rappresentazione in un diagramma adeguato.»',
+    ex2_tool: 'Strumento: Ricerca di istituzioni',
+    ex3_h: 'Ricerca di foto e film',
+    ex3_q: '«Esistono fotografie e film sulla meccanizzazione (ma non motorizzazione) dell’agricoltura nella prima metà del XX secolo? Crea un elenco con titolo e URL live alla voce.»',
+    ex3_tool: 'Strumento: Ricerca di foto e film',
+    ex4_h: 'Edizioni digitali',
+    ex4_q: '«Esplora l’edizione Gillabert-Randin alla ricerca di passaggi sul suffragio femminile e citali.»',
+    ex4_tool: 'Strumento: Edizioni digitali',
+    ex5_h: 'Consultare il testo integrale delle voci',
+    ex5_q: '«Recupera il testo integrale della voce Ineichen, Franz (1887-1953)--DB1734 e indicami i riferimenti alle fonti ivi riportati.»',
+    ex5_tool: 'Strumento: Consultare il testo integrale delle voci',
     nav_clients: 'Client',
-    nav_examples: 'Esempi',
+    nav_examples: 'Strumenti',
     nav_tips: 'Consigli',
     nav_reliability: 'Affidabilità',
     nav_reference: 'Tecnica',
@@ -363,7 +415,6 @@ const I18N = {
     setup_h: "Configurazione in tre passi",
     setup_steps: '<ol><li><strong>Scegliere un assistente IA.</strong> Serve un accesso a Claude (claude.ai o app desktop), ChatGPT (Plus/Team/Enterprise), Perplexity Pro oppure un ambiente di sviluppo come Cursor o VS Code.</li><li><strong>Collegare il server (aggiungere un connettore, aggiungere un’app).</strong> Registrate l’indirizzo dell’endpoint <code>https://mcp.histoirerurale.ch/mcp</code> come server MCP. I passaggi esatti variano a seconda della piattaforma, vedi le istruzioni nella sezione successiva.</li><li><strong>Iniziare a chiedere.</strong> Formulate la vostra prima richiesta in linguaggio corrente. Una sintassi di ricerca può essere usata (in aggiunta).</li></ol>',
     examples_h: 'Strumenti del server MCP',
-    examples: '<p>Ecco come utilizzare il server MCP:<br> per impostazione predefinita su tutti i portali, richieste specifiche qui sotto</p><p><strong>Ricerca di persone</strong></p><blockquote>«Cerca sul server MCP AGHIST i membri del Gran Consiglio (Landrat) del Canton Nidvaldo e presentali in una tabella Excel con le colonne cognome, nome, numero AfA, data di nascita, data di morte e anni di carica.»</blockquote><p><strong>Ricerca di istituzioni</strong></p><blockquote>«Cerca sul server MCP AGHIST le associazioni di contadine e di donne rurali in Svizzera. Come sono organizzate oggi a livello nazionale? In che misura è cambiato nel tempo? Rappresentazione in un diagramma adeguato.»</blockquote><p><strong>Ricerca di foto e film</strong></p><blockquote>«Esistono fotografie e film sulla meccanizzazione (ma non motorizzazione) dell’agricoltura nella prima metà del XX secolo? Crea un elenco con titolo e URL live alla voce.»</blockquote><p><strong>Edizioni digitali</strong></p><blockquote>«Esplora l’edizione Gillabert-Randin alla ricerca di passaggi sul suffragio femminile e citali.»</blockquote><p><strong>Consultare il testo integrale delle voci</strong></p><blockquote>«Recupera il testo integrale della voce Ineichen, Franz (1887-1953)--DB1734 e indicami i riferimenti alle fonti ivi riportati.»</blockquote>',
     tips_h: 'Modi di utilizzare l’MCP',
     tips: '<ul><li><strong>Lavorare per iterazioni.</strong> Iniziate con una richiesta formulata in modo ampio e restringete solo in un secondo momento: prima «associazioni di contadine», poi «solo Canton Berna», poi «testo integrale del documento X».</li><li><strong>Chiedere i rinvii.</strong> Le voci, in particolare nel portale «Persone e istituzioni», sono collegate fra loro (parentele, appartenenze, predecessori e successori di funzionari e funzionarie, ecc.). Chiedete: «Quali altre persone sono collegate alla voce Schnyder, Bertha (1887-1968)--DB3219?»</li><li><strong>Cercare in più lingue.</strong> Le risorse online sono plurilingui, i prompt possono essere completati così: «Cerca anche in inglese e in francese».</li><li><strong>Verificare le fonti.</strong> Per le citazioni indicate sempre la voce di origine tramite l’URL live fornito (<code>recherche2.histoirerurale.ch</code>).</li><li><strong>Tenere conto dello scope.</strong> L’assistente trova solo ciò che è depositato nel portale AGHIST.</li><li><strong>Ripercorrere le ricerche effettuate.</strong> La maggior parte degli assistenti IA mostra nella conversazione le interrogazioni realmente eseguite (spesso come blocchi espandibili tipo «Used afa-recherche search»). Dateci un’occhiata: vedrete con quali termini e filtri è stata condotta la ricerca e riconoscerete se era troppo ristretta o troppo ampia. Il riassunto dell’assistente non è la stessa cosa del risultato di ricerca.</li></ul>',
     semantic_h: "Come cerca davvero l'assistente?",
@@ -504,9 +555,27 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> e <a href="https://www.pansoft.de/">Pansoft</a>'
   },
   en: {
-    nav_setup: 'Setup',
+    nav_intro: 'Introduction',
+    call_intro: 'For this request the assistant calls this tool:',
+    more_tools_h: 'Further tools',
+    tools_intro: '<p>This is how you can use the MCP server:<br> across all portals by default, specific queries below</p>',
+    ex1_h: 'Person research',
+    ex1_q: '"Search the AGHIST MCP server for members of the cantonal parliament (Landrat) of Nidwalden and present them in an Excel table with the columns surname, first name, AfA number, date of birth, date of death and years in office."',
+    ex1_tool: 'Person research tool',
+    ex2_h: 'Institution search',
+    ex2_q: '"Search the AGHIST MCP server for farm women\'s and countrywomen\'s associations in Switzerland. How are they organised at national level today? How did that change over time? Present it in a suitable diagram."',
+    ex2_tool: 'Institution search tool',
+    ex3_h: 'Photo and film search',
+    ex3_q: '"Are there photographs and films on the mechanisation (but not motorisation) of agriculture in the first half of the 20th century? Compile a list with title and live URL to the entry."',
+    ex3_tool: 'Photo and film search tool',
+    ex4_h: 'Digital editions',
+    ex4_q: '"Search the Gillabert-Randin edition for passages on women\'s suffrage and quote them."',
+    ex4_tool: 'Digital editions tool',
+    ex5_h: 'Consulting the full text of entries',
+    ex5_q: '"Fetch the full text of the entry Ineichen, Franz (1887-1953)--DB1734 and give me the source references stated there."',
+    ex5_tool: 'Consulting the full text of entries tool',
     nav_clients: 'Clients',
-    nav_examples: 'Examples',
+    nav_examples: 'Tools',
     nav_tips: 'Tips',
     nav_reliability: 'Reliability',
     nav_reference: 'Technical',
@@ -531,7 +600,6 @@ const I18N = {
     setup_h: "Set up in three steps",
     setup_steps: '<ol><li><strong>Choose an AI assistant.</strong> You need access to Claude (claude.ai or the desktop app), ChatGPT (Plus/Team/Enterprise), Perplexity Pro, or a development environment such as Cursor or VS Code.</li><li><strong>Connect the server (add connector, add app).</strong> Register the endpoint address <code>https://mcp.histoirerurale.ch/mcp</code> as an MCP server. The exact steps differ per platform, see the instructions in the next section.</li><li><strong>Start asking.</strong> Pose your first research question in plain language. A search syntax can be used (in addition).</li></ol>',
     examples_h: 'Tools of the MCP server',
-    examples: '<p>This is how you can use the MCP server:<br> across all portals by default, specific queries below</p><p><strong>Person research</strong></p><blockquote>"Search the AGHIST MCP server for members of the cantonal parliament (Landrat) of Nidwalden and present them in an Excel table with the columns surname, first name, AfA number, date of birth, date of death and years in office."</blockquote><p><strong>Institution search</strong></p><blockquote>"Search the AGHIST MCP server for farm women\'s and countrywomen\'s associations in Switzerland. How are they organised at national level today? How did that change over time? Present it in a suitable diagram."</blockquote><p><strong>Photo and film search</strong></p><blockquote>"Are there photographs and films on the mechanisation (but not motorisation) of agriculture in the first half of the 20th century? Compile a list with title and live URL to the entry."</blockquote><p><strong>Digital editions</strong></p><blockquote>"Search the Gillabert-Randin edition for passages on women\'s suffrage and quote them."</blockquote><p><strong>Consulting the full text of entries</strong></p><blockquote>"Fetch the full text of the entry Ineichen, Franz (1887-1953)--DB1734 and give me the source references stated there."</blockquote>',
     tips_h: 'Ways to use the MCP',
     tips: '<ul><li><strong>Work iteratively.</strong> Start with a broadly framed query and narrow it down only in a second step: first "farm women\'s associations", then "canton of Bern only", then "full text of document X".</li><li><strong>Ask for cross-references.</strong> The entries, especially in the "Persons and institutions" portal, are interlinked (kinship, memberships, predecessors and successors in office, and so on). Ask: "Which other persons are linked to the entry Schnyder, Bertha (1887-1968)--DB3219?"</li><li><strong>Search in several languages.</strong> The online resources are multilingual; prompts can be extended like this: "Search in English and French as well".</li><li><strong>Verify sources.</strong> For quotations, always give the source entry via the live URL provided (<code>recherche2.histoirerurale.ch</code>).</li><li><strong>Mind the scope.</strong> The assistant only finds what is held in the AGHIST portal.</li><li><strong>Retrace the searches.</strong> Most AI assistants show in the conversation which queries they actually executed (usually as expandable blocks such as "Used afa-recherche search"). Take a look inside: you will see which terms and filters were used and can tell whether a search was too narrow or too broad. The assistant\'s summary is not the same as the search result.</li></ul>',
     semantic_h: "How does the assistant actually search?",
@@ -672,3 +740,52 @@ const I18N = {
     poweredby: 'powered by <a href="https://histoirerurale.ch">AfA</a> and <a href="https://www.pansoft.de/">Pansoft</a>'
   }
 };
+
+
+// ---------------------------------------------------------------------------
+// Werkzeug-Abschnitt: zu jeder Beispielanfrage der Aufruf und die Angaben zum
+// Werkzeug. Aus Bausteinen zusammengesetzt, damit die Parametertabellen nur
+// einmal gepflegt werden.
+// ---------------------------------------------------------------------------
+
+const EXAMPLE_CALLS = [
+  { call: "search_entities({\"entity_type\": \"person\",\n                 \"query\": \"Landrat AND Nidwalden\", \"sort\": \"id\", \"size\": 100})", params: "tool_search_entities_params" },
+  { call: "search_entities({\"entity_type\": \"institution\",\n                 \"query\": \"Landfrauen OR Bäuerinnen\", \"size\": 100})", params: "tool_search_entities_params" },
+  { call: "search_audiovisual({\"query\": \"Mechanisierung NOT Motorisierung\", \"size\": 100})", params: "tool_search_av_params" },
+  { call: "search_edition_gillabert_randin({\"query\": \"Frauenstimmrecht\", \"size\": 20})", params: "tool_edition_params" },
+  { call: "fetch_document({\"id\": \"AfA_Personen_001_DB1734\"})", params: "tool_fetch_params" }
+];
+
+const MORE_TOOLS = [
+  { name: "search", label: "tool_search", params: "tool_search_params" },
+  { name: "search_edition_hofstetter", label: "tool_ed_hofstetter", params: "tool_edition_params" },
+  { name: "search_edition_bobbett", label: "tool_ed_bobbett", params: "tool_edition_params" },
+  { name: "list_hierarchy", label: "tool_list_h", params: "tool_list_h_params" },
+  { name: "server_info", label: "tool_server_info", params: "tool_server_info_params" }
+];
+
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+for (const lang of Object.keys(I18N)) {
+  const d = I18N[lang];
+  let html = d.tools_intro;
+  EXAMPLE_CALLS.forEach((entry, i) => {
+    const n = i + 1;
+    html += "<p><strong>" + d["ex" + n + "_h"] + "</strong></p>"
+      + "<blockquote>" + d["ex" + n + "_q"] + "</blockquote>"
+      + "<details><summary>" + d["ex" + n + "_tool"] + "</summary><div>"
+      + "<p>" + d.call_intro + "</p>"
+      + "<pre>" + escapeHtml(entry.call) + "</pre>"
+      + d[entry.params]
+      + "</div></details>";
+  });
+  html += "<h3>" + d.more_tools_h + "</h3>";
+  for (const tool of MORE_TOOLS) {
+    html += "<details><summary><code>" + tool.name + "</code> · " + d[tool.label]
+      + "</summary><div>" + d[tool.params] + "</div></details>";
+  }
+  html += "<p>" + d.tools_note + "</p>";
+  d.examples = html;
+}
