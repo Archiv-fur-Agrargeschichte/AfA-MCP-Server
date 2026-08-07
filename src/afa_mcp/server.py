@@ -8,7 +8,7 @@ Tools (alle über `streamable-http` erreichbar):
   * search_edition_hofstetter        — Edition Mina Hofstetter
   * search_edition_gillabert_randin  — Edition Augusta Gillabert-Randin
   * search_edition_bobbett           — Edition Elizabeth Bobbett
-  * fetch_document                   — Einzelnes Dokument inkl. Volltext
+  * fetch_document                   — Metadaten eines einzelnen Dokuments
   * list_hierarchy                   — Hierarchie-Buckets mit Trefferzahlen
   * server_info                      — Endpunkt- und Versionsinfo
 
@@ -44,6 +44,7 @@ from .models import (
     SearchResponse,
     SortOrder,
 )
+from .prompts import register_prompts
 from .search import AfaClient
 
 logger = logging.getLogger(__name__)
@@ -144,7 +145,7 @@ def _server_card_payload() -> dict[str, Any]:
                 "stateless": _env_bool("MCP_STATELESS_HTTP", True),
             }
         },
-        "capabilities": {"tools": True, "resources": True, "prompts": False},
+        "capabilities": {"tools": True, "resources": True, "prompts": True},
         "tools": [
             {"name": "search", "title": "Search AfA",
              "description": "Full-text search across the Archives of Rural History."},
@@ -159,7 +160,7 @@ def _server_card_payload() -> dict[str, Any]:
             {"name": "search_edition_bobbett", "title": "Edition Elizabeth Bobbett",
              "description": "Search the Elizabeth Bobbett digital edition."},
             {"name": "fetch_document", "title": "Fetch document",
-             "description": "Retrieve a single document together with its full text."},
+             "description": "Retrieve the metadata of a single document by ID."},
             {"name": "list_hierarchy", "title": "List hierarchy",
              "description": "List hierarchy buckets with document counts."},
             {"name": "server_info", "title": "Server information",
@@ -299,6 +300,94 @@ _HierarchySizeArg = Annotated[
 
 
 # ---------------------------------------------------------------------------
+# Systemprompt (MCP-Feld `instructions`)
+#
+# Wird bei jeder Verbindung an den Client geliefert und dort dem Sprachmodell
+# vorangestellt. Er wirkt damit in jedem Client, ohne dass Nutzende etwas
+# einrichten. Die Arbeitsregeln verringern die beiden dokumentierten
+# Schwachstellen der Recherche per Sprachmodell: Auslassungen (das Modell
+# waehlt aus, was es nennt) und nicht wiederholbare Laeufe (das Modell waehlt
+# Suchbegriffe, Sortierung und Abbruchpunkt selbst).
+#
+# Herleitung und Begruendung der einzelnen Regeln: docs/prompts/
+# ---------------------------------------------------------------------------
+
+_INSTRUCTIONS_DE = (
+    "MCP-Server für das Archiv für Agrargeschichte (AfA / Archives "
+    "d'histoire rurale / Archives of Rural History). Volltext-Suche "
+    "in Personen, Institutionen, Betrieben, audiovisuellen Quellen "
+    "(Foto/Film), Archivbeständen, digitalen Editionen (Mina Hofstetter, "
+    "Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen und "
+    "Medienberichten. Unterstützt Volltextsuche, Hierarchie-Filter und "
+    "den Abruf einzelner Dokumente.\n\n"
+    "Arbeitsregeln:\n"
+    "1. Antworte nur aus Tool-Responses dieser Sitzung. Angaben ohne Beleg "
+    "im Bestand kennzeichnest du als 'nicht im Bestand', statt sie aus "
+    "Vorwissen zu ergänzen.\n"
+    "2. Nenne zu jeder Aussage die Dokument-ID und die document_url.\n"
+    "3. Das Feld `text` einer Suchantwort ist ein gekürztes Highlight-"
+    "Snippet. Antworte nicht daraus, sondern rufe fetch_document für die "
+    "ID auf.\n"
+    "4. fetch_document liefert Metadaten, keinen Volltext. Der Inhalt liegt "
+    "hinter document_url; verweise darauf, statt ihn zu vermuten.\n"
+    "5. Verwende sort='id', wenn das Ergebnis wiederholbar sein soll. "
+    "sort='relevance' ist über Index-Änderungen hinweg nicht stabil.\n"
+    "6. Paginiere über next_cursor bis null, bevor du von 'allen Treffern' "
+    "sprichst. Andernfalls nenne die Zahl der geprüften Treffer und total.\n"
+    "7. Gib Namen, Daten, Funktionen und Dossiernummern wörtlich wieder.\n"
+    "8. Nennt eine Frage mehrere Funktionen, Ämter oder Verknüpfungen einer "
+    "Person, dann führe alle auf, die im Eintrag stehen, ohne Auswahl nach "
+    "Wichtigkeit.\n"
+    "9. Widersprüche zwischen Einträgen führst du mit beiden IDs auf, statt "
+    "sie aufzulösen.\n"
+    "10. Gib am Ende die tatsächlich ausgeführten Suchaufrufe wörtlich aus "
+    "(query, hierarchy, sort, size), damit der Lauf wiederholbar ist.\n\n"
+    "Für wiederkehrende Recherchearten liefert dieser Server Vorlagen als "
+    "MCP-Prompts (prompts/list), etwa recherche_belegt, entity_dossier oder "
+    "trefferliste_vollstaendig. Weise darauf hin, wenn eine Anfrage dazu passt."
+)
+
+_INSTRUCTIONS_EN = (
+    "English version of the same instructions.\n\n"
+    "MCP server of the Archives of Rural History (Archiv für Agrargeschichte / "
+    "Archives d'histoire rurale). Full-text search across persons, institutions, "
+    "farms, audiovisual sources (photo/film), archive holdings, digital editions "
+    "(Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett), publications "
+    "and media reports. Supports full-text search, hierarchy filters and the "
+    "retrieval of single documents.\n\n"
+    "Working rules:\n"
+    "1. Answer only from tool responses in this session. Mark anything without "
+    "support in the holdings as 'not in the holdings' instead of filling it in "
+    "from prior knowledge.\n"
+    "2. Give the document ID and the document_url for every statement.\n"
+    "3. The `text` field of a search response is a shortened highlight snippet. "
+    "Do not answer from it, call fetch_document for the ID instead.\n"
+    "4. fetch_document returns metadata, not the full text. The content sits "
+    "behind document_url; point to it instead of guessing it.\n"
+    "5. Use sort='id' when the result should be repeatable. sort='relevance' is "
+    "not stable across index changes.\n"
+    "6. Page through next_cursor until null before speaking of 'all hits'. "
+    "Otherwise state how many hits you checked and the total.\n"
+    "7. Quote names, dates, offices and dossier numbers verbatim.\n"
+    "8. Where a question touches several offices, mandates or links of a person, "
+    "list all of them that the record names, with no selection by importance.\n"
+    "9. List contradictions between records with both IDs instead of resolving "
+    "them.\n"
+    "10. End by printing the search calls you actually made, verbatim (query, "
+    "hierarchy, sort, size), so that the run can be repeated.\n\n"
+    "For recurring kinds of research this server ships templates as MCP prompts "
+    "(prompts/list), for instance recherche_belegt, entity_dossier or "
+    "trefferliste_vollstaendig. Point them out when a request matches one."
+)
+
+
+# Beide Sprachen zusammen, weil MCP fuer `instructions` keine Sprachverhandlung
+# kennt: Der Client bekommt einen Text, und der muss fuer deutschsprachige wie
+# englischsprachige Sitzungen taugen.
+SERVER_INSTRUCTIONS = _INSTRUCTIONS_DE + "\n\n" + _INSTRUCTIONS_EN
+
+
+# ---------------------------------------------------------------------------
 # Tools
 # ---------------------------------------------------------------------------
 
@@ -306,18 +395,12 @@ _HierarchySizeArg = Annotated[
 def build_server() -> FastMCP:
     mcp = FastMCP(
         name="afa",
-        instructions=(
-            "MCP-Server für das Archiv für Agrargeschichte (AfA / Archives "
-            "d'histoire rurale / Archives of Rural History). Volltext-Suche "
-            "in Personen, Institutionen, Betrieben, audiovisuellen Quellen "
-            "(Foto/Film), Archivbeständen, digitalen Editionen (Mina Hofstetter, "
-            "Augusta Gillabert-Randin, Elizabeth Bobbett), Publikationen und "
-            "Medienberichten. Unterstützt Volltextsuche, Hierarchie-Filter, "
-            "Einzeldokumenten-Abruf inkl. Volltext."
-        ),
+        instructions=SERVER_INSTRUCTIONS,
         lifespan=_lifespan,
         transport_security=_transport_security(),
     )
+
+    register_prompts(mcp)
 
     def _client(ctx: Context) -> AfaClient:
         return ctx.request_context.lifespan_context["client"]

@@ -15,15 +15,40 @@
 
 ## Werkzeuge
 
-- search                          — Volltextsuche, optional mit Hierarchie-Filter
-- search_entities                 — Personen / Institutionen / Betriebe
-- search_audiovisual              — Foto-/Film-Bestände
-- search_edition_hofstetter       — Edition Mina Hofstetter
-- search_edition_gillabert_randin — Edition Augusta Gillabert-Randin
-- search_edition_bobbett          — Edition Elizabeth Bobbett
-- fetch_document                  — Volltext eines einzelnen Dokuments
-- list_hierarchy                  — Hierarchie-Buckets mit Trefferzahlen
-- server_info                     — Versions- und Endpunkt-Information
+- search                          : Volltextsuche, optional mit Hierarchie-Filter
+- search_entities                 : Personen / Institutionen / Betriebe
+- search_audiovisual              : Foto-/Film-Bestände
+- search_edition_hofstetter       : Edition Mina Hofstetter
+- search_edition_gillabert_randin : Edition Augusta Gillabert-Randin
+- search_edition_bobbett          : Edition Elizabeth Bobbett
+- fetch_document                  : Metadaten eines einzelnen Dokuments
+- list_hierarchy                  : Hierarchie-Buckets mit Trefferzahlen
+- server_info                     : Versions- und Endpunkt-Information
+
+## Vorlagen (MCP-Prompts, prompts/list)
+
+Vorformulierte Recherche-Aufträge samt Arbeitsanweisung. Jede Vorlage kennt das
+Argument `language` (de|en), Standard ist Deutsch.
+
+- recherche_belegt           : Frage aus dem Bestand beantworten, mit ID, Link, Lauf-Protokoll
+                               (frage)
+- trefferliste_vollstaendig  : alle Treffer einer wörtlich vorgegebenen Anfrage, ohne Auswahl
+                               (query, hierarchy)
+- entity_dossier             : Person / Institution / Betrieb nach festem Formular
+                               (name, typ)
+- av_quellenliste            : Fotos und Filme mit Jahr, Dauer, Auftraggeber, Dossiernummer
+                               (thema, zeitraum)
+- widerspruchspruefung       : Angaben mehrerer Einträge gegenüberstellen, ohne sie aufzulösen
+                               (sachverhalt, ids)
+- fremdpruefung              : fremdes Ergebnis blind nachrechnen, Abweichung benennen
+                               (rezept)
+
+## Systemprompt
+
+Das MCP-Feld `instructions` enthält zehn Arbeitsregeln, zweisprachig (Belege je
+Aussage, Eintrag abrufen statt Snippet, sort=id, vollständig blättern, alle Ämter
+nennen, Widersprüche nicht auflösen, Suchaufrufe ausgeben). Herleitung:
+docs/prompts im Repository.
 
 ## Discovery
 
