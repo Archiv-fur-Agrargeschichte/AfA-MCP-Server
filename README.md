@@ -3,235 +3,53 @@
 MCP-Server für das AGHIST-Suchportal des **Archivs für Agrargeschichte (AfA)** (Archives d'histoire rurale AHR /
 Archives of Rural History ARH) in Bern (CH).
 
-AGHIST ist das Suchportal zur Agrar-, Ernährungs- und Umweltgeschichte und ermöglicht einen Zugriff auf die online-Ressourcen (Filme, Fotos und schriftliche Quellen sowie Verzeichnungsdaten, wissenschaftliche Texte, Video Essays, etc.), die vom AfA und seinen Partnerinstitutionen im In- und Ausland öffentlich zugänglich gemacht werden.
-
-Der AGHIST MCP-Server stellt Volltext-Suche und Hierarchie-Recherche über das
-Model Context Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie
-Claude, ChatGPT, Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
+Der Server stellt Volltext-Suche und Hierarchie-Recherche über das Model Context
+Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie Claude, ChatGPT,
+Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
 
 Live-Endpunkt: <https://mcp.histoirerurale.ch/mcp>
 
-## Inhalt
+## Wo steht was
 
-1. [In zwei Sätzen: was hier passiert](#in-zwei-sätzen-was-hier-passiert)
-2. [Server verbinden](#server-verbinden)
-3. [Werkzeuge](#werkzeuge)
-4. [Grundbegriffe, die in allen Werkzeugen gleich sind](#grundbegriffe-die-in-allen-werkzeugen-gleich-sind)
-5. [Mit guten Prompts mehr aus dem Server holen](#mit-guten-prompts-mehr-aus-dem-server-holen)
-6. [Konfiguration: das Verhalten über Einstellungen steuern](#konfiguration-das-verhalten-über-einstellungen-steuern)
-7. [Lokal entwickeln](#lokal-entwickeln)
-8. [Produktion](#produktion-debian)
-9. [Architektur](#architektur)
+Die Nutzerdokumentation steht auf der Website des Servers und wird aus
+`deploy/index.html` und `deploy/assets/js/i18n.js` in vier Sprachen ausgeliefert.
+Sie wird hier nicht wiederholt.
 
-## In zwei Sätzen: was hier passiert
-
-Ein Sprachmodell (Claude, ChatGPT, Cursor) kann nicht in den AfA-Beständen suchen,
-es kennt sie nicht. Dieser Server stellt dem Modell neun Werkzeuge zur Verfügung,
-mit denen es selbst suchen, blättern und einzelne Einträge abrufen kann, und gibt
-zu jedem Treffer eine ID und einen Link zurück, damit jede Aussage nachprüfbar bleibt.
-
-Wer eine Frage stellt, redet also weiterhin mit dem Modell. Das Modell entscheidet,
-welches Werkzeug es aufruft und mit welchen Parametern. Genau deshalb sind die beiden
-Kapitel [Prompts](#mit-guten-prompts-mehr-aus-dem-server-holen) und
-[Konfiguration](#konfiguration-das-verhalten-über-einstellungen-steuern) so wichtig
-wie die Werkzeugliste selbst.
-
-## Server verbinden
-
-Der Server läuft öffentlich, es braucht kein Konto und keinen Schlüssel.
-
-| Client | Vorgehen |
+| Thema | Ort |
 |---|---|
-| Claude (Web, Desktop) | Einstellungen, Connectors, eigenen Connector hinzufügen, URL `https://mcp.histoirerurale.ch/mcp` |
-| Claude Code | `claude mcp add --transport http afa-recherche https://mcp.histoirerurale.ch/mcp` |
-| ChatGPT | Einstellungen, Connectors, MCP-Server hinzufügen, dieselbe URL |
-| Cursor, Perplexity, andere | in der jeweiligen MCP-Konfiguration einen Server vom Typ `streamable-http` mit dieser URL eintragen |
-| Lokal, ohne Netz | Repository klonen und `python -m afa_mcp --transport stdio` als lokalen Server eintragen |
+| Welche Bestände durchsuchbar sind, Beispielrecherchen | <https://mcp.histoirerurale.ch/> |
+| Server in Claude, ChatGPT, Cursor, Perplexity, VS Code, Claude Code oder einem eigenen SDK-Client einrichten | <https://mcp.histoirerurale.ch/#clients> |
+| Werkzeuge, alle Parameter, Rückgabefelder | <https://mcp.histoirerurale.ch/#werkzeuge> |
+| Nutzungstipps, Reproduzierbarkeit, Direktzugriff per `curl`, Discovery-Endpunkte | <https://mcp.histoirerurale.ch/#tipps> und <https://mcp.histoirerurale.ch/#technik> |
 
-Ob die Verbindung steht, prüft man am schnellsten mit dem Werkzeug `server_info`:
-Frage im Chat einfach «rufe server_info auf». Kommen Name, Version und
-Elasticsearch-URL zurück, ist alles bereit.
+Dieses README deckt ab, was dort nicht steht:
 
-## Werkzeuge
+1. [Prompts für strenge, wiederholbare Recherchen](#prompts-für-strenge-wiederholbare-recherchen)
+2. [Konfiguration: das Verhalten über Einstellungen steuern](#konfiguration-das-verhalten-über-einstellungen-steuern)
+3. [Lokal entwickeln](#lokal-entwickeln)
+4. [Produktion](#produktion-debian)
+5. [Architektur](#architektur)
 
-Neun Werkzeuge, drei Gruppen: suchen, einzelnes Dokument holen, Bestände auflisten.
+## Prompts für strenge, wiederholbare Recherchen
 
-| Werkzeug | Wofür | Typische Frage |
-|---|---|---|
-| `search` | Suche über alles, optional auf Bestände eingeschränkt | «Was gibt es zu Milchgenossenschaften im Emmental?» |
-| `search_entities` | nur Personen, Institutionen, Betriebe | «Wer war Mina Hofstetter?» |
-| `search_audiovisual` | nur Fotos und Filme | «Welche Filme zeigen Kartoffelernte?» |
-| `search_edition_hofstetter` | nur die Edition Mina Hofstetter | «Was schreibt Hofstetter über Bodenbearbeitung?» |
-| `search_edition_gillabert_randin` | nur die Edition Augusta Gillabert-Randin | «Welche Briefe betreffen den Waadtländer Bäuerinnenverband?» |
-| `search_edition_bobbett` | nur die Edition Elizabeth Bobbett | «Was steht in den Tagebüchern von 1933?» |
-| `fetch_document` | ein Dokument über seine ID vollständig holen | «Zeig mir den Eintrag `AfA_Personen_001_DB9920`» |
-| `list_hierarchy` | welche Bestände es gibt und wie viele Treffer sie liefern | «In welchen Beständen kommt "Alpwirtschaft" vor?» |
-| `server_info` | Version, Endpunkt, gültige Parameterwerte | Diagnose |
+Die Werkzeuge sind die eine Hälfte, die Frage im Chat die andere: sie entscheidet,
+wie das Modell die Werkzeuge benutzt. Die Website erklärt das Vorgehen für den
+Alltag. Hier geht es um den Fall, in dem ein Ergebnis belegt und wiederholbar sein
+muss, also um Prompts, die das Vorgehen vorschreiben statt nur ein Ergebnis zu
+bestellen.
 
-Aktuelle Trefferzahlen pro Sammlung liefert `list_hierarchy`. Sie stehen bewusst
-nicht in dieser Doku, weil sie dort sofort veralten würden.
-
-### `search`: generische Volltext-Suche
-
-Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto- und Film-Bestände, Archive, digitale Editionen, Publikationen, Medienberichte). Optional auf beliebige Hierarchie-IDs einschränkbar.
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. Phrasen mit `"..."`, `AND`/`OR`/`NOT`, Wildcards `*` und `?`. Default-Operator: AND. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Bevorzugte Sprache für Titel und Highlight (kein Filter, fällt zurück). |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1 bis 100) | 20 | Treffer pro Seite. |
-| `search_after` | list | keiner | Cursor aus `next_cursor` der vorigen Antwort. |
-| `hierarchy` | list[str] | keiner | Hierarchie-IDs zur Einschränkung (mit OR verknüpft). Aus `list_hierarchy`. |
-| `include_aggregations` | bool | false | Hierarchie-Aggregation mitliefern. |
-
-**Rückgabe (`SearchResponse`):**
-
-| Feld | Typ | Beschreibung |
-|---|---|---|
-| `total` | int | Gesamtzahl der Treffer (auch über `size` hinaus). |
-| `hits` | list[SearchHit] | Trefferliste (höchstens `size` Einträge). |
-| `next_cursor` | list \| null | An `search_after` des nächsten Requests weitergeben; `null` heisst: keine weiteren Treffer. |
-| `aggregations` | dict \| null | Hierarchie-Buckets, nur wenn `include_aggregations=true`. |
-
-**`SearchHit`-Felder:** `id`, `title`, `abstract`, `text` (Highlight-Snippet), `meta`, `hierarchy` (Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`, `document_url` (Suchportal-Deep-Link), `original_url` (Quell-URL), `sort` (interner Cursor).
-
-### `search_entities`: Personen, Institutionen, Betriebe
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `entity_type` | `person`\|`institution`\|`farm`\|`any` | `any` | Typ-Filter. `company` bleibt als veralteter Alias für `farm` erhalten. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1 bis 100) | 20 | Treffer pro Seite. |
-| `search_after` | list | keiner | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` wie bei `search`, die `hits` sind auf Personen, Institutionen und Betriebe eingeschränkt.
-
-### `search_audiovisual`: Foto- und Film-Bestände
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `media_type` | `photos`\|`films` | keiner | `photos` liefert nur Fotos, `films` nur Filme, ohne Angabe beides. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1 bis 100) | 20 | Treffer pro Seite. |
-| `search_after` | list | keiner | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` wie bei `search`, die `hits` sind auf Foto- und Filmbestände eingeschränkt.
-
-### `search_edition_hofstetter`, `search_edition_gillabert_randin`, `search_edition_bobbett`
-
-Volltext-Suche jeweils in einer der drei digitalen Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett).
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1 bis 100) | 20 | Treffer pro Seite. |
-| `search_after` | list | keiner | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` wie bei `search`, die `hits` sind auf die jeweilige Edition eingeschränkt.
-
-### `fetch_document`: einzelnes Dokument holen
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `id` | str | erforderlich | Dokument-ID, zum Beispiel `AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Bevorzugte Sprache. |
-
-**Rückgabe:** einzelner `SearchHit` mit den Metadaten des Dokuments **ohne Volltext**. Wichtige Felder:
-
-- Metadaten: `id`, `title`, `abstract`, `meta`, `hierarchy` (Sammlungs-Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`.
-- `document_url`: Link zur PDF- oder HTML-Datei im **Suchportal** (`recherche2.histoirerurale.ch`).
-- `original_url`: **Deep-Link ins Quellportal**, also die Website, von der der Scraper das Dokument geholt hat (zum Beispiel `histoirerurale.ch`, je nach Bestand verschieden).
-
-`null`, wenn die ID nicht gefunden wird.
-
-### `list_hierarchy`: Bestände mit Trefferzahlen
-
-Dieses Werkzeug beantwortet die Frage «wo müsste ich überhaupt suchen». Es ist
-der beste erste Aufruf einer Recherche, weil es mit einer einzigen Anfrage zeigt,
-welche Bestände zum Thema etwas enthalten.
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Optionale Volltext-Anfrage. |
-| `size` | int (1 bis 10000) | 200 | Maximale Anzahl Hierarchie-Einträge. |
-| `language` | `de`\|`fr`\|`it`\|`en` | keiner | Label-Sprache. |
-
-**Rückgabe (`HierarchyResponse`):**
-
-| Feld | Typ | Beschreibung |
-|---|---|---|
-| `entries` | list[HierarchyEntry] | Hierarchie-Einträge. |
-
-**`HierarchyEntry`-Felder:** `id` (Hierarchie-ID zur Verwendung im `hierarchy`-Parameter der Such-Werkzeuge), `count` (Trefferanzahl), `label` (menschenlesbare Bezeichnung in der angefragten Sprache, sofern verfügbar).
-
-### `server_info`: Versions- und Endpunkt-Information
-
-Keine Parameter.
-
-**Rückgabe (dict):**
-
-| Feld | Typ | Beschreibung |
-|---|---|---|
-| `name` | str | Server-Name (`afa-mcp`). |
-| `version` | str | Semver. |
-| `elasticsearch_url` | str | Upstream-URL des ES-Backends. |
-| `languages` | list[str] | `de`, `fr`, `it`, `en`. |
-| `sort_orders` | list[str] | Akzeptierte Werte für `sort`. |
-| `hierarchy_constants` | dict | Sprechende Konstanten (zum Beispiel `PERSONS`, `EDITION_BOBBETT`) zu Hierarchie-ID-Strings. |
-
-## Grundbegriffe, die in allen Werkzeugen gleich sind
-
-**Anfrage (`query`).** Lucene-Syntax. Mehrere Wörter sind mit UND verknüpft, eine
-Phrase steht in Anführungszeichen, `*` und `?` sind Platzhalter. Beispiele:
-`Bäuerin AND Emmental`, `"Schweizerischer Bäuerinnenverband"`, `Milchgenossenschaft*`.
-
-**Bestände (`hierarchy`).** Die Sammlungen des AfA sind ein Baum. Jeder Knoten hat
-eine ID, die `list_hierarchy` liefert. Wird eine Liste solcher IDs an ein
-Such-Werkzeug übergeben, sucht der Server nur dort (die IDs sind mit ODER verknüpft).
-
-**Blättern (`size`, `search_after`, `next_cursor`).** Eine Antwort enthält höchstens
-`size` Treffer, aber `total` sagt, wie viele es insgesamt gibt. Ist `next_cursor`
-nicht `null`, gibt es weitere Seiten: den Wert unverändert als `search_after` in die
-nächste Anfrage geben. Wer nach der ersten Seite aufhört, hat eine zufällige
-Teilmenge, keine Trefferliste.
-
-**Snippet ist nicht der Eintrag.** Das Feld `text` einer Suchantwort ist ein
-gekürztes Highlight rund um die Fundstelle. Wer daraus zitiert, zitiert Bruchstücke.
-Für jede Aussage gehört der Eintrag über `fetch_document` geholt.
-
-**Sortierung (`sort`).** `relevance` ist bequem, aber nicht stabil: ändert sich der
-Index, ändert sich die Reihenfolge. `id` ist stabil und damit die Wahl, wenn ein
-Ergebnis später noch einmal genau so herauskommen soll.
-
-**Sprache (`language`).** Beeinflusst nur, in welcher Sprache Titel und Labels
-bevorzugt zurückkommen. Es ist kein Filter: fehlt eine Übersetzung, kommt eine
-andere Sprache zurück.
-
-## Mit guten Prompts mehr aus dem Server holen
-
-Die Werkzeuge sind nur die eine Hälfte. Die andere Hälfte ist die Frage, die im
-Chat gestellt wird, denn sie entscheidet, wie das Modell die Werkzeuge benutzt.
-
-Das häufigste Problem ist nicht, dass ein Modell etwas erfindet. Es ist
+Das häufigste Problem ist dabei nicht, dass ein Modell etwas erfindet. Es ist
 **Auslassung**: dieselbe Frage, zweimal gestellt, liefert zwei Antworten, beide
-korrekt, aber jede lässt etwas anderes weg. Ein Prompt, der das Vorgehen vorgibt
-statt nur das Ergebnis zu bestellen, behebt genau das.
+korrekt, aber jede lässt etwas anderes weg.
 
 ### Sechs Sätze, die fast immer helfen
 
 | Satz im Prompt | Was er verhindert |
 |---|---|
 | «Beginne mit `list_hierarchy`, damit klar ist, welche Bestände etwas enthalten.» | Das Modell sucht nur dort, wo es zufällig zuerst hinschaut. |
-| «Setze `sort="id"` und `size=100`.» | Wechselnde Reihenfolge, zu kleine Seiten. |
-| «Blättere über `next_cursor`, bis er `null` ist.» | Antwort aus der ersten Seite statt aus allen Treffern. |
-| «Rufe für jede ID, die in der Antwort vorkommt, `fetch_document` auf.» | Zitate aus dem gekürzten Snippet. |
+| «Setze `sort="id"` und `size=100`.» | `relevance` ist nicht stabil: ändert sich der Index, ändert sich die Reihenfolge. |
+| «Blättere über `next_cursor`, bis er `null` ist.» | Eine Antwort aus der ersten Seite statt aus allen Treffern. |
+| «Rufe für jede ID, die in der Antwort vorkommt, `fetch_document` auf.» | Zitate aus dem Feld `text`, das nur ein gekürztes Highlight ist. |
 | «Belege jede Aussage mit `id` und `document_url`. Was nicht im Bestand steht, heisst "nicht im Bestand".» | Ergänzungen aus dem Vorwissen des Modells. |
 | «Gib am Ende alle ausgeführten Aufrufe wörtlich aus.» | Ein Ergebnis, das niemand nachvollziehen kann. |
 
@@ -240,10 +58,9 @@ statt nur das Ergebnis zu bestellen, behebt genau das.
 Freie Prosa lädt zum Auswählen ein, eine Tabelle mit Pflichtspalten nicht. Wer
 schreibt «Tabelle mit den Spalten id, title, collection, date, document_url», sieht
 eine leere Zelle sofort. Ein weggelassener Satz dagegen fällt niemandem auf.
-
 Dasselbe gilt für Dossiers: ein festes Formular, in dem jedes Feld entweder gefüllt
-oder als «nicht im Bestand» markiert wird, ist deutlich zuverlässiger als die Bitte
-um eine Zusammenfassung.
+oder als «nicht im Bestand» markiert wird, ist zuverlässiger als die Bitte um eine
+Zusammenfassung.
 
 ### Vorlagen zum Kopieren
 
@@ -319,15 +136,16 @@ Bestand geändert, Aufrufe abweichend, Auswahl des Modells abweichend.
 Ein Prompt ist eine Bitte, kein Vertrag. Zählen, formatieren, blättern und
 auswählen macht ein Skript zuverlässiger als jede Formulierung. Sobald ein
 Ergebnis wiederholt exakt gleich herauskommen muss, gehört die Schleife in Code,
-der die Werkzeuge aufruft, und das Modell entscheidet nur noch, wonach gesucht wird.
+der die Werkzeuge direkt aufruft; das Modell entscheidet dann nur noch, wonach
+gesucht wird.
 
 ## Konfiguration: das Verhalten über Einstellungen steuern
 
 Der Server wird ausschliesslich über Umgebungsvariablen gesteuert, es gibt keine
 Konfigurationsdatei mit eigener Syntax. `.env.example` enthält alle Variablen mit
-Kommentar; für den Betrieb werden sie in `start.sh` (Plesk) oder in der
-systemd-Unit gesetzt. Nach jeder Änderung muss der Server neu gestartet werden,
-sonst passiert nichts.
+Kommentar; im Betrieb werden sie in `start.sh` (Plesk) oder in der systemd-Unit
+gesetzt. Nach jeder Änderung muss der Server neu gestartet werden, sonst passiert
+nichts.
 
 ### Womit der Server spricht
 
@@ -529,15 +347,6 @@ Fallback und Offline-Rendering: `deploy/plesk/statistik/generate_stats.py`
 schreibt dieselbe Seite einmalig als statische Datei, nützlich zum
 Initialisieren älterer Caches oder für Tests ohne laufenden Server.
 
-## Discovery-Endpunkte (für MCP-Verzeichnisse)
-
-| Pfad | Inhalt |
-|---|---|
-| `/.well-known/mcp.json` | MCP-Server-Manifest |
-| `/.well-known/agent-card.json` | A2A Agent Card |
-| `/.well-known/oauth-protected-resource` | RFC 9728 (signalisiert: keine Auth) |
-| `/llms.txt` | LLM- und Crawler-freundliche Site-Beschreibung |
-
 ## Architektur
 
 `src/afa_mcp/search.py` enthält den Elasticsearch-Client und Pydantic-basiertes
@@ -549,12 +358,15 @@ müssen.
 
 ### Landing-Page (`deploy/`)
 
-Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt:
+Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt. Sie
+trägt die gesamte Nutzerdokumentation, deshalb gehören inhaltliche Änderungen an
+Beständen, Werkzeug-Parametern oder Anleitungen nach `i18n.js` und nicht in dieses
+README:
 
 ```
 deploy/index.html              nur Markup
 deploy/assets/css/style.css    Design-System der Hauptseite histoirerurale.ch/afa
-deploy/assets/js/i18n.js       Übersetzungen (de, fr, it, en)
+deploy/assets/js/i18n.js       alle Texte in de, fr, it, en
 deploy/assets/js/app.js        Sprachwahl und Textersetzung
 deploy/assets/img/logo-afa.png Logo der Hauptseite
 deploy/assets/fonts/           Merriweather (Überschriften)
@@ -567,6 +379,10 @@ Helvetica Neue 15px, Überschriften Merriweather in Rot, Container 1170px.
 nginx liefert `/assets/` direkt aus (Location in `deploy/nginx.conf` und
 `deploy/nginx-http.conf`), unter Plesk liegen die Dateien in `httpdocs` und
 werden ohne Zusatzregel ausgeliefert.
+
+Die Discovery-Endpunkte (`/.well-known/mcp.json`, `/.well-known/agent-card.json`,
+`/.well-known/oauth-protected-resource`, `/llms.txt`) sind auf der Website
+dokumentiert; ihre Inhalte stammen aus `src/afa_mcp/server.py` und `deploy/`.
 
 ## Quellen
 
