@@ -3,128 +3,202 @@
 MCP-Server für das AGHIST-Suchportal des **Archivs für Agrargeschichte (AfA)** (Archives d'histoire rurale AHR /
 Archives of Rural History ARH) in Bern (CH).
 
-AGHIST ist das Suchportal zur Agrar-, Ernährungs- und Umweltgeschichte und ermöglicht einen Zugriff auf die online-Ressourcen (Filme, Fotos und schriftliche Quellen sowie Verzeichnungsdaten, wissenschaftliche Texte, Video Essays, etc.), die vom AfA und seinen Partnerinstitutionen im In- und Ausland öffentlich zugänglich gemacht werden.
-
-Der AGHIST MCP-Server stellt Volltext-Suche und Hierarchie-Recherche über das
-Model Context Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie
-Claude, ChatGPT, Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
+Der Server stellt Volltext-Suche und Hierarchie-Recherche über das Model Context
+Protocol (Streamable HTTP) bereit, sodass MCP-fähige Clients wie Claude, ChatGPT,
+Cursor oder Perplexity direkt in den AfA-Beständen suchen können.
 
 Live-Endpunkt: <https://mcp.histoirerurale.ch/mcp>
 
-## Werkzeuge
+## Wo steht was
 
-Aktuelle Trefferzahlen pro Sammlung liefert das Tool `list_hierarchy` — sie sind bewusst nicht statisch in dieser Doku hinterlegt.
+Die Nutzerdokumentation steht auf der Website des Servers und wird aus
+`deploy/index.html` und `deploy/assets/js/i18n.js` in vier Sprachen ausgeliefert.
+Sie wird hier nicht wiederholt.
 
-### `search` — generische Volltext-Suche
+| Thema | Ort |
+|---|---|
+| Welche Bestände durchsuchbar sind, Beispielrecherchen | <https://mcp.histoirerurale.ch/> |
+| Server in Claude, ChatGPT, Cursor, Perplexity, VS Code, Claude Code oder einem eigenen SDK-Client einrichten | <https://mcp.histoirerurale.ch/#clients> |
+| Werkzeuge, alle Parameter, Rückgabefelder | <https://mcp.histoirerurale.ch/#werkzeuge> |
+| Nutzungstipps, Reproduzierbarkeit, Direktzugriff per `curl`, Discovery-Endpunkte | <https://mcp.histoirerurale.ch/#tipps> und <https://mcp.histoirerurale.ch/#technik> |
 
-Durchsucht alle AfA-Bestände (Personen, Institutionen, Betriebe, Foto-/Film-Bestände, Archive, digitale Editionen, Publikationen, Medienberichte). Optional auf beliebige Hierarchie-IDs einschränkbar.
+Dieses README deckt ab, was dort nicht steht:
 
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. Phrasen mit `"..."`, `AND`/`OR`/`NOT`, Wildcards `*` und `?`. Default-Operator: AND. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache für Titel/Highlight (kein Filter, fällt zurück). |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1–100) | 20 | Treffer pro Seite. |
-| `search_after` | list | — | Cursor aus `next_cursor` der vorigen Antwort. |
-| `hierarchy` | list[str] | — | Hierarchie-IDs zur Einschränkung (OR verknüpft). Aus `list_hierarchy`. |
-| `include_aggregations` | bool | false | Hierarchie-Aggregation mitliefern. |
+1. [Prompts für strenge, wiederholbare Recherchen](#prompts-für-strenge-wiederholbare-recherchen)
+2. [Konfiguration: das Verhalten über Einstellungen steuern](#konfiguration-das-verhalten-über-einstellungen-steuern)
+3. [Lokal entwickeln](#lokal-entwickeln)
+4. [Produktion](#produktion-debian)
+5. [Architektur](#architektur)
 
-**Rückgabe (`SearchResponse`):**
+## Prompts für strenge, wiederholbare Recherchen
 
-| Feld | Typ | Beschreibung |
+Die Werkzeuge sind die eine Hälfte, die Frage im Chat die andere: sie entscheidet,
+wie das Modell die Werkzeuge benutzt. Die Website erklärt das Vorgehen für den
+Alltag. Hier geht es um den Fall, in dem ein Ergebnis belegt und wiederholbar sein
+muss, also um Prompts, die das Vorgehen vorschreiben statt nur ein Ergebnis zu
+bestellen.
+
+Das häufigste Problem ist dabei nicht, dass ein Modell etwas erfindet. Es ist
+**Auslassung**: dieselbe Frage, zweimal gestellt, liefert zwei Antworten, beide
+korrekt, aber jede lässt etwas anderes weg.
+
+### Sechs Sätze, die fast immer helfen
+
+| Satz im Prompt | Was er verhindert |
+|---|---|
+| «Beginne mit `list_hierarchy`, damit klar ist, welche Bestände etwas enthalten.» | Das Modell sucht nur dort, wo es zufällig zuerst hinschaut. |
+| «Setze `sort="id"` und `size=100`.» | `relevance` ist nicht stabil: ändert sich der Index, ändert sich die Reihenfolge. |
+| «Blättere über `next_cursor`, bis er `null` ist.» | Eine Antwort aus der ersten Seite statt aus allen Treffern. |
+| «Rufe für jede ID, die in der Antwort vorkommt, `fetch_document` auf.» | Zitate aus dem Feld `text`, das nur ein gekürztes Highlight ist. |
+| «Belege jede Aussage mit `id` und `document_url`. Was nicht im Bestand steht, heisst "nicht im Bestand".» | Ergänzungen aus dem Vorwissen des Modells. |
+| «Gib am Ende alle ausgeführten Aufrufe wörtlich aus.» | Ein Ergebnis, das niemand nachvollziehen kann. |
+
+### Ausgabeform vorgeben
+
+Freie Prosa lädt zum Auswählen ein, eine Tabelle mit Pflichtspalten nicht. Wer
+schreibt «Tabelle mit den Spalten id, title, collection, date, document_url», sieht
+eine leere Zelle sofort. Ein weggelassener Satz dagegen fällt niemandem auf.
+Dasselbe gilt für Dossiers: ein festes Formular, in dem jedes Feld entweder gefüllt
+oder als «nicht im Bestand» markiert wird, ist zuverlässiger als die Bitte um eine
+Zusammenfassung.
+
+### Vorlagen zum Kopieren
+
+**Belegte Antwort auf eine Frage**
+
+```text
+Beantworte die Frage ausschliesslich mit den Werkzeugen des AfA-Servers.
+
+FRAGE: <deine Frage>
+
+Vorgehen:
+1. list_hierarchy mit dem Kern der Frage, notiere jeden Bestand mit count > 0.
+2. Für jeden dieser Bestände suchen mit hierarchy=[<id>], sort="id", size=100,
+   und über next_cursor blättern, bis er null ist.
+3. fetch_document für jede ID, die in deiner Antwort vorkommt.
+
+Regeln: nur Angaben aus Tool-Antworten dieser Sitzung, Namen und Daten wörtlich,
+Widersprüche mit beiden IDs nennen und nicht auflösen.
+
+Ausgabe: Antwort in höchstens fünf Sätzen, jeder Satz endet mit der ID seiner
+Quelle. Dazu eine Tabelle (id, title, collection, date, document_url) und ein
+Protokoll aller ausgeführten Aufrufe.
+```
+
+**Vollständige Trefferliste**
+
+```text
+Erstelle eine vollständige Trefferliste, ohne zu interpretieren oder zu kürzen.
+
+SUCHBEGRIFF (wörtlich so verwenden): <Anfrage>
+BESTAENDE: <Hierarchie-IDs oder "alle">
+
+sort="id", size=100, blättern bis next_cursor null ist. Jeder Treffer kommt in die
+Tabelle, auch offensichtlich unpassende, mit Vermerk in der Spalte Hinweis. Die
+Zeilenzahl muss zu total aus der ersten Antwort passen; weicht sie ab, schreibe die
+Abweichung hin. Bessere Anfragen nennst du am Ende unter "Vorschläge", führst sie
+aber nicht aus.
+```
+
+**Dossier zu einer Person, Institution oder einem Betrieb**
+
+```text
+Erstelle ein Dossier nach festem Schema zu: <Name> (Typ: person|institution|farm)
+
+1. search_entities mit dem Namen, sort="id", size=100, bis zum Ende blättern.
+2. Mehrere plausible Treffer: alle Kandidaten mit id und title auflisten und
+   nachfragen, welcher gemeint ist. Nicht selbst entscheiden.
+3. fetch_document für die gewählte ID und für jede verknüpfte ID.
+
+Formular, jede Zeile ausgeben, auch leere: id, title, collection, Lebensdaten,
+Orte, Ausbildung, Tätigkeit, Funktionen und Ämter (ALLE, je eine pro Zeile,
+wörtlich), Verwandtschaft, verknüpfte Betriebe, Publikationen, audiovisuelle
+Quellen, Dossiernummern, document_url, nicht belegte Felder.
+```
+
+**Ein fremdes Ergebnis nachprüfen**
+
+```text
+Führe die folgenden Aufrufe wörtlich identisch erneut aus (query, hierarchy, sort,
+size unverändert), baue deine eigene Ergebnisliste und vergleiche sie erst danach
+mit dem fremden Ergebnis.
+
+PROTOKOLL DES VORLAUFS:
+<Aufrufe einfügen>
+
+Ausgabe: IDs nur im Vorlauf, IDs nur im neuen Lauf, IDs in beiden, abweichende
+Felder, Abweichungen bei total. Bewertung mit genau einem Status: reproduziert,
+Bestand geändert, Aufrufe abweichend, Auswahl des Modells abweichend.
+```
+
+### Was ein Prompt nicht leisten kann
+
+Ein Prompt ist eine Bitte, kein Vertrag. Zählen, formatieren, blättern und
+auswählen macht ein Skript zuverlässiger als jede Formulierung. Sobald ein
+Ergebnis wiederholt exakt gleich herauskommen muss, gehört die Schleife in Code,
+der die Werkzeuge direkt aufruft; das Modell entscheidet dann nur noch, wonach
+gesucht wird.
+
+## Konfiguration: das Verhalten über Einstellungen steuern
+
+Der Server wird ausschliesslich über Umgebungsvariablen gesteuert, es gibt keine
+Konfigurationsdatei mit eigener Syntax. `.env.example` enthält alle Variablen mit
+Kommentar; im Betrieb werden sie in `start.sh` (Plesk) oder in der systemd-Unit
+gesetzt. Nach jeder Änderung muss der Server neu gestartet werden, sonst passiert
+nichts.
+
+### Womit der Server spricht
+
+| Variable | Default | Was sie bewirkt |
 |---|---|---|
-| `total` | int | Gesamtzahl der Treffer (auch über `size` hinaus). |
-| `hits` | list[SearchHit] | Trefferliste (max. `size` Einträge). |
-| `next_cursor` | list \| null | An `search_after` des nächsten Requests weitergeben; `null` = keine weiteren Treffer. |
-| `aggregations` | dict \| null | Hierarchie-Buckets, nur wenn `include_aggregations=true`. |
+| `AFA_ES_URL` | `https://agrargeschichte.pansoft.de:9210/*/_search` | Elasticsearch-Endpoint, also die Datenquelle. Auf einen Test-Index zeigen lassen, um ohne Produktivdaten zu arbeiten. |
+| `HTTP_TIMEOUT` | `30` | Sekunden, die eine Elasticsearch-Anfrage dauern darf. Höher setzen, wenn grosse Seiten (`size=100`) in Timeouts laufen. |
+| `AFA_VERIFY_SSL` | `true` | TLS-Prüfung des Upstreams. Nur für einen Testserver mit selbstsigniertem Zertifikat auf `false`. |
 
-**`SearchHit`-Felder:** `id`, `title`, `abstract`, `text` (Highlight-Snippet), `meta`, `hierarchy` (Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`, `document_url` (Suchportal-Deep-Link), `original_url` (Quell-URL), `sort` (interner Cursor).
+### Wo und wie der Server erreichbar ist
 
-### `search_entities` — Personen / Institutionen / Betriebe
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `entity_type` | `person`\|`institution`\|`farm`\|`any` | `any` | Typ-Filter. `company` bleibt als Deprecated-Alias für `farm` erhalten. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1–100) | 20 | Treffer pro Seite. |
-| `search_after` | list | — | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf Personen/Institutionen/Betriebe eingeschränkt.
-
-### `search_audiovisual` — Foto- und Film-Bestände
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `media_type` | `photos`\|`films` | — | `photos` = nur Fotos, `films` = nur Filme, sonst beides. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1–100) | 20 | Treffer pro Seite. |
-| `search_after` | list | — | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf Foto-/Filmbestände eingeschränkt.
-
-### `search_edition_hofstetter` · `search_edition_gillabert_randin` · `search_edition_bobbett`
-
-Volltext-Suche jeweils in einer der drei digitalen Editionen (Mina Hofstetter, Augusta Gillabert-Randin, Elizabeth Bobbett).
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Lucene-Query-String. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
-| `sort` | `relevance`\|`date`\|`id` | `relevance` | Sortierung. |
-| `size` | int (1–100) | 20 | Treffer pro Seite. |
-| `search_after` | list | — | Paginierungs-Cursor. |
-
-**Rückgabe:** `SearchResponse` (siehe `search`) — `hits` sind auf die jeweilige Edition eingeschränkt.
-
-### `fetch_document` — Einzelnes Dokument inkl. Volltext
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `id` | str | erforderlich | Dokument-ID, z.B. `AfA_Personen_001_DB9920` oder `AfA_Edition_003_BobbettE_1933_01`. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Bevorzugte Sprache. |
-
-**Rückgabe:** einzelner `SearchHit` mit den Metadaten des Dokuments **ohne Volltext**. Wichtige Felder:
-
-- Metadaten: `id`, `title`, `abstract`, `meta`, `hierarchy` (Sammlungs-Pfad), `collection` (Label), `date` (ISO, optional), `is_pdf`.
-- `document_url` — Link zur PDF- oder HTML-Datei im **Suchportal** (`recherche2.histoirerurale.ch`).
-- `original_url` — **Deep-Link ins Quellportal**, also die Website, von der der Scraper das Dokument geholt hat (z.B. `histoirerurale.ch` — kann je nach Bestand variieren).
-
-`null`, wenn die ID nicht gefunden wird.
-
-### `list_hierarchy` — Hierarchie-Buckets mit Trefferzahlen
-
-| Parameter | Typ | Default | Beschreibung |
-|---|---|---|---|
-| `query` | str | `*` | Optionale Volltext-Anfrage. |
-| `size` | int (1–10000) | 200 | Maximale Anzahl Hierarchie-Einträge. |
-| `language` | `de`\|`fr`\|`it`\|`en` | — | Label-Sprache. |
-
-**Rückgabe (`HierarchyResponse`):**
-
-| Feld | Typ | Beschreibung |
+| Variable | Default | Was sie bewirkt |
 |---|---|---|
-| `entries` | list[HierarchyEntry] | Hierarchie-Einträge. |
+| `MCP_TRANSPORT` | `streamable-http` | `streamable-http` für den Netzbetrieb, `stdio` für lokale CLI-Clients. |
+| `HOST` | `127.0.0.1` | Interface. Bei vorgelagertem nginx oder Apache auf `127.0.0.1` lassen, sonst ist der Server am Proxy vorbei erreichbar. |
+| `PORT` | `8766` | Port. Ändern, wenn er belegt ist; dann auch die Proxy-Regel anpassen. |
+| `MCP_PATH` | `/mcp` | Pfad-Präfix der MCP-Endpunkte. Ändern heisst: alle Clients müssen ihre URL anpassen. |
+| `PUBLIC_BASE_URL` | `https://mcp.histoirerurale.ch` | Basis-URL, die in Server Card und `.well-known`-Antworten steht, und Grundlage der erlaubten Hosts. Bei eigener Domain zwingend anpassen. |
 
-**`HierarchyEntry`-Felder:** `id` (Hierarchie-ID zur Verwendung im `hierarchy`-Parameter der Such-Tools), `count` (Trefferanzahl), `label` (menschenlesbare Bezeichnung in der angefragten Sprache, sofern verfügbar).
+### Sicherheit und Browser-Zugriff
 
-### `server_info` — Versions- und Endpunkt-Information
-
-Keine Parameter.
-
-**Rückgabe (dict):**
-
-| Feld | Typ | Beschreibung |
+| Variable | Default | Was sie bewirkt |
 |---|---|---|
-| `name` | str | Server-Name (`afa-mcp`). |
-| `version` | str | Semver. |
-| `elasticsearch_url` | str | Upstream-URL des ES-Backends. |
-| `languages` | list[str] | `de`, `fr`, `it`, `en`. |
-| `sort_orders` | list[str] | Akzeptierte Werte für `sort`. |
-| `hierarchy_constants` | dict | Sprechende Konstanten (z.B. `PERSONS`, `EDITION_BOBBETT`) → Hierarchie-ID-Strings. |
+| `MCP_STATELESS_HTTP` | `true` | Ohne serverseitige Session. Nötig, damit mehrere Prozesse oder ein Neustart laufende Clients nicht abhängen. |
+| `MCP_JSON_RESPONSE` | `true` | Antwortet auch Clients, die nur `application/json` akzeptieren, statt Server-Sent-Events zu verlangen. Auf `false` nur, wenn alle Clients SSE können. |
+| `MCP_DNS_REBINDING_PROTECTION` | `true` | Prüft `Host` und `Origin` der Anfragen. Anlassen. Wird der Server unter einem weiteren Namen erreicht, gehört dieser in `MCP_ALLOWED_HOSTS`, statt den Schutz abzuschalten. |
+| `MCP_ALLOWED_HOSTS` | leer | Zusätzliche erlaubte Hostnamen, kommagetrennt. `127.0.0.1`, `localhost` und der Host aus `PUBLIC_BASE_URL` sind immer erlaubt. |
+| `MCP_ALLOWED_ORIGINS` | leer | Zusätzliche erlaubte Origins, kommagetrennt. |
+| `CORS_ALLOW_ORIGINS` | `*` | Welche Websites den Server aus dem Browser aufrufen dürfen. Für einen öffentlichen Dienst ist `*` richtig, für einen internen eine konkrete Liste. |
+
+### Protokoll und Statistik
+
+| Variable | Default | Was sie bewirkt |
+|---|---|---|
+| `LOG_LEVEL` | `INFO` | `DEBUG` zeigt jede Elasticsearch-Anfrage, nützlich zur Fehlersuche, laut im Betrieb. |
+| `AFA_ACCESS_LOG` | `true` | Schaltet die Middleware ein, die jeden Aufruf einzeln protokolliert. Ohne sie bleibt die Statistikseite leer. |
+| `AFA_ACCESS_LOG_ARGS_MAX` | `200` | Wie viele Zeichen der Aufrufargumente ins Log gelangen. **`0` heisst: keine Suchanfragen im Log.** Das ist der Schalter für den Datenschutz. |
+| `AFA_ACCESS_LOG_FILE` | leer, also stdout | Eigene Logdatei. Ohne Angabe landet alles im Prozess-Log (bei Plesk im nohup-Logfile). |
+| `AFA_STATS_CACHE` | `~/afa-mcp/stats-cache.json` | Pfad des JSON-Caches für die Vortage der Statistikseite. |
+| `AFA_STATS_USER` | leer | Benutzername für Basic Auth auf `/statistik`. |
+| `AFA_STATS_PASS` | leer | Passwort dazu. **Sind `AFA_STATS_USER` und `AFA_STATS_PASS` nicht beide gesetzt, ist `/statistik` ohne Anmeldung offen.** |
+
+### Typische Aufgaben und die passende Einstellung
+
+| Aufgabe | Einstellung |
+|---|---|
+| Keine Suchanfragen der Nutzenden speichern | `AFA_ACCESS_LOG_ARGS_MAX=0` (oder `AFA_ACCESS_LOG=false`, dann fällt auch die Statistik weg) |
+| Statistikseite schützen | `AFA_STATS_USER` und `AFA_STATS_PASS` beide setzen |
+| Gegen einen Test-Index arbeiten | `AFA_ES_URL` umbiegen, bei selbstsigniertem Zertifikat zusätzlich `AFA_VERIFY_SSL=false` |
+| Fehler suchen | `LOG_LEVEL=DEBUG`, danach wieder auf `INFO` |
+| Eigene Domain betreiben | `PUBLIC_BASE_URL` setzen, Zusatznamen in `MCP_ALLOWED_HOSTS` |
+| Server lokal in einem CLI-Client nutzen | `python -m afa_mcp --transport stdio`, keine weiteren Variablen nötig |
+| Timeouts bei grossen Seiten | `HTTP_TIMEOUT` erhöhen oder im Prompt `size` senken |
 
 ## Lokal entwickeln
 
@@ -133,7 +207,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 
-# Streamable HTTP — Default auf 127.0.0.1:8766/mcp
+# Streamable HTTP, Default auf 127.0.0.1:8766/mcp
 python -m afa_mcp
 
 # Stdio (für lokale CLI-Clients)
@@ -146,22 +220,6 @@ pytest -q
 python scripts/smoke_test.py
 ```
 
-## Konfiguration (Env-Vars)
-
-Siehe `.env.example`. Die wichtigsten:
-
-| Variable | Default | Bedeutung |
-|---|---|---|
-| `AFA_ES_URL` | `https://agrargeschichte.pansoft.de:9210/*/_search` | Elasticsearch-Endpoint |
-| `PUBLIC_BASE_URL` | `https://mcp.histoirerurale.ch` | Basis-URL für Discovery |
-| `MCP_STATELESS_HTTP` | `true` | Keine Server-seitige Session-Pflicht |
-| `MCP_JSON_RESPONSE` | `true` | Akzeptiert Clients mit nur `application/json` |
-| `MCP_DNS_REBINDING_PROTECTION` | `true` | Host/Origin-Filter |
-| `CORS_ALLOW_ORIGINS` | `*` | Browser-Origin-Liste |
-| `AFA_ACCESS_LOG` | `true` | JSON-RPC Access-Log (Methoden-/Tool-Statistik) aktiv |
-| `AFA_ACCESS_LOG_ARGS_MAX` | `200` | Max. Zeichen pro `args`-Repr in der Logzeile |
-| `AFA_ACCESS_LOG_FILE` | *(stdout)* | Optionaler Pfad für eine dedizierte Logdatei |
-
 ### Access-Log-Format
 
 Jede MCP-Methode erzeugt eine Zeile im Logger `afa_mcp.access`:
@@ -170,7 +228,7 @@ Jede MCP-Methode erzeugt eine Zeile im Logger `afa_mcp.access`:
 2026-06-10 14:30:01,234 INFO afa_mcp.access — method=tools/call tool=search id=42 status=200 size=8543 ms=145 client=160.79.106.37 args={"query":"Bäuerin Emmental","size":3}
 ```
 
-Auswertung typisch via `awk` / `grep`, etwa:
+Auswertung typisch via `awk` und `grep`, etwa:
 
 ```bash
 # Top-10 Tools nach Häufigkeit
@@ -195,10 +253,10 @@ sudo nginx -t && sudo systemctl reload nginx
 
 Das Skript installiert:
 
-- Systemnutzer `afa` + `/opt/afa-mcp`-Verzeichnis
+- Systemnutzer `afa` und `/opt/afa-mcp`-Verzeichnis
 - Python-venv mit den Abhängigkeiten
 - systemd-Unit `afa-mcp.service` (gehärtet, Stateless-HTTP)
-- nginx-vHost mit OAuth-/MCP-/Agent-Discovery, Pfad-Redirects, llms.txt
+- nginx-vHost mit OAuth-, MCP- und Agent-Discovery, Pfad-Redirects, llms.txt
 
 ### Deploy-Skript für Updates
 
@@ -220,9 +278,9 @@ Aufruf: `sudo deploy-afa-mcp`.
 
 ## Produktion (Plesk, ohne root)
 
-Falls — wie bei der aktuellen Installation auf `mcp.histoirerurale.ch` —
+Falls, wie bei der aktuellen Installation auf `mcp.histoirerurale.ch`,
 kein root und kein systemd zur Verfügung steht, läuft der Server im
-Userspace, gestartet von einer Plesk Scheduled Task (Cron, alle Minute):
+Userspace, gestartet von einer Plesk Scheduled Task (Cron, jede Minute):
 
 ```bash
 # einmalig:
@@ -233,27 +291,27 @@ virtualenv .venv
 install -m 755 deploy/plesk/start.sh ~/afa-mcp/start.sh
 ```
 
-Plesk → Domain → Scheduled Tasks → neuer Task `~/afa-mcp/start.sh`,
+Plesk, Domain, Scheduled Tasks, neuer Task `~/afa-mcp/start.sh`,
 jede Minute. Skript-Verhalten:
 
-- Existiert ein laufender PID → exit 0 (No-op).
-- Sonst: env setzen, `python -m afa_mcp` im venv via `nohup` starten,
+- Existiert ein laufender PID, endet das Skript ohne Wirkung.
+- Sonst: Umgebungsvariablen setzen, `python -m afa_mcp` im venv via `nohup` starten,
   PID in `~/afa-mcp/afa-mcp.pid` ablegen.
 
 Apache mod_proxy davorhängen via `mcp.histoirerurale.ch/httpdocs/.htaccess`
 (siehe Apache-Doku des Repos), Plesk liefert TLS und das vHost-Routing.
 
-Updates: `git -C ~/afa-mcp pull --ff-only`, anschließend einmal die alte
-Instanz killen — der Cron startet die neue beim nächsten Tick neu.
+Updates: `git -C ~/afa-mcp pull --ff-only`, anschliessend einmal die alte
+Instanz killen, der Cron startet die neue beim nächsten Tick.
 
 ### Statistik-Seite (`/statistik`, Live-Generierung)
 
-Der MCP-Server liefert unter `/statistik` selbst eine Nutzungsstatistik aus —
+Der MCP-Server liefert unter `/statistik` selbst eine Nutzungsstatistik aus,
 **live bei jedem Aufruf** generiert. Vortage werden in einem JSON-Cache
 (`~/afa-mcp/stats-cache.json`) fixiert, damit nur der aktuelle Tag aus dem
 Log neu aggregiert werden muss. Kein Cron-Job notwendig.
 
-Basic Auth via Env-Variablen (in `start.sh`):
+Basic Auth über Umgebungsvariablen (in `start.sh`):
 
 ```bash
 export AFA_STATS_USER=admin
@@ -271,50 +329,44 @@ RewriteRule ^statistik$       http://127.0.0.1:8766/statistik       [P,L]
 RewriteRule ^statistik/(.*)$  http://127.0.0.1:8766/statistik/$1    [P,L]
 ```
 
-Der Authorization-Header wird per mod_proxy unverändert durchgereicht; die
+Der Authorization-Header wird per mod_proxy unverändert durchgereicht, die
 Auth-Prüfung passiert im Python-Server (`hmac.compare_digest` gegen die
-Env-Variablen). Die Seite zeigt:
+Umgebungsvariablen). Die Seite zeigt:
 
-* heute · Tool-Aufrufe / Sessions (live aus dem Log)
+* heute, Tool-Aufrufe und Sessions (live aus dem Log)
 * letzte 7 Tage und gesamt (Vortage aus Cache)
 * Tagesübersicht mit Stunden-Sparkline pro Tag
 * Top-Tools, KI-Clients (aus `clientInfo.name`)
 * 24-Stunden-Aktivitätsgrafik
 * Methoden-Verteilung (technischer Overhead)
 
-Inhalte sind reine Aggregate — solange `AFA_ACCESS_LOG_ARGS_MAX=0` gesetzt
+Inhalte sind reine Aggregate. Solange `AFA_ACCESS_LOG_ARGS_MAX=0` gesetzt
 ist, gelangen keine Nutzer-Suchanfragen ins Log oder die Statistik.
 
-Fallback / Offline-Rendering: `deploy/plesk/statistik/generate_stats.py`
-schreibt dieselbe Seite einmalig als statische Datei — nützlich für ältere
-Caches initialisieren oder Tests ohne laufenden Server.
-
-## Discovery-Endpunkte (für MCP-Verzeichnisse)
-
-| Pfad | Inhalt |
-|---|---|
-| `/.well-known/mcp.json` | MCP-Server-Manifest |
-| `/.well-known/agent-card.json` | A2A Agent Card |
-| `/.well-known/oauth-protected-resource` | RFC 9728 (signalisiert: keine Auth) |
-| `/llms.txt` | LLM-/Crawler-freundliche Site-Beschreibung |
+Fallback und Offline-Rendering: `deploy/plesk/statistik/generate_stats.py`
+schreibt dieselbe Seite einmalig als statische Datei, nützlich zum
+Initialisieren älterer Caches oder für Tests ohne laufenden Server.
 
 ## Architektur
 
 `src/afa_mcp/search.py` enthält den Elasticsearch-Client und Pydantic-basiertes
 Antwort-Parsing. `src/afa_mcp/server.py` definiert die FastMCP-Tools, die
 spezialisierten Such-Wrapper (Editionen, Entitäten, Audio-Visuell) und die
-ASGI-App mit OAuth-/Discovery-Routen. `src/afa_mcp/hierarchy.py` zentralisiert
+ASGI-App mit OAuth- und Discovery-Routen. `src/afa_mcp/hierarchy.py` zentralisiert
 die Hierarchie-IDs, damit Tool-Code und Tests nicht mit Magic-Strings arbeiten
 müssen.
 
 ### Landing-Page (`deploy/`)
 
-Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt:
+Statische Seite unter <https://mcp.histoirerurale.ch>, ohne Build-Schritt. Sie
+trägt die gesamte Nutzerdokumentation, deshalb gehören inhaltliche Änderungen an
+Beständen, Werkzeug-Parametern oder Anleitungen nach `i18n.js` und nicht in dieses
+README:
 
 ```
 deploy/index.html              nur Markup
 deploy/assets/css/style.css    Design-System der Hauptseite histoirerurale.ch/afa
-deploy/assets/js/i18n.js       Übersetzungen (de, fr, it, en)
+deploy/assets/js/i18n.js       alle Texte in de, fr, it, en
 deploy/assets/js/app.js        Sprachwahl und Textersetzung
 deploy/assets/img/logo-afa.png Logo der Hauptseite
 deploy/assets/fonts/           Merriweather (Überschriften)
@@ -325,8 +377,12 @@ Farben, Schriften und Komponenten übernehmen das Joomla-Template der Hauptseite
 Helvetica Neue 15px, Überschriften Merriweather in Rot, Container 1170px.
 
 nginx liefert `/assets/` direkt aus (Location in `deploy/nginx.conf` und
-`deploy/nginx-http.conf`); unter Plesk liegen die Dateien in `httpdocs` und
+`deploy/nginx-http.conf`), unter Plesk liegen die Dateien in `httpdocs` und
 werden ohne Zusatzregel ausgeliefert.
+
+Die Discovery-Endpunkte (`/.well-known/mcp.json`, `/.well-known/agent-card.json`,
+`/.well-known/oauth-protected-resource`, `/llms.txt`) sind auf der Website
+dokumentiert; ihre Inhalte stammen aus `src/afa_mcp/server.py` und `deploy/`.
 
 ## Quellen
 
